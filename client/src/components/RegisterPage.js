@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import StoreSignupForm from './StoreSignupForm';
+import RegisterNewStore from './RegisterNewStore';
 
 const RegisterPage = () => {
 
@@ -15,16 +15,17 @@ const RegisterPage = () => {
 
   return (
     <div>
-      <button onClick={handleClick}>{clicked ? 'Register Client Form' : 'Register Store Form'}</button>
+      <button onClick={handleClick}>{clicked ? 'Client Register Form' : 'Store Register Form'}</button>
       {clicked ? (
           <div>
             <h2>Store Signup</h2>
-            <StoreSignupForm onSignup={handleSignup} />
+            <RegisterNewStore onSignup={handleSignup} />
           </div>
           ) : (
         <div>
           <h2>Client Signup</h2>
-          <ClientSignupForm onSignup={handleSignup} />
+          {/* <ClientSignupForm onSignup={handleSignup} /> */}
+          Hello!!
         </div>
       )}
     </div>

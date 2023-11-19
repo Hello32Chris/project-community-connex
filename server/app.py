@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 from models import Client, Store, GoodsService, Transaction
-from flask import make_response, request, session
-from config import db, bcrypt
+from flask import make_response, request, session, abort, g
+from config import app, db, bcrypt
 import random, string
-
-# Local imports
-from config import app, db
 
 @app.route('/')
 def index():
@@ -111,13 +108,20 @@ def store_login():
     return resp
 
 
-#--------------------------------------------------------------------------------------------------- LOG OUT FOR CLIENT & STORE   [POST]-------------
-@app.route('/logout', methods=['GET'])
-def logout():
+#--------------------------------------------------------------------------------------------------- LOG OUT FOR CLIENT [POST]-------------
+@app.route('/client_logout', methods=['GET'])
+def client_logout():
     session.pop('client_id', None)
     resp = make_response({'message': 'Logged out successfully'}, 200)
     return resp
 
+
+#--------------------------------------------------------------------------------------------------- LOG OUT FOR STORE [POST]-------------
+@app.route('/store_logout', methods=['GET'])
+def store_logout():
+    session.pop('store_id', None)
+    resp = make_response({'message': 'Logged out successfully'}, 200)
+    return resp
 
 
 #--------------------------------------------------------------------------------------------------- CREATE TRANSACTION [POST]-------------
@@ -277,6 +281,31 @@ def check_store_session():
     else:
         resp = make_response({}, 404)
     return resp
+
+
+#--------------------------------------------------------------------------------------------------- PROTECT CLIENT SESSION -----------------
+@app.route('/protected')
+def client_protected():
+    if 'client_id' not in session:
+        abort(401)  # Unauthorized
+    client_id = session['client_id']
+    # Use client_id to fetch client data or perform other actions
+    return f'Protected content for client {client_id}'
+
+
+#--------------------------------------------------------------------------------------------------- PROTECT STORE SESSION -----------------
+@app.route('/protected')
+def store_protected():
+    if 'store_id' not in session:
+        abort(401)  # Unauthorized
+    store_id = session['store_id']
+    # Use store_id to fetch store data or perform other actions
+    return f'Protected content for store {store_id}'
+
+
+
+
+
 
 
 

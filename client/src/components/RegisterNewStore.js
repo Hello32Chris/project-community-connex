@@ -1,9 +1,9 @@
 import { useHistory } from "react-router-dom";
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-const StoreSignupForm = ({ onSignup }) => {
+const RegisterNewStore = ({ onSignup }) => {
 
 const history = useHistory()
 const [message, setMessage] = useState('');
@@ -41,7 +41,7 @@ const [message, setMessage] = useState('');
         onSignup(storeData); // Callback to handle successful signup
         setMessage('Login successful. Redirecting to home...');
         setTimeout(() => {
-          history.push('/stores/store_id'); // After 4 seconds, navigate to the store profile page
+          history.push(`/stores/${storeData.id}`); // After 4 seconds, navigate to the store profile page
         }, 2000);
       } else {
         const error = await response.json();
@@ -55,44 +55,54 @@ const [message, setMessage] = useState('');
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      <Form>
+    <div>
+      {message ? (
+        <div>
+          <div>{message}</div>
+        </div>
+      ) : (
+      <div>
         <div>Register New Store: </div>
-        <br />
-        <div>
-          <label htmlFor="name">Store Name:</label>
-          <Field type="text" id="name" name="name" />
-          <ErrorMessage name="name" component="div" />
-        </div>
-        <br />
-        <div>
-          <label htmlFor="email">Email:</label>
-          <Field type="email" id="email" name="email" />
-          <ErrorMessage name="email" component="div" />
-        </div>
-        <br />
-        <div>
-          <label htmlFor="password">Password:</label>
-          <Field type="password" id="password" name="password" />
-          <ErrorMessage name="password" component="div" />
-        </div>
-        <br />
-        <div>
-          <label htmlFor="confirmPassword">Confirm Password:</label>
-          <Field type="password" id="confirmPassword" name="confirmPassword" />
-          <ErrorMessage name="confirmPassword" component="div" />
-        </div>
-        <br />
-        <div>
-          <button type="submit">Sign Up</button>
-        </div>
-      </Form>
-    </Formik>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          <Form>
+            <br />
+            <div>
+              <label htmlFor="name">Store Name:</label>
+              <Field type="text" id="name" name="name" />
+              <ErrorMessage name="name" component="div" />
+            </div>
+            <br />
+            <div>
+              <label htmlFor="email">Email:</label>
+              <Field type="email" id="email" name="email" />
+              <ErrorMessage name="email" component="div" />
+            </div>
+            <br />
+            <div>
+              <label htmlFor="password">Password:</label>
+              <Field type="password" id="password" name="password" />
+              <ErrorMessage name="password" component="div" />
+            </div>
+            <br />
+            <div>
+              <label htmlFor="confirmPassword">Confirm Password:</label>
+              <Field type="password" id="confirmPassword" name="confirmPassword" />
+              <ErrorMessage name="confirmPassword" component="div" />
+            </div>
+            <br />
+            <div>
+              <button type="submit">Sign Up</button>
+            </div>
+          </Form>
+        </Formik>
+      </div>
+      )}
+    </div>
   );
 };
 
-export default StoreSignupForm;
+export default RegisterNewStore;
