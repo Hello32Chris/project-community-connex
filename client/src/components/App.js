@@ -16,14 +16,13 @@ export default function App() {
     const [storeLoggedin, setStoreLoggedIn] = useState(false)
     const [loggedIn, setLoggedIn] = useState(false)
 
-
+    //this fetch is for clients card
     useEffect(() => {
         fetch('/clients')
             .then((resp) => resp.json())
             .then((data) => setClients(data))
     }, [])
 
-    // console.log(clients)
 
 
     return (

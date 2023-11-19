@@ -1,0 +1,1 @@
+--- This is for email verfication implementation: https://chat.openai.com/share/0e55455c-0875-4cb2-8163-3cb6485e91dd

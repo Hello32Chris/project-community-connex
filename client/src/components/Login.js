@@ -16,7 +16,6 @@ function Login({ loggedIn, storeLogged, setStoreLoggedIn }) {
             .then(setClients);
     }, []);
 
-    console.log(clients)
 
     useEffect(() => {
         fetch('/stores')
@@ -24,23 +23,18 @@ function Login({ loggedIn, storeLogged, setStoreLoggedIn }) {
             .then(setStores);
     }, []);
 
-    console.log(stores)
 
     // console.log(loggedIn)
 
 
     return (
         <div id='login-container'>
-            <span >
-                <div id="client-login">
-                    Client Login: 
-                    <br/>
-                    <ClientLoginForm getClients={getClients}/>
-                </div>
-                <div id="store-login">
-                    Store Login: <StoreLoginForm getStores={getStores}/>
-                </div>
-            </span>
+            <div id="client-login">
+                <ClientLoginForm getClients={getClients} />
+            </div>
+            <div id="store-login">
+                <StoreLoginForm getStores={getStores} />
+            </div>
         </div>
     )
 };

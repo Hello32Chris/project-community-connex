@@ -1,9 +1,16 @@
 // LoginForm.js
-import React from 'react';
+import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 const ClientLoginForm = ({ getStores }) => {
+
+
+  const history = useHistory()
+  const [message, setMessage] = useState('');
+
+
   const initialValues = {
     email: '',
     password: '', 
@@ -16,6 +23,7 @@ const ClientLoginForm = ({ getStores }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
+      setMessage('Logging in...');
       // Send login request to your backend
       const response = await fetch('/store_login', {
         method: 'POST',
@@ -26,8 +34,13 @@ const ClientLoginForm = ({ getStores }) => {
       });
 
       if (response.ok) {
-        const store = await response.json();
-        getStores(store);
+        // const store = 
+        await response.json();
+        // getStores(store);
+        setMessage('Login successful. Redirecting to Home...');
+        setTimeout(() => {
+          history.push('/About');// After 4 seconds, navigate to the home page
+        }, 2000);
       } else {
         const error = await response.json();
         console.error('Login failed:', error);
@@ -40,30 +53,42 @@ const ClientLoginForm = ({ getStores }) => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      <Form>
-      <br/>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <Field type="email" id="email" name="email" />
-          <ErrorMessage name="email" component="div" />
+    <div>
+      {message ? (
+        <div id="login-message">
+          <div>{message}</div>
         </div>
-        <br/>
+      ) : (
         <div>
-          <label htmlFor="password">Password:</label>
-          <Field type="password" id="password" name="password" />
-          <ErrorMessage name="password" component="div" />
+            <div> Store Login: </div>
+          
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <Form>
+            <br/>
+              <div>
+                <label htmlFor="email">Email:</label>
+                <Field type="email" id="email" name="email" />
+                <ErrorMessage name="email" component="div" />
+              </div>
+              <br/>
+              <div>
+                <label htmlFor="password">Password:</label>
+                <Field type="password" id="password" name="password" />
+                <ErrorMessage name="password" component="div" />
+              </div>
+              <br/>
+              <div>
+                <button type="submit">Login</button>
+              </div>
+            </Form>
+          </Formik>
         </div>
-        <br/>
-        <div>
-          <button type="submit">Login</button>
-        </div>
-      </Form>
-    </Formik>
+      )}
+    </div>
   );
 };
 

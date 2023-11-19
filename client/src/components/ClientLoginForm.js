@@ -1,9 +1,16 @@
 // LoginForm.js
-import React from 'react';
+import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 const ClientLoginForm = ({ getClients }) => {
+
+  const history = useHistory()
+  const [message, setMessage] = useState('');
+
+
+
   const initialValues = {
     email: '',
     password: '',
@@ -16,6 +23,7 @@ const ClientLoginForm = ({ getClients }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
+      setMessage('Logging in...');
       // Send login request to your backend
       const response = await fetch('/client_login', {
         method: 'POST',
@@ -26,8 +34,13 @@ const ClientLoginForm = ({ getClients }) => {
       });
 
       if (response.ok) {
-        const client = await response.json();
-        getClients(client);
+        await response.json();
+        
+        // getClients(client); // this will allow me to alter state
+        setMessage('Login successful. Redirecting to home...');
+        setTimeout(() => {
+          history.push('/About');// After 4 seconds, navigate to the home page
+        }, 2000);
       } else {
         const error = await response.json();
         console.error('Login failed:', error);
@@ -38,35 +51,47 @@ const ClientLoginForm = ({ getClients }) => {
 
     setSubmitting(false);
   };
-
-  return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      <Form>
-      <br/>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <Field type="email" id="email" name="email" />
-          <ErrorMessage name="email" component="div" />
-        </div>
-        <br/>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <Field type="password" id="password" name="password" />
-          <ErrorMessage name="password" component="div" />
-        </div>
-        <br/>
-        <div>
-       
-          <button type="submit">Login</button>
-        </div>
-      </Form>
-    </Formik>
-  );
-};
+  
+    return (
+      <div>
+        {message ? (
+          <div id="login-message">
+            <div>{message}</div>
+          </div>
+        ) : (
+          <div>
+            <div>Client Login:</div>
+            
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+            >
+              <Form>
+                <br />
+                <div>
+                  <label htmlFor="email">Email:</label>
+                  <Field type="email" id="email" name="email" />
+                  <ErrorMessage name="email" component="div" />
+                </div>
+                <br />
+                <div>
+                  <label htmlFor="password">Password:</label>
+                  <Field type="password" id="password" name="password" />
+                  <ErrorMessage name="password" component="div" />
+                </div>
+                <br />
+                <div>
+                  <button type="submit">Login</button>
+                </div>
+              </Form>
+            </Formik>
+          </div>
+        )}
+      </div>
+    );
+  };
+          
 
 export default ClientLoginForm;
 

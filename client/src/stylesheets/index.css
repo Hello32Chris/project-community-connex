@@ -37,6 +37,13 @@ body {
   cursor: pointer;
 }
 
+#login-container{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+}
+
 #store-login {
   display: flex;
   position: absolute;
@@ -49,6 +56,14 @@ body {
   position: absolute;
   right: 500px;
   top: 300px;
+}
+
+#login-message{
+  border: black 4px;
+  display: 'flex';
+  justify-content: 'center';
+  align-items: 'center';
+  height: '50vh';
 }
 
 footer {
