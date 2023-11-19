@@ -2,6 +2,7 @@
 from models import Client, Store, GoodsService, Transaction
 from flask import make_response, request, session
 from config import db, bcrypt
+import random, string
 
 # Local imports
 from config import app, db
@@ -87,18 +88,35 @@ def create_store():
     
     return resp
 
+
+
 #---------------------------------------------------------------------------------------------------CREATE NEW GOODS/SERVICE [POST]-------------
 @app.route('/create_goods_service', methods=['POST'])
 def create_goods_service():
     form_data = request.get_json()
+    name=form_data['name']
+    image=form_data['image']
+    price=form_data['price']
+    store_id=session.get('store_id')
+    
+    # Create a new GoodsService
     new_goods_service = GoodsService(
-        name=form_data['name'],
-        price=form_data['price'],
+        name=name,
+        image=image,
+        price=price,
+        store_id=store_id    
     )
+    # Validate data (you may want to add more robust validation)
+    if name is None or price is None or store_id is None:
+        return make_response({'error': 'Invalid data'}, 400)
+
+
+    # Add the new GoodsService to the database
     db.session.add(new_goods_service)
     db.session.commit()
-    resp = make_response(new_goods_service.to_dict(), 201)
-    return resp
+
+    return make_response({'message': 'GoodsService created successfully'}, 201)
+
 
 #---------------------------------------------------------------------------------------------------LOGIN FOR CLIENT [POST]-------------
 @app.route('/client_login', methods = ['POST'])
@@ -115,7 +133,7 @@ def client_login():
         is_authenticated = client.authenticate(password)
         if is_authenticated:
             session['client_id'] = client.id
-            resp = make_response(client.to_dict(), 201)
+            resp = make_response({'Message' : 'Login Successful', 'client' : client.to_dict()}, 201)
         else:
             resp = make_response({"ERROR" : "USER CANNOT LOG IN"}, 400)
     else:
@@ -123,7 +141,7 @@ def client_login():
     return resp
 
 
-#---------------------------------------------------------------------------------------------------LOGIN FOR STORE [POST]-------------
+#--------------------------------------------------------------------------------------------------- LOGIN FOR STORE [POST]-------------
 @app.route('/store_login', methods = ['POST'])
 def store_login():
     # check if user can signin to account
@@ -146,25 +164,32 @@ def store_login():
     return resp
 
 
-
-#---------------------------------------------------------------------------------------------------CREATE NEW CLIENT [POST]-------------
-@app.route('/create_client', methods=['POST'])
-def create_client():
-    form_data = request.get_json()
-    new_client = Client(
-        name=form_data['name'],
-        email=form_data['email'],
-    )
-    hashed_password = bcrypt.generate_password_hash(form_data['password']).decode('utf-8')
-    new_client.password_hash = hashed_password # Hash the password with bcrypt
-    db.session.add(new_client)
-    db.session.commit()
-
-    resp = make_response(new_client.to_dict(), 201)
+#--------------------------------------------------------------------------------------------------- LOG OUT FOR CLIENT & STORE   [POST]-------------
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.pop('client_id', None)
+    resp = make_response({'message': 'Logged out successfully'}, 200)
     return resp
 
 
-#---------------------------------------------------------------------------------------------------CREATE TRANSACTION [POST]-------------
+#--------------------------------------------------------------------------------------------------- CREATE NEW CLIENT [POST]-------------
+# @app.route('/create_client', methods=['POST'])
+# def create_client():
+#     form_data = request.get_json()
+#     new_client = Client(
+#         name=form_data['name'],
+#         email=form_data['email'],
+#     )
+#     hashed_password = bcrypt.generate_password_hash(form_data['password']).decode('utf-8')
+#     new_client.password_hash = hashed_password # Hash the password with bcrypt
+#     db.session.add(new_client)
+#     db.session.commit()
+
+#     resp = make_response(new_client.to_dict(), 201)
+#     return resp
+
+
+#--------------------------------------------------------------------------------------------------- CREATE TRANSACTION [POST]-------------
 @app.route('/create_transaction', methods=['POST'])
 def create_transaction():
     form_data = request.get_json()
@@ -180,78 +205,119 @@ def create_transaction():
     return resp
 
 
-#--------------------------------------------------------------------------------------------------- SIGNUP METHOD [POST] unfinished-------------
+#--------------------------------------------------------------------------------------------------- NEW CLIENT SIGNUP [POST] -------------
 @app.route('/client_signup', methods = ['POST'])
-def signup():
-    # allow for user to signup new account
+def client_signup():
+    # allow for client to signup new account
     form_data = request.get_json()
     name = form_data['name']
     email = form_data['email']
     password = form_data['password']
     try:
-        new_user = Client(
+        new_client = Client(
             name=name,
             email=email
         )
         # generates hashed password
-        new_user.password_hash = password
-        db.session.add(new_user)
+        new_client.password_hash = password
+        db.session.add(new_client)
         db.session.commit()
-        # sets signed in user to session
-        session['user_id'] = new_user.id
-        resp = make_response(new_user.to_dict(),201)
+        # sets signed in client to session
+        session['client_id'] = new_client.id
+        resp = make_response(new_client.to_dict(),201)
     except:
         resp = make_response({"ERROR" : "Could not create New Account!"}, 400)
     return resp
 
 
+# #--------------------------------------------------------------------------------------------------- NEW STORE SIGNUP [POST] -------------
+@app.route('/store_signup', methods = ['POST'])
+def store_signup():
+    # Wrote a code that will create a random unique 5-letter code for every new store --- clients can then use code to subscribe
+    def generate_store_code():
+        return ''.join(random.choices(string.ascii_uppercase, k=5))
 
-# @app.route('/store_signup', methods = ['POST'])
-# def signup():
-#     # allow for user to signup new account
-#     form_data = request.get_json()
-#     email = form_data['email']
-#     password = form_data['password']
-#     try:
-#         new_store = Client(
-#             email=email
-#         )
-#         # generates hashed password
-#         new_store.password_hash = password
-#         db.session.add(new_store)
-#         db.session.commit()
-#         # sets signed in store to session
-#         session['store_id'] = new_store.id
-#         resp = make_response(new_store.to_dict(),201)
-#     except:
-#         resp = make_response({"ERROR" : "Could not create Store account!"}, 400)
-#     return resp
-
-# #--------------------------------------------------------------------------------------------------- CHECK CLIENT SESSION [GET]-------------
-# @app.route('/check_client_session', methods = ['GET'])
-# def check_session():
-#     # check current session
-#     client_id = session['client_id']
-#     client = Client.query.filter(client.id == client_id).first()
-#     if client:
-#         resp = make_response(client.to_dict(), 200)
-#     else:
-#         resp = make_response({}, 404)
-#     return resp
+    def generate_unique_store_code():
+        while True:
+            new_store_code = generate_store_code()
+            existing_store = Store.query.filter_by(code=new_store_code).first()
+            if not existing_store:
+                return new_store_code
+    # allow for user to signup new account
+    form_data = request.get_json()
+    name = form_data['name']
+    email = form_data['email']
+    password = form_data['password']
+    code = generate_unique_store_code()
+    try:
+        new_store = Store(
+            name=name,
+            email=email,
+            code = code
+        )
+        # generates hashed password
+        new_store.password_hash = password
+        db.session.add(new_store)
+        db.session.commit()
+        # sets signed in store to session
+        session['store_id'] = new_store.id
+        resp = make_response(new_store.to_dict(),201)
+    except:
+        resp = make_response({"ERROR" : "Could not create Store account!"}, 400)
+    return resp
 
 
-# #--------------------------------------------------------------------------------------------------- CHECK STORE SESSION [GET]-----------------
+# #--------------------------------------------------------------------------------------------------- CLIENT SUBSCRIBE TO STORE [POST]-------------
+@app.route('/subscribe', methods=['POST'])
+def subscribe_to_store():
+    form_data = request.get_json()
 
-# @app.route('/check_store_session', methods = ['GET'])
-# def check_session():
-#     # check current session
-#     store_id = session['store_id']
-#     store = Store.query.filter(store.id == store_id).first()
-#     if store:
-#         resp = make_response(store.to_dict(), 200)
-#     else:
-#         resp = make_response({}, 404)
-#     return resp
+    # I made it so it grabs the client currently logged in by default via the session
+    client_id = session.get('client_id')
+    store_code = form_data['store_code']
+
+    # HERE I Retrieve the client and store objects
+    client = Client.query.get(client_id)
+    store = Store.query.filter_by(code=store_code).first()
+
+    if client and store:
+        # Check if the client is already subscribed to the store
+        if store not in client.subscribed_stores:
+            client.subscribed_stores.append(store)
+            db.session.commit()
+            return make_response({'message': f'Client {client_id} subscribed to store {store_code} successfully'})
+        else:
+            return make_response({'message': f'Client {client_id} is already subscribed to store {store_code}'})
+    else:
+        return make_response({'error': 'Invalid client ID or store code'}), 404
+
+
+
+#--------------------------------------------------------------------------------------------------- CHECK CLIENT SESSION [GET]-------------
+@app.route('/check_client_session', methods = ['GET'])
+def check_client_session():
+    # check current session
+    client_id = session['client_id']
+    client = Client.query.filter(client.id == client_id).first()
+    if client:
+        resp = make_response(client.to_dict(), 200)
+    else:
+        resp = make_response({}, 404)
+    return resp
+
+
+#--------------------------------------------------------------------------------------------------- CHECK STORE SESSION [GET]-----------------
+
+@app.route('/check_store_session', methods = ['GET'])
+def check_store_session():
+    # check current session
+    store_id = session['store_id']
+    store = Store.query.filter(store.id == store_id).first()
+    if store:
+        resp = make_response(store.to_dict(), 200)
+    else:
+        resp = make_response({}, 404)
+    return resp
 
 
 
@@ -266,6 +332,17 @@ if __name__ == '__main__':
 
 
 
+# @app.route('/create_goods_service', methods=['POST'])
+# def create_goods_service():
+#     form_data = request.get_json()
+#     new_goods_service = GoodsService(
+#         name=form_data['name'],
+#         price=form_data['price'],
+#     )
+#     db.session.add(new_goods_service)
+#     db.session.commit()
+#     resp = make_response(new_goods_service.to_dict(), 201)
+#     return resp
 
 
 
