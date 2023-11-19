@@ -15,23 +15,23 @@ def index():
 @app.route('/clients', methods=['GET'])
 def clients():
     clients = Client.query.all()
-    resp = make_response([client.to_dict(rules=('-password_hash', '-transactions.stores.password_hash')) for client in clients], 200)
+    resp = make_response([client.to_dict(rules=('-_password_hash', '-transactions.stores._password_hash')) for client in clients], 200)
     return resp
 
-#---------------------------------------------------------------------------------------------------VIEW ALL STORES [GET]-------------------
+#--------------------------------------------------------------------------------------------------- VIEW ALL STORES [GET]-------------------
 @app.route('/stores', methods=['GET'])
 def stores():
     stores = Store.query.all()
-    resp = make_response([store.to_dict(rules=('-password_hash', '-transactions.stores.password_hash')) for store in stores], 200)
+    resp = make_response([store.to_dict(rules=('-_password_hash', '-transactions.stores._password_hash')) for store in stores], 200)
     return resp
 
-#---------------------------------------------------------------------------------------------------CLIENTS BY ID [GET]-------------------
+#--------------------------------------------------------------------------------------------------- CLIENTS BY ID [GET]-------------------
 @app.route('/clients/<int:id>', methods=['GET', 'DELETE'])
 def client_by_id(id):
     client_by_id = Client.query.filter_by(id = id).first()
     if client_by_id:
         if request.method == 'GET':
-            resp = make_response(client_by_id.to_dict(rules=('-password_hash', '-transactions.stores.password_hash', '-transactions.client_id')), 200)
+            resp = make_response(client_by_id.to_dict(rules=('-_password_hash', '-transactions.store._password_hash', '-transactions.store.subscribed_clients', '-transactions.client_id')), 200)
         elif request.method == 'DELETE':
             db.session.delete(client_by_id)
             db.session.commit()
@@ -41,81 +41,28 @@ def client_by_id(id):
     return resp
 
 
+#--------------------------------------------------------------------------------------------------- STORES BY ID [GET]-------------------
+@app.route('/stores/<int:id>', methods=['GET', 'DELETE'])
+def store_by_id(id):
+    store_by_id = Store.query.filter_by(id = id).first()
+    if store_by_id:
+        if request.method == 'GET':
+            resp = make_response(store_by_id.to_dict(rules=('-_password_hash', '-transactions.client.subscribed_stores', '-transactions.client._password_hash', '-transactions.store_id')), 200)
+        elif request.method == 'DELETE':
+            db.session.delete(store_by_id)
+            db.session.commit()
+            resp = make_response({}, 204)
+    else:
+        resp = make_response({"error" : "No Store found!"})
+    return resp
+
 
 #---------------------------------------------------------------------------------------------------VIEW ALL TRANSACTIONS [GET]-------------
 @app.route('/transactions', methods=['GET'])
 def transactions():
     transactions = Transaction.query.all()
-    resp = make_response([transaction.to_dict(rules=('-client.password_hash', '-store.password_hash')) for transaction in transactions], 200)
+    resp = make_response([transaction.to_dict(rules=('-client._password_hash', '-store._password_hash')) for transaction in transactions], 200)
     return resp
-
-#---------------------------------------------------------------------------------------------------TRANSACTIONS BY STORE ID [GET]-------------
-# @app.route('/transactions/<int:store_id>', methods=['GET'])
-# def transactions_by_store(store_id):
-#     store_by_id = Store.query.filter_by(id=store_id).first()
-#     if store_by_id:
-#         transactions = Transaction.query.filter_by(store_id=store_id).all()
-#         print(transactions)
-
-#     serialized_transactions = [transaction.to_dict() for transaction in transactions]
-    
-    
-#     response_data = {
-#         'store': store_by_id.to_dict(),
-#         'transactions': serialized_transactions
-#     }
-
-#     # You might want to use make_response instead of jsonify for more customization
-#     # response = make_response({jsonify(response_data)}, 200)
-
-#     return jsonify(response_data)
-
-
-
-#---------------------------------------------------------------------------------------------------CREATE STORE [POST]-----------------------
-@app.route('/create_store', methods=['POST'])
-def create_store():
-    form_data = request.get_json()
-    new_store = Store(
-        name=form_data['name'],
-        email=form_data['email'],
-    )
-    hashed_password = bcrypt.generate_password_hash(form_data['password']).decode('utf-8')
-    new_store.password_hash = hashed_password
-    db.session.add(new_store)
-    db.session.commit()
-    resp = make_response(new_store.to_dict(), 201)
-    
-    return resp
-
-
-
-#---------------------------------------------------------------------------------------------------CREATE NEW GOODS/SERVICE [POST]-------------
-@app.route('/create_goods_service', methods=['POST'])
-def create_goods_service():
-    form_data = request.get_json()
-    name=form_data['name']
-    image=form_data['image']
-    price=form_data['price']
-    store_id=session.get('store_id')
-    
-    # Create a new GoodsService
-    new_goods_service = GoodsService(
-        name=name,
-        image=image,
-        price=price,
-        store_id=store_id    
-    )
-    # Validate data (you may want to add more robust validation)
-    if name is None or price is None or store_id is None:
-        return make_response({'error': 'Invalid data'}, 400)
-
-
-    # Add the new GoodsService to the database
-    db.session.add(new_goods_service)
-    db.session.commit()
-
-    return make_response({'message': 'GoodsService created successfully'}, 201)
 
 
 #---------------------------------------------------------------------------------------------------LOGIN FOR CLIENT [POST]-------------
@@ -171,22 +118,6 @@ def logout():
     resp = make_response({'message': 'Logged out successfully'}, 200)
     return resp
 
-
-#--------------------------------------------------------------------------------------------------- CREATE NEW CLIENT [POST]-------------
-# @app.route('/create_client', methods=['POST'])
-# def create_client():
-#     form_data = request.get_json()
-#     new_client = Client(
-#         name=form_data['name'],
-#         email=form_data['email'],
-#     )
-#     hashed_password = bcrypt.generate_password_hash(form_data['password']).decode('utf-8')
-#     new_client.password_hash = hashed_password # Hash the password with bcrypt
-#     db.session.add(new_client)
-#     db.session.commit()
-
-#     resp = make_response(new_client.to_dict(), 201)
-#     return resp
 
 
 #--------------------------------------------------------------------------------------------------- CREATE TRANSACTION [POST]-------------
@@ -267,6 +198,34 @@ def store_signup():
     return resp
 
 
+#---------------------------------------------------------------------------------------------------CREATE NEW GOODS/SERVICE [POST]-------------
+@app.route('/create_goods_service', methods=['POST'])
+def create_goods_service():
+    form_data = request.get_json()
+    name=form_data['name']
+    image=form_data['image']
+    price=form_data['price']
+    store_id=session.get('store_id')
+    
+    # Create a new GoodsService
+    new_goods_service = GoodsService(
+        name=name,
+        image=image,
+        price=price,
+        store_id=store_id    
+    )
+    # Validate data (you may want to add more robust validation)
+    if name is None or price is None or store_id is None:
+        return make_response({'error': 'Invalid data'}, 400)
+
+
+    # Add the new GoodsService to the database
+    db.session.add(new_goods_service)
+    db.session.commit()
+
+    return make_response({'message': 'GoodsService created successfully'}, 201)
+
+
 # #--------------------------------------------------------------------------------------------------- CLIENT SUBSCRIBE TO STORE [POST]-------------
 @app.route('/subscribe', methods=['POST'])
 def subscribe_to_store():
@@ -328,7 +287,44 @@ if __name__ == '__main__':
     
     
 
+#--------------------------------------------------------------------------------------------------- CREATE NEW CLIENT [POST]-------------
+# @app.route('/create_client', methods=['POST'])
+# def create_client():
+#     form_data = request.get_json()
+#     new_client = Client(
+#         name=form_data['name'],
+#         email=form_data['email'],
+#     )
+#     hashed_password = bcrypt.generate_password_hash(form_data['password']).decode('utf-8')
+#     new_client.password_hash = hashed_password # Hash the password with bcrypt
+#     db.session.add(new_client)
+#     db.session.commit()
 
+#     resp = make_response(new_client.to_dict(), 201)
+#     return resp
+
+
+
+#---------------------------------------------------------------------------------------------------TRANSACTIONS BY STORE ID [GET]-------------
+# @app.route('/transactions/<int:store_id>', methods=['GET'])
+# def transactions_by_store(store_id):
+#     store_by_id = Store.query.filter_by(id=store_id).first()
+#     if store_by_id:
+#         transactions = Transaction.query.filter_by(store_id=store_id).all()
+#         print(transactions)
+
+#     serialized_transactions = [transaction.to_dict() for transaction in transactions]
+    
+    
+#     response_data = {
+#         'store': store_by_id.to_dict(),
+#         'transactions': serialized_transactions
+#     }
+
+#     # You might want to use make_response instead of jsonify for more customization
+#     # response = make_response({jsonify(response_data)}, 200)
+
+#     return jsonify(response_data)
 
 
 
