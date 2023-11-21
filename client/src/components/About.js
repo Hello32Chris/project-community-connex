@@ -7,7 +7,7 @@ export default function About() {
 
 
     return (
-        <div align='center'>
+        <div align='center' id="regform">
             <img alt='Little happy moose' src="./Images/moose.gif"/>
             <h1>This is my About Page!</h1>
             <div><RegisterPage /></div>

@@ -15,8 +15,8 @@ export default function App() {
 
     const [clients, setClients] = useState([])
     const [stores, setStores] = useState([])
-    const [storeLoggedin, setStoreLoggedIn] = useState(false)
-    const [loggedIn, setLoggedIn] = useState(false)
+    const [storeLoggedIn, setStoreLoggedIn] = useState(false)
+    const [clientLoggedIn, setClientLoggedIn] = useState(false)
     
     //this fetch is for clients card
     useEffect(() => {
@@ -41,12 +41,12 @@ export default function App() {
             <h1>COMMUNITY CONNEX!</h1>
         </header>
         <div id='bannerdiv'>
-            <Navbar store={stores} storeLoggedin={storeLoggedin} />
+            <Navbar clientLoggedIn={clientLoggedIn} store={stores} storeLoggedIn={storeLoggedIn} />
             
         </div>
         <div id='maindiv'>
             <Switch>
-                <Route exact path="/"><Login loggedIn={loggedIn} storeLoggedin={storeLoggedin} setStoreLoggedIn={setStoreLoggedIn} /></Route>
+                <Route exact path="/"><Login clientLoggedIn={clientLoggedIn} setClientLoggedIn={setClientLoggedIn} storeLoggedIn={storeLoggedIn} setStoreLoggedIn={setStoreLoggedIn} /></Route>
                 <Route exact path='/clients'><Clients clients={clients} /></Route>
                 <Route exact path="/About" component={About} />
                 <Route exact path='/stores' render={(props) => <Stores {...props} stores={stores} />}></Route>

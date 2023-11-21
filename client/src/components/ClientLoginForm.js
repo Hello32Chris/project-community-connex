@@ -4,10 +4,11 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-const ClientLoginForm = ({ getClients }) => {
+const ClientLoginForm = ({ getClients, setClientLoggedIn, clientLoggedIn }) => {
 
   const history = useHistory()
   const [message, setMessage] = useState('');
+
 
 
 
@@ -39,11 +40,14 @@ const ClientLoginForm = ({ getClients }) => {
         // getClients(client); // this will allow me to alter state
         setMessage('Login successful. Redirecting to home...');
         setTimeout(() => {
+          setClientLoggedIn(!clientLoggedIn)
+          console.log(clientLoggedIn)
           history.push('/About');// After 4 seconds, navigate to the home page
         }, 2000);
       } else {
         const error = await response.json();
         console.error('Login failed:', error);
+        setClientLoggedIn(clientLoggedIn)
       }
     } catch (error) {
       console.error('Error during login:', error);

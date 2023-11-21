@@ -72,3 +72,9 @@ footer {
   margin-top: 1000px;
   color: white;
 }
+
+#regform{
+  justify-content: center;
+  display: 'flexbox';
+  align-items: center;
+}
