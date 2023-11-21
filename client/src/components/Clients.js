@@ -3,16 +3,16 @@ import ClientCard from "./ClientCard";
 
 export default function Clients({ clients }) {
 
-    function getSessionStoreId() {
-        const sessionId = sessionStorage.getItem("sessionId");
-        return sessionId;
-      }
+//     function getSessionStoreId() {
+//         const sessionId = sessionStorage.getItem("sessionId");
+//         return sessionId;
+//       }
 
-    const loggedInStoreId = getSessionStoreId();
+//     const loggedInStoreId = getSessionStoreId();
 
-    const filteredClients = clients.filter((client) =>
-    client.subscribed_stores.some((store) => store.id === loggedInStoreId)
-  );
+//     const filteredClients = clients.filter((client) =>
+//     client.subscribed_stores.some((store) => store.id === loggedInStoreId)
+//   );
     
 
 
@@ -20,7 +20,7 @@ export default function Clients({ clients }) {
     // console.log(clients.email)
     // console.log(clients.transactions)
 
-    const clientView = filteredClients.map((client) => {
+    const clientView = clients.map((client) => {
         return (
             <ClientCard key={client.id}
                 id={client.id}

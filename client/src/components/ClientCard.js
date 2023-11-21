@@ -40,15 +40,16 @@ export default function ClientCard({ id, name, email, trans }) {
       }}
 
 
-
+      
+    
 
 
     return (
         <div align='center'>
             <br/>
-            <b>Name: {name}</b>
+            <b>Name:</b> {name}
             <br/>
-            <b>Email: {email}</b>
+            <b>Email:</b> {email}
             <br/>
             <br/>
             <button onClick={() => handleDeleteClient(id)}>Delete</button>
@@ -57,7 +58,7 @@ export default function ClientCard({ id, name, email, trans }) {
             <b><h1>Transactions:</h1> </b>
             <button onClick={toggleTransactions}>{showTransactions ? 'Hide Transactions' : 'Show Transactions'}</button>
             <br/>
-            {showTransactions && <TransactionsCard clientId={id} trans={trans} />}
+            {showTransactions && <TransactionsCard  clientId={id} trans={trans} />}
         <br/>
         </div>
     )

@@ -16,6 +16,11 @@ subscription_table = Table('subscriptions', db.Model.metadata,
     Column('store_id', Integer, ForeignKey('stores.id'))
 )
 
+cart = Table('cart', db.Model.metadata,
+    Column('transaction_id', Integer, ForeignKey('transactions.id')),
+    Column('goods_service_id', Integer, ForeignKey('goods_services.id'))
+)
+
 
 #---------------------------------------------------------------------
 #-----------------------CLASS Store-----------------------
@@ -31,10 +36,10 @@ class Store(db.Model, SerializerMixin):
     subscribed_clients = db.relationship('Client', secondary=subscription_table, back_populates='subscribed_stores')
 
     # One-to-Many relationship with GoodsService
-    goods_services = db.relationship('GoodsService', back_populates='store', lazy=True, cascade ='all, delete-orphan')
+    goods_services = db.relationship('GoodsService', back_populates='store', lazy=True)
 
     # One-to-Many relationship with Transaction
-    transactions = db.relationship('Transaction', back_populates='store', lazy=True, cascade ='all, delete-orphan')
+    transactions = db.relationship('Transaction', back_populates='store', lazy=True)
 
     serialize_rules = ('-transactions.store', '-')
 
@@ -76,7 +81,7 @@ class Client(db.Model, SerializerMixin):
     subscribed_stores = db.relationship('Store', secondary=subscription_table, back_populates='subscribed_clients')
     
     # One-to-Many relationship with Transaction
-    transactions = db.relationship('Transaction', back_populates='client', lazy=True, cascade ='all, delete-orphan')
+    transactions = db.relationship('Transaction', back_populates='client', lazy=True)
 
     serialize_rules = ('-transactions.client', )
 
@@ -118,8 +123,9 @@ class GoodsService(db.Model, SerializerMixin):
 
     # Many-to-Many relationship with Store
     store = db.relationship('Store', back_populates='goods_services', lazy=True)
+    # transactions = db.relationship('Transaction', secondary=cart, back_populates='goods_services', lazy=True)
 
-    serialize_rules = ('-store.goods_services', )
+    serialize_rules = ('-store.goods_services',  )
 
 
 #---------------------------------------------------------------------
@@ -137,6 +143,7 @@ class Transaction(db.Model, SerializerMixin):
     # Relationships
     store = db.relationship('Store', back_populates='transactions', lazy=True)
     client = db.relationship('Client', back_populates='transactions', lazy=True)
+    # goods_services = db.relationship('GoodsService', secondary=cart, back_populates='transactions', lazy=True)
 
     serialize_rules = ('-store.transactions', '-client.transactions')
 

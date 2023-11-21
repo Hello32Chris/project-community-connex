@@ -78,7 +78,7 @@ const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
               <br/>
               <div>
                 <label htmlFor="password">Password:</label>
-                <Field type="password" id="password" name="password" />
+                <Field type="password" id="storepassword" name="password" />
                 <ErrorMessage name="password" component="div" />
               </div>
               <br/>

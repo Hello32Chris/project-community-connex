@@ -1,8 +1,9 @@
 import React from "react";
 
 export default function TransactionCard({ trans, clientId }) {
+  console.log(trans)
   // Filter transactions based on the client_id and then I map it out using variables
-  const clientTransactions = trans.filter((transaction) => transaction.client_id === clientId);
+  const clientTransactions = trans.filter((transaction) => transaction.client.id === clientId);
 
     const transactionDisplay = clientTransactions.map((transaction) => {
     const key = transaction.id;
@@ -11,12 +12,13 @@ export default function TransactionCard({ trans, clientId }) {
     const serviceReceived = transaction.store && transaction.store.goods_services && transaction.store.goods_services.length > 0 ? transaction.store.goods_services[0].name : "N/A";
     const totalPaid = parseFloat(transaction.total_amount).toFixed(2);
 
+
     return {
       key,
       storeName,
       email,
       serviceReceived,
-      totalPaid,
+      totalPaid
     };
   });
 

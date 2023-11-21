@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from models import Client, Store, GoodsService, Transaction, subscription_table
+from models import Client, Store, GoodsService, Transaction, subscription_table, cart
 # Remote library imports
 
 # Local imports
@@ -21,14 +21,19 @@ def generate_unique_store_code():
 
 
 with app.app_context():
-    print("Starting seed...")
-    # Seed code goes here!
+    print("\nStarting seed...\n")
+    print('Refreshing Tables...\n')
 
     Client.query.delete()
     Store.query.delete()
     GoodsService.query.delete()
     Transaction.query.delete()
+    
     db.session.execute(subscription_table.delete())
+    db.session.commit()
+    
+    db.session.execute(cart.delete())
+    db.session.commit()
 
 
 
@@ -48,21 +53,21 @@ with app.app_context():
         email="DogWalker@business.com",
         code= generate_unique_store_code() 
     )
-    new_store2.password_hash = 'hashed_password'
+    new_store2.password_hash = '123'
     new_store3 = Store(
         id = 3,
         name="Kiki's Delivery Service", 
         email="Kikispointyhat@business.com",
         code= generate_unique_store_code() 
     )
-    new_store3.password_hash = 'hashed_password'
+    new_store3.password_hash = '123'
     new_store4 = Store(
         id = 4,
-        name="CarWashers", 
-        email="CarWashers@business.com",
+        name="Massage", 
+        email="Massages@business.com",
         code= generate_unique_store_code() 
     )
-    new_store4.password_hash = 'hashed_password'
+    new_store4.password_hash = '123'
     
     print('seeding goods n services...\n')
 
@@ -73,9 +78,16 @@ with app.app_context():
     )
     
     db.session.add(new_store)
+    db.session.commit()
+    
     db.session.add(new_store2)
+    db.session.commit()
+    
     db.session.add(new_store3)
+    db.session.commit()
+    
     db.session.add(new_store4)
+    db.session.commit()
     
     
     
@@ -86,6 +98,7 @@ with app.app_context():
         store_id=1,
         client_id=1
     )
+    # new_transaction.goods_services.append(new_goods_service)
     
     print('seeding clients...\n')
 
@@ -95,8 +108,11 @@ with app.app_context():
         email="Joe@youmail.com",     
         )
     new_client.password_hash = '123'
-    # new_client.subscribed_stores.append(Store.query.get(1))
-    # new_client.subscribed_stores.append(Store.query.get(2))
+    
+    print('Hashed passwords AND added subscriptions...\n')
+    
+    # new_client.subscribed_stores.append(new_store)
+    # new_client.subscribed_stores.append(new_store2)
     
     
     new_client2 = Client(
@@ -118,11 +134,20 @@ with app.app_context():
     
     # Adding the client to the session
     db.session.add(new_client)
+    db.session.commit()
+    
     db.session.add(new_client2)
+    db.session.commit()
+    
     db.session.add(new_client3)
+    db.session.commit()
+    
     db.session.add(new_goods_service)
+    db.session.commit()
+    
     db.session.add(new_transaction)
+    db.session.commit()
+    
 
     # Committing the changes to the database
-    db.session.commit()
-    print('Done with seeding...')
+    print('Done with seeding...\n\n')
