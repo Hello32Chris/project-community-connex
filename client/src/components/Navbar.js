@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import StoreAcctPage from "./StoreAcctPage";
 
-function Navbar({ setSearchTerm, storeLogged }) {
+function Navbar({ setSearchTerm, storeLogged, store }) {
 
   const [toggle, setToggle] = useState(true)
   // const [searchToggle, setToggleSearch] = useState(false)
@@ -33,6 +34,7 @@ function Navbar({ setSearchTerm, storeLogged }) {
       </div>
     </nav>)
 
+    
 
 
   // console.log(toggle)
@@ -42,10 +44,12 @@ function Navbar({ setSearchTerm, storeLogged }) {
       <ul>
         <nav id="navbar" >
       <div className="navbar">
-        <li><NavLink className='link' to="/" activeClassName="active">Home</NavLink></li>
+        <li><NavLink className='link' to="/" activeClassName="active">Login</NavLink></li>
+        <li><NavLink className='link' to="/stores" activeClassName="active" >Stores</NavLink></li>
+        <li><NavLink className='link' to="/clients" activeClassName="active" >Clients</NavLink></li>
         <li><NavLink className='link' to="/About" activeClassName="active" >About</NavLink></li>
         {storeLogged &&
-          <li><NavLink className='link' to="/clients" activeClassName="active" >Clients</NavLink></li>}
+        <li><NavLink className='link' to="/clients" activeClassName="active" >Clients</NavLink></li>}
       </div>
     </nav>
       </ul>

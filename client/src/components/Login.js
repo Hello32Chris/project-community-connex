@@ -5,7 +5,7 @@ import StoreLoginForm from "./StoreLoginForm";
 
 
 
-function Login({ loggedIn, storeLogged, setStoreLoggedIn }) {
+function Login({ setStoreLoggedIn }) {
 
     const [getClients, setClients] = useState([]);
     const [getStores, setStores] = useState([]);
@@ -33,7 +33,7 @@ function Login({ loggedIn, storeLogged, setStoreLoggedIn }) {
                 <ClientLoginForm getClients={getClients} />
             </div>
             <div id="store-login">
-                <StoreLoginForm getStores={getStores} />
+                <StoreLoginForm setStoreLoggedIn={setStoreLoggedIn} getStores={getStores} />
             </div>
         </div>
     )

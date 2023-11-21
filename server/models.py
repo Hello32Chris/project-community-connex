@@ -36,7 +36,7 @@ class Store(db.Model, SerializerMixin):
     # One-to-Many relationship with Transaction
     transactions = db.relationship('Transaction', back_populates='store', lazy=True, cascade ='all, delete-orphan')
 
-    serialize_rules = ('-goods_services.store', '-transactions.store')
+    serialize_rules = ('-transactions.store', '-')
 
     @hybrid_property
     def password_hash(self):

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from models import Client, Store, GoodsService, Transaction
+from models import Client, Store, GoodsService, Transaction, subscription_table
 from flask import make_response, request, session, abort, g
 from config import app, db, bcrypt
 import random, string
@@ -12,7 +12,7 @@ def index():
 @app.route('/clients', methods=['GET'])
 def clients():
     clients = Client.query.all()
-    resp = make_response([client.to_dict(rules=('-_password_hash', '-transactions.stores._password_hash')) for client in clients], 200)
+    resp = make_response([client.to_dict(rules=('-_password_hash', '-transactions.store._password_hash', '-transactions.store.goods_services','-transactions.client_id', '-transactions.store.subscribed_clients')) for client in clients], 200)
     return resp
 
 #--------------------------------------------------------------------------------------------------- VIEW ALL STORES [GET]-------------------
@@ -58,7 +58,7 @@ def store_by_id(id):
 @app.route('/transactions', methods=['GET'])
 def transactions():
     transactions = Transaction.query.all()
-    resp = make_response([transaction.to_dict(rules=('-client._password_hash', '-store._password_hash')) for transaction in transactions], 200)
+    resp = make_response([transaction.to_dict(rules=('-client._password_hash', '-store._password_hash','-store.goods_services')) for transaction in transactions], 200)
     return resp
 
 
@@ -77,9 +77,11 @@ def client_login():
         is_authenticated = client.authenticate(password)
         if is_authenticated:
             session['client_id'] = client.id
+            print('Session started for Client')
             resp = make_response({'Message' : 'Login Successful', 'client' : client.to_dict()}, 201)
         else:
             resp = make_response({"ERROR" : "USER CANNOT LOG IN"}, 400)
+            print('Could not start a session')
     else:
         resp = make_response({"ERROR" : "USER NOT FOUND"}, 404)
     return resp
@@ -100,9 +102,11 @@ def store_login():
         is_authenticated = store.authenticate(password)
         if is_authenticated:
             session['store_id'] = store.id
+            print('Session started for Store')
             resp = make_response(store.to_dict(), 201)
         else:
             resp = make_response({"ERROR" : "USER CANNOT LOG IN"}, 400)
+            print('Could not start a session')
     else:
         resp = make_response({"ERROR" : "USER NOT FOUND"}, 404)
     return resp
@@ -159,6 +163,7 @@ def client_signup():
         db.session.commit()
         # sets signed in client to session
         session['client_id'] = new_client.id
+        print('Session started for Client')
         resp = make_response(new_client.to_dict(),201)
     except:
         resp = make_response({"ERROR" : "Could not create New Account!"}, 400)
@@ -196,6 +201,7 @@ def store_signup():
         db.session.commit()
         # sets signed in store to session
         session['store_id'] = new_store.id
+        print('Session started for Store')
         resp = make_response(new_store.to_dict(),201)
     except:
         resp = make_response({"ERROR" : "Could not create Store account!"}, 400)
@@ -260,12 +266,19 @@ def subscribe_to_store():
 @app.route('/check_client_session', methods = ['GET'])
 def check_client_session():
     # check current session
-    client_id = session['client_id']
-    client = Client.query.filter(client.id == client_id).first()
-    if client:
-        resp = make_response(client.to_dict(), 200)
+    client_id = session.get('client_id')
+    if client_id:
+        print('Checking Client Session')
+        client = Client.query.filter_by(id = client_id).first()
+        if client:
+            resp = make_response(client.to_dict(), 200)
+            print('Client Sessions Active')
+        else:
+            resp = make_response({}, 404)
+            print('No Client Session found!')
     else:
-        resp = make_response({}, 404)
+            resp = make_response({}, 404)
+            print('No Session found!')
     return resp
 
 
@@ -274,16 +287,23 @@ def check_client_session():
 @app.route('/check_store_session', methods = ['GET'])
 def check_store_session():
     # check current session
-    store_id = session['store_id']
-    store = Store.query.filter(store.id == store_id).first()
-    if store:
-        resp = make_response(store.to_dict(), 200)
+    store_id = session.get('store_id')
+    if store_id:
+        print('Checking Store Session')
+        store = Store.query.filter_by(id = store_id).first()
+        if store:
+            resp = make_response(store.to_dict(), 200)
+            print('Store Sessions Active')
+        else:
+            resp = make_response({}, 404)
+            print('No Store Session found!')
     else:
         resp = make_response({}, 404)
+        print('No Session found!')
     return resp
 
 
-#--------------------------------------------------------------------------------------------------- PROTECT CLIENT SESSION -----------------
+#--------------------------------------------------------------------------------------------------- PROTECT CLIENT SESSION (Timeout) -----------------
 @app.route('/protected')
 def client_protected():
     if 'client_id' not in session:
@@ -305,6 +325,21 @@ def store_protected():
 
 
 
+
+@app.route('/subscriptions', methods=['GET'])
+def get_subscriptions():
+    # Query the subscription table to get all subscriptions
+    subscriptions = db.session.query(subscription_table).all()
+
+    # Extract client_ids and store_ids from the subscriptions
+    subscriptions_data = [{'client_id': subscription.client_id, 'store_id': subscription.store_id} for subscription in subscriptions]
+
+    # Create a JSON response
+    response_data = {
+        'subscriptions': subscriptions_data
+    }
+
+    return make_response(response_data, 200)
 
 
 

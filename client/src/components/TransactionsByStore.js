@@ -13,7 +13,7 @@ const TransactionsByStore = ({ storeId }) => {
         const response = await fetch(`/transactions/${storeId}`);
         const data = await response.json();
 
-        // Assuming your API returns data in the format { store: {...}, transactions: [...] }
+        // Return data and set them to states
         setStore(data.store);
         setTransactions(data.transactions);
       } catch (error) {

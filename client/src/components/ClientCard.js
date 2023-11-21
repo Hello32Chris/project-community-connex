@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import TransactionsCard from "./TransactionsCard";
 
 export default function ClientCard({ id, name, email, trans }) {
 
@@ -6,8 +7,21 @@ export default function ClientCard({ id, name, email, trans }) {
   // console.log(email)
   // console.log(id)
   
-    const [client, setClient] = useState([]);
 
+    //---------------STATE-------------
+    const [client, setClient] = useState([]);
+    const [showTransactions, setShowTransactions] = useState(false);
+
+
+      //---------------FUNCTIONALITY-------------
+    const toggleTransactions = () => {
+      setShowTransactions(!showTransactions);
+    };
+
+
+
+
+  //---------------------------------------------------------------- MY CLIENT DELETE BUTTON-------------------------------
     function handleDeleteClient(id) {
       
         // eslint-disable-next-line
@@ -41,6 +55,9 @@ export default function ClientCard({ id, name, email, trans }) {
             <br/>
             <br/>
             <b><h1>Transactions:</h1> </b>
+            <button onClick={toggleTransactions}>{showTransactions ? 'Hide Transactions' : 'Show Transactions'}</button>
+            <br/>
+            {showTransactions && <TransactionsCard clientId={id} trans={trans} />}
         <br/>
         </div>
     )

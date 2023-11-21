@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-const ClientLoginForm = ({ getStores }) => {
+const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
 
 
   const history = useHistory()
@@ -35,11 +35,12 @@ const ClientLoginForm = ({ getStores }) => {
 
       if (response.ok) {
         // const store = 
-        await response.json();
+        const store = await response.json();
         // getStores(store);
         setMessage('Login successful. Redirecting to Home...');
+        setStoreLoggedIn(store)
         setTimeout(() => {
-          history.push('/About');// After 4 seconds, navigate to the home page
+          history.push(`/stores/${store.name}`);// After 4 seconds, navigate to the home page
         }, 2000);
       } else {
         const error = await response.json();
@@ -92,7 +93,7 @@ const ClientLoginForm = ({ getStores }) => {
   );
 };
 
-export default ClientLoginForm;
+export default StoreLoginForm;
 
 
 
