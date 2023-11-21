@@ -21,17 +21,17 @@ export default function Subscribers({ clientid, storeid }) {
             .then((data) => setStores(data))
     }, [])
 
-    // const subscribedClients = getClients.filter((client) =>
-    //     subs.some((subscription) => subscription.client_id === client.id)
-    // );
+    const subscribedClients = getClients.filter((client) =>
+        getClients.some((subscription) => subscription.client_id === client.id)
+    );
 
-    // const clientView = subscribedClients.map((client) => (
-    //     <div key={client.id}>
-    //         <p>{client.name}</p>
-    //         <p>{client.email}</p>
-    //         {/* Add additional client details as needed */}
-    //     </div>
-    // ));
+    const clientView = subscribedClients.map((client) => (
+        <div key={client.id}>
+            <p>{client.name}</p>
+            <p>{client.email}</p>
+            {/* Add additional client details as needed */}
+        </div>
+    ));
 
 
     return (

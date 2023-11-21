@@ -8,6 +8,7 @@ import Login from './Login';
 import StoreAcctPage from './StoreAcctPage';
 import Stores from './Stores';
 import StoreProfile from './StoreProfile';
+import TransactionsByStore from "./TransactionsByStore"
 
 
 
@@ -17,6 +18,7 @@ export default function App() {
     const [stores, setStores] = useState([])
     const [storeLoggedIn, setStoreLoggedIn] = useState(false)
     const [clientLoggedIn, setClientLoggedIn] = useState(false)
+    const [loggedInStoreId, setLoggedInStoreId] = useState(null);
     
     //this fetch is for clients card
     useEffect(() => {
@@ -33,7 +35,11 @@ export default function App() {
             .then((data) => setStores(data))
     }, [])
 
+    // const loggedInStoreId = sessionStorage.getItem('store_id');
+//------------------------------------------------------------------------FETCH AND COMPARE FOR TRANSACTIONS---
 
+
+//----------------------------------------------------------------------------
 
     return (
         <>
@@ -41,17 +47,21 @@ export default function App() {
             <h1>COMMUNITY CONNEX!</h1>
         </header>
         <div id='bannerdiv'>
-            <Navbar clientLoggedIn={clientLoggedIn} store={stores} storeLoggedIn={storeLoggedIn} />
+            <Navbar loggedInStoreId={loggedInStoreId} clientLoggedIn={clientLoggedIn} stores={stores} storeLoggedIn={storeLoggedIn} />
             
         </div>
         <div id='maindiv'>
             <Switch>
-                <Route exact path="/"><Login clientLoggedIn={clientLoggedIn} setClientLoggedIn={setClientLoggedIn} storeLoggedIn={storeLoggedIn} setStoreLoggedIn={setStoreLoggedIn} /></Route>
+                <Route exact path="/Login"><Login setLoggedInStoreId={setLoggedInStoreId} setClientLoggedIn={setClientLoggedIn} setStoreLoggedIn={setStoreLoggedIn} /></Route>
+                <Route exact path='/'><Home /></Route>
                 <Route exact path='/clients'><Clients clients={clients} /></Route>
-                <Route exact path="/About" component={About} />
-                <Route exact path='/stores' render={(props) => <Stores {...props} stores={stores} />}></Route>
-                <Route exact path='/stores/profile' render={(props) => <StoreProfile {...props} stores={stores} />} />
+                <Route exact path='/stores'><Stores stores={stores} /></Route>
+                <Route exact path={`/stores/${loggedInStoreId}`}><StoreProfile stores={stores} /></Route>
+                <Route exact path={`/stores/${loggedInStoreId}/transactions`}><TransactionsByStore stores={stores} loggedInStoreId={loggedInStoreId} /></Route>
+                <Route exact path={`/stores/${loggedInStoreId}/AccountManager`}><StoreAcctPage loggedInStoreId={loggedInStoreId} stores={stores} /></Route>
+                <Route exact path="/About"><About /></Route>
                 {/* <Route exact path={`/stores/AccountManager`} component={<StoreAcctPage stores={stores} />} /> */}
+                {/* <Route exact path='/stores' render={(props) => <Stores {...props} stores={stores} />}></Route> */}
             </Switch>
         </div>
     </>

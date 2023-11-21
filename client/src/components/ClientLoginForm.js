@@ -40,14 +40,14 @@ const ClientLoginForm = ({ getClients, setClientLoggedIn, clientLoggedIn }) => {
         // getClients(client); // this will allow me to alter state
         setMessage('Login successful. Redirecting to home...');
         setTimeout(() => {
-          setClientLoggedIn(!clientLoggedIn)
-          console.log(clientLoggedIn)
+          setClientLoggedIn(true)
           history.push('/About');// After 4 seconds, navigate to the home page
         }, 2000);
+
       } else {
         const error = await response.json();
         console.error('Login failed:', error);
-        setClientLoggedIn(clientLoggedIn)
+        setClientLoggedIn(false)
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -55,12 +55,20 @@ const ClientLoginForm = ({ getClients, setClientLoggedIn, clientLoggedIn }) => {
 
     setSubmitting(false);
   };
-  
+          console.log(clientLoggedIn)
     return (
       <div>
         {message ? (
           <div id="login-message">
             <div>{message}</div>
+            <div className="container">
+              <svg className="loader" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340">
+                <circle cx="170" cy="170" r="135" stroke="red"/>
+                <circle cx="170" cy="170" r="110" stroke="yellow"/>
+                <circle cx="170" cy="170" r="85" stroke="blue"/>
+                <circle cx="170" cy="170" r="55" stroke="green"/>
+              </svg>  
+            </div>
           </div>
         ) : (
           <div>

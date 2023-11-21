@@ -39,7 +39,7 @@ def client_by_id(id):
 
 
 #--------------------------------------------------------------------------------------------------- STORES BY ID [GET]-------------------
-@app.route('/stores/<int:id>', methods=['GET', 'DELETE'])
+@app.route('/stores/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def store_by_id(id):
     store_by_id = Store.query.filter_by(id = id).first()
     if store_by_id:
@@ -49,8 +49,17 @@ def store_by_id(id):
             db.session.delete(store_by_id)
             db.session.commit()
             resp = make_response({}, 204)
+        elif request.method == 'PATCH':
+            form_data=request.get_json()
+            try:
+                for attr in form_data:
+                    setattr(store_by_id, attr, form_data.get(attr))
+                db.session.commit()
+                resp=make_response(store_by_id.to_dict(), 202)
+            except ValueError:
+                resp=make_response({ 'errors' : 'No store found!'}, 404)         
     else:
-        resp = make_response({"error" : "No Store found!"})
+        resp = make_response({"error" : ['Validation Errors']})
     return resp
 
 
@@ -77,6 +86,7 @@ def client_login():
         is_authenticated = client.authenticate(password)
         if is_authenticated:
             session['client_id'] = client.id
+            print(session)
             print('Session started for Client')
             resp = make_response({'Message' : 'Login Successful', 'client' : client.to_dict()}, 201)
         else:
@@ -102,6 +112,7 @@ def store_login():
         is_authenticated = store.authenticate(password)
         if is_authenticated:
             session['store_id'] = store.id
+            print(session)
             print('Session started for Store')
             resp = make_response(store.to_dict(), 201)
         else:
@@ -291,7 +302,7 @@ def check_store_session():
     if store_id:
         print('Checking Store Session')
         store = Store.query.filter_by(id = store_id).first()
-        if store:
+        if store: 
             resp = make_response(store.to_dict(), 200)
             print('Store Sessions Active')
         else:
@@ -324,8 +335,7 @@ def store_protected():
 
 
 
-
-
+#--------------------------------------------------------------------------------------------------- GET ALL SUBSCRIPTIONS -----------------
 @app.route('/subscriptions', methods=['GET'])
 def get_subscriptions():
     # Query the subscription table to get all subscriptions

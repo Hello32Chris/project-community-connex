@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
+const StoreLoginForm = ({ setStoreLoggedIn, getStores, setLoggedInStoreId }) => {
+  // const loggedInStoreId = sessionStorage.getItem('store_id');
 
 
   const history = useHistory()
@@ -38,13 +39,16 @@ const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
         const store = await response.json();
         // getStores(store);
         setMessage('Login successful. Redirecting to Home...');
-        setStoreLoggedIn(true)
+        
         setTimeout(() => {
-          history.push(`/stores/${store.name}`);// After 4 seconds, navigate to the home page
+          setStoreLoggedIn(true)
+          setLoggedInStoreId(store.id)
+          history.push(`/stores/${store.id}`);// After 4 seconds, navigate to the home page
         }, 2000);
       } else {
         const error = await response.json();
         console.error('Login failed:', error);
+        setStoreLoggedIn(false);
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -58,7 +62,15 @@ const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
       {message ? (
         <div id="login-message">
           <div>{message}</div>
-        </div>
+          <div className="container">
+              <svg className="loader" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340">
+                <circle cx="170" cy="170" r="135" stroke="red"/>
+                <circle cx="170" cy="170" r="110" stroke="yellow"/>
+                <circle cx="170" cy="170" r="85" stroke="blue"/>
+                <circle cx="170" cy="170" r="55" stroke="green"/>
+              </svg>  
+            </div>
+          </div>
       ) : (
         <div>
             <div> Store Login: </div>
