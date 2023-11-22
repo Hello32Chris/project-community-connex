@@ -18,7 +18,7 @@ export default function App() {
     const [stores, setStores] = useState([])
     const [storeLoggedIn, setStoreLoggedIn] = useState(false)
     const [clientLoggedIn, setClientLoggedIn] = useState(false)
-    const [loggedInStoreId, setLoggedInStoreId] = useState(null);
+    // const [loggedInStoreId, setLoggedInStoreId] = useState(null);
     
     //this fetch is for clients card
     useEffect(() => {
@@ -36,10 +36,17 @@ export default function App() {
     }, [])
 
     // const loggedInStoreId = sessionStorage.getItem('store_id');
-//------------------------------------------------------------------------FETCH AND COMPARE FOR TRANSACTIONS---
+    const [shop, setShop] = useState(null);
 
+    useEffect(() => {
+      fetch("/check_store_session").then((resp) => {
+        if (resp.ok) {
+          resp.json().then((store) => setShop(store));
+        }
+      });
+    }, []);
 
-//----------------------------------------------------------------------------
+    const loggedInStoreId = shop ? shop.id : 'n/a'
 
     return (
         <>
@@ -52,7 +59,7 @@ export default function App() {
         </div>
         <div id='maindiv'>
             <Switch>
-                <Route exact path="/Login"><Login setLoggedInStoreId={setLoggedInStoreId} setClientLoggedIn={setClientLoggedIn} setStoreLoggedIn={setStoreLoggedIn} /></Route>
+                <Route exact path="/Login"><Login  setClientLoggedIn={setClientLoggedIn} setStoreLoggedIn={setStoreLoggedIn} /></Route>
                 <Route exact path='/'><Home /></Route>
                 <Route exact path='/clients'><Clients clients={clients} /></Route>
                 <Route exact path='/stores'><Stores stores={stores} /></Route>

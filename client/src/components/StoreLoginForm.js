@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-const StoreLoginForm = ({ setStoreLoggedIn, getStores, setLoggedInStoreId }) => {
+const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
   // const loggedInStoreId = sessionStorage.getItem('store_id');
 
 
@@ -42,7 +42,6 @@ const StoreLoginForm = ({ setStoreLoggedIn, getStores, setLoggedInStoreId }) => 
         
         setTimeout(() => {
           setStoreLoggedIn(true)
-          setLoggedInStoreId(store.id)
           history.push(`/stores/${store.id}`);// After 4 seconds, navigate to the home page
         }, 2000);
       } else {
