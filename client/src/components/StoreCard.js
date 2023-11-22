@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Subscribers from './Subscribers'
 
 export default function StoreCard({ storeid, storename, storeemail, storecode, storesubs, storegoods, storetrans }) {
@@ -10,23 +11,24 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
 
   //---------------STATE-------------
   const [showTransactions, setShowTransactions] = useState(false);
+  const [goodsToggle, setGoodsToggle] = useState(false);
 
 
   //---------------FUNCTIONALITY-------------
-  const toggleTransactions = () => {
-    setShowTransactions(!showTransactions);
+  const toggleGoods = () => {
+    setGoodsToggle(!goodsToggle);
   };
 
-  const subscribers = storesubs.map((sub) => {
-    return (
-      <Subscribers
-        clientid={sub.client_id}
-        storeid={storeid}
-        name={storename}
-        email={storeemail}
-      />
-    )
-  })
+  // const subscribers = storesubs.map((sub) => {
+  //   return (
+  //     <Subscribers
+  //       clientid={sub.client_id}
+  //       storeid={storeid}
+  //       name={storename}
+  //       email={storeemail}
+  //     />
+  //   )
+  // })
 
   const storegood = storegoods.map((good) => (
     <ul key={good.id}>
@@ -36,20 +38,28 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
     </ul>
   ))
 
+  // const storetran = storetrans.map((tran) => {
+  //   <ul key={tran.id}>
+  //   <p>{tran.client.name}</p>
+  //   </ul>
+  // })
 
 
   return (
-    <div align='center'>
+    
+    <div align='center' style={{ cursor: 'pointer' }}>
       <h2>Store:</h2>
       <p>Name:{storename}</p>
       <p>email:{storeemail}</p>
       <p>code:{storecode}</p>
-      <p>subs:{subscribers}</p>
-      <h2>goods:</h2>{storegood}
-      <p>trans:</p>
-      <button onClick={toggleTransactions} >Show Transactions</button>
+      <h2>goods:</h2>
+      <button onClick={toggleGoods}>{!goodsToggle ? 'Show Services' : 'Hide Services'}</button>
+      {goodsToggle ? storegood : null}
+
       <br />
+      <Link to={`/stores/${storeid}`} >Profile</Link >
     </div>
+    
   )
 }
 

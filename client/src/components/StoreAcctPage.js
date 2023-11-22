@@ -7,6 +7,8 @@ import TransactionsByStore from "./TransactionsByStore";
 
 
 export default function StoreAcctPage({ stores, loggedInStoreId }) {
+
+  
   // const loggedInStoreId = sessionStorage.getItem('store_id');
   const [store, setStore] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -48,6 +50,8 @@ export default function StoreAcctPage({ stores, loggedInStoreId }) {
     return <p>Store data not found.</p>;
   }
 
+  
+
   //--------------------------------------------------------------------------------------------
   const initialValues = {
     name: store.name,
@@ -62,12 +66,33 @@ export default function StoreAcctPage({ stores, loggedInStoreId }) {
     // Add more validations as needed
   });
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    // Handle the submission logic here
-    console.log('Form values:', values);
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+        const response = await fetch(`/artists/user_${loggedIn.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+        });
+
+        if (response.ok) {
+            const updatedUser = await response.json();
+            setMessage('Update successful. Redirecting to home...');
+            setLoggedIn(updatedUser);
+            setTimeout(() => {
+                history.push(`/account_home/${updatedUser.username}`);
+            }, 2000);
+        } else {
+            const error = await response.json();
+            console.error('User update failed:', error);
+        }
+    } catch (error) {
+        console.error('Error during User update:', error);
+    }
+
     setSubmitting(false);
-    alert('Your account has been Changed')
-  };
+}
 
 
 

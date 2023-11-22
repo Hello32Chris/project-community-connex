@@ -140,10 +140,11 @@ def client_logout():
 
 
 #--------------------------------------------------------------------------------------------------- LOG OUT FOR STORE [POST]-------------
-@app.route('/store_logout', methods=['GET'])
+@app.route('/store_logout', methods=['DELETE'])
 def store_logout():
     session.pop('store_id', None)
-    resp = make_response({'message': 'Logged out successfully'}, 200)
+    resp = make_response({'message': 'Logged out successfully'}, 204)
+    print('Session Ended for Store')
     return resp
 
 

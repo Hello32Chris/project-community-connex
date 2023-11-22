@@ -36,6 +36,7 @@ export default function Subscribers({ clientid, storeid }) {
 
     return (
         <div align='center'>
+            {clientView}
         </div>
     )
 }

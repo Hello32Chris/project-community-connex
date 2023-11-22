@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import StoreAcctPage from "./StoreAcctPage";
+import StoreLogout from './StoreLogout.js'
+import { useHistory } from "react-router-dom";
 
-function Navbar({ clientLoggedIn, storeLoggedIn, stores, loggedInStoreId }) {
-
+function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores, loggedInStoreId }) {
+  const history = useHistory()
+  
   const [toggle, setToggle] = useState(true)
   // const [searchToggle, setToggleSearch] = useState(false)
 
@@ -34,23 +37,48 @@ function Navbar({ clientLoggedIn, storeLoggedIn, stores, loggedInStoreId }) {
 
   // const loggedInStoreId = sessionStorage.getItem('store_id');
 
-  
+
+  const handleStoreLogout = async () => {
+    try {
+      const response = await fetch('/store_logout', {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      if (response.status === 204) {
+        console.log('Logout successful')
+
+        setTimeout(() => {
+          setStoreLoggedIn(false)
+          history.push(`/`);// After 4 seconds, navigate to the home page
+        }, 2000);
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  }
+
+
+
+
 
   const nav =
     <nav id="navbar">
       <div className="navbar">
         <li><NavLink className='link' to="/" activeClassName="active">Home</NavLink></li>
-{/*  ------------STORE NAV SECTION----------------- */}
+        {/*  ------------STORE NAV SECTION----------------- */}
         {storeLoggedIn ? (
           <>
             <li><NavLink className='link' to={`/stores/${loggedInStoreId}`} activeClassName="active" >Profile</NavLink></li>
             <li><NavLink className='link' to={`/stores/${loggedInStoreId}/transactions`} activeClassName="active" >Transactions</NavLink></li>
             <li><NavLink className='link' to={`/stores/${loggedInStoreId}/services`} activeClassName="active" >Goods and Services</NavLink></li>
             <li><NavLink className='link' to={`/stores/${loggedInStoreId}/SubscribedClients`} activeClassName="active" >Subscribed Client</NavLink></li>
-            <li><NavLink className='link' to={`/stores/${loggedInStoreId}/AccountManager`}  activeClassName="active" >Edit Account</NavLink></li>
+            <li><NavLink className='link' to={`/stores/${loggedInStoreId}/AccountManager`} activeClassName="active" >Edit Account</NavLink></li>
+            <li><button onClick={handleStoreLogout}>Logout</button></li>
           </>
         ) : (
-// ------------CLIENT NAV SECTION-----------------
+          // ------------CLIENT NAV SECTION-----------------
           <>
             <li><NavLink className='link' to="/stores" activeClassName="active" >Shops</NavLink></li>
             <li><NavLink className='link' to="/Subscribtions" activeClassName="active" >Subscribed Stores</NavLink></li>

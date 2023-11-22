@@ -47,6 +47,7 @@ export default function App() {
     }, []);
 
     const loggedInStoreId = shop ? shop.id : 'n/a'
+    console.log(loggedInStoreId)
 
     return (
         <>
@@ -54,7 +55,7 @@ export default function App() {
             <h1>COMMUNITY CONNEX!</h1>
         </header>
         <div id='bannerdiv'>
-            <Navbar loggedInStoreId={loggedInStoreId} clientLoggedIn={clientLoggedIn} stores={stores} storeLoggedIn={storeLoggedIn} />
+            <Navbar loggedInStoreId={loggedInStoreId} clientLoggedIn={clientLoggedIn} stores={stores} setStoreLoggedIn={setStoreLoggedIn} storeLoggedIn={storeLoggedIn} />
             
         </div>
         <div id='maindiv'>
