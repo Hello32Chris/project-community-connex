@@ -19,7 +19,7 @@ def clients():
 @app.route('/stores', methods=['GET'])
 def stores():
     stores = Store.query.all()
-    resp = make_response([store.to_dict(rules=('-_password_hash', '-subscribed_clients._password_hash', '-transactions.stores._password_hash')) for store in stores], 200)
+    resp = make_response([store.to_dict(rules=('-_password_hash', '-subscribed_clients._password_hash', '-transactions.stores._password_hash', '-transactions.client._password_hash', '-transactions.client.subscribed_stores')) for store in stores], 200)
     return resp
 
 #--------------------------------------------------------------------------------------------------- CLIENTS BY ID [GET]-------------------
