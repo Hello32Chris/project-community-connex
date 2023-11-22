@@ -12,14 +12,14 @@ def index():
 @app.route('/clients', methods=['GET'])
 def clients():
     clients = Client.query.all()
-    resp = make_response([client.to_dict(rules=('-_password_hash', '-transactions.store._password_hash', '-transactions.store.goods_services','-transactions.client_id', '-transactions.store.subscribed_clients')) for client in clients], 200)
+    resp = make_response([client.to_dict(rules=('-_password_hash', '-subscribed_stores._password_hash', '-transactions.store._password_hash', '-transactions.store.goods_services','-transactions.client_id', '-transactions.store.subscribed_clients')) for client in clients], 200)
     return resp
 
 #--------------------------------------------------------------------------------------------------- VIEW ALL STORES [GET]-------------------
 @app.route('/stores', methods=['GET'])
 def stores():
     stores = Store.query.all()
-    resp = make_response([store.to_dict(rules=('-_password_hash', '-transactions.stores._password_hash')) for store in stores], 200)
+    resp = make_response([store.to_dict(rules=('-_password_hash', '-subscribed_clients._password_hash', '-transactions.stores._password_hash')) for store in stores], 200)
     return resp
 
 #--------------------------------------------------------------------------------------------------- CLIENTS BY ID [GET]-------------------
@@ -67,7 +67,15 @@ def store_by_id(id):
 @app.route('/transactions', methods=['GET'])
 def transactions():
     transactions = Transaction.query.all()
-    resp = make_response([transaction.to_dict(rules=('-client._password_hash', '-store._password_hash','-store.goods_services')) for transaction in transactions], 200)
+    resp = make_response([transaction.to_dict(rules=('-client._password_hash', '-client.subscribed_stores','-store._password_hash','-store.goods_services', '-store.subscribed_clients')) for transaction in transactions], 200)
+    return resp
+
+
+#---------------------------------------------------------------------------------------------------VIEW ALL GOODS AND SERVICES [GET]-------------
+@app.route('/goods', methods=['GET'])
+def goods():
+    goods = GoodsService.query.all()
+    resp = make_response([good.to_dict(rules=('-store._password_hash', '-store.subscribed_clients', '-store.transactions' )) for good in goods])
     return resp
 
 
