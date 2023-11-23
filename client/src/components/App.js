@@ -55,7 +55,7 @@ export default function App() {
             <h1>COMMUNITY CONNEX!</h1>
         </header>
         <div id='bannerdiv'>
-            <Navbar loggedInStoreId={loggedInStoreId} clientLoggedIn={clientLoggedIn} stores={stores} setStoreLoggedIn={setStoreLoggedIn} storeLoggedIn={storeLoggedIn} />
+            <Navbar shop={shop} loggedInStoreId={loggedInStoreId} clientLoggedIn={clientLoggedIn} stores={stores} setStoreLoggedIn={setStoreLoggedIn} storeLoggedIn={storeLoggedIn} />
             
         </div>
         <div id='maindiv'>
@@ -65,8 +65,8 @@ export default function App() {
                 <Route exact path='/clients'><Clients clients={clients} /></Route>
                 <Route exact path='/stores'><Stores stores={stores} /></Route>
                 <Route exact path={`/stores/${loggedInStoreId}`}><StoreProfile stores={stores} /></Route>
-                <Route exact path={`/stores/${loggedInStoreId}/transactions`}><TransactionsByStore stores={stores} loggedInStoreId={loggedInStoreId} /></Route>
-                <Route exact path={`/stores/${loggedInStoreId}/AccountManager`}><StoreAcctPage loggedInStoreId={loggedInStoreId} stores={stores} /></Route>
+                <Route exact path={`/stores/${shop.id}/transactions`}><TransactionsByStore stores={stores} loggedInStoreId={loggedInStoreId} /></Route>
+                <Route exact path={`/stores/${shop.id}/AccountManager`}><StoreAcctPage loggedInStoreId={loggedInStoreId} stores={stores} /></Route>
                 <Route exact path="/About"><About /></Route>
                 {/* <Route exact path={`/stores/AccountManager`} component={<StoreAcctPage stores={stores} />} /> */}
                 {/* <Route exact path='/stores' render={(props) => <Stores {...props} stores={stores} />}></Route> */}

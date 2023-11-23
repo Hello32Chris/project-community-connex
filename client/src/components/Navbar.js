@@ -4,11 +4,8 @@ import StoreAcctPage from "./StoreAcctPage";
 import StoreLogout from './StoreLogout.js'
 import { useHistory } from "react-router-dom";
 
-function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores, loggedInStoreId }) {
+function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores, loggedInStoreId, shop }) {
   const history = useHistory()
-  
-  const [toggle, setToggle] = useState(true)
-  // const [searchToggle, setToggleSearch] = useState(false)
 
   const store = stores.map((store) => {
     const id = store.id ? store.id : 'N/A'
@@ -24,20 +21,6 @@ function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores, logge
   })
 
 
-  function toggleNav(e) {
-    e.preventDefault()
-    setToggle(!toggle)
-    console.log('clicked')
-  }
-  // function toggleSearch(e) {
-  //   e.preventDefault()
-  //   setToggleSearch(!searchToggle)
-  //   console.log('clicked')
-  // }
-
-  // const loggedInStoreId = sessionStorage.getItem('store_id');
-
-
   const handleStoreLogout = async () => {
     try {
       const response = await fetch('/store_logout', {
@@ -49,7 +32,7 @@ function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores, logge
 
         setTimeout(() => {
           setStoreLoggedIn(false)
-          history.push(`/`);// After 4 seconds, navigate to the home page
+          history.push(`/`);// After 2 seconds, navigate to the home page
         }, 2000);
       } else {
         console.error('Logout failed');
@@ -66,7 +49,7 @@ function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores, logge
   const nav =
     <nav id="navbar">
       <div className="navbar">
-        <li><NavLink className='link' to="/" activeClassName="active">Home</NavLink></li>
+        <li><NavLink className='link' to="/stores" activeClassName="active" >Shops</NavLink></li>
         {/*  ------------STORE NAV SECTION----------------- */}
         {storeLoggedIn ? (
           <>
@@ -80,8 +63,8 @@ function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores, logge
         ) : (
           // ------------CLIENT NAV SECTION-----------------
           <>
-            <li><NavLink className='link' to="/stores" activeClassName="active" >Shops</NavLink></li>
             <li><NavLink className='link' to="/Subscribtions" activeClassName="active" >Subscribed Stores</NavLink></li>
+            <li><NavLink className='link' to="/EditAccount" activeClassName="active" >Edit Account</NavLink></li>
           </>
         )}
         <li><NavLink className='link' to="/About" activeClassName="active" >About</NavLink></li>
