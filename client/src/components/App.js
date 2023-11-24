@@ -8,7 +8,8 @@ import Login from './Login';
 import StoreAcctPage from './StoreAcctPage';
 import Stores from './Stores';
 import StoreProfile from './StoreProfile';
-import TransactionsByStore from "./TransactionsByStore"
+import TransactionsByStore from "./TransactionsByStore";
+import Subscribers from './Subscribers';
 
 
 
@@ -41,13 +42,13 @@ export default function App() {
     useEffect(() => {
       fetch("/check_store_session").then((resp) => {
         if (resp.ok) {
-          resp.json().then((store) => setShop(store));
+          resp.json().then(setShop);
         }
       });
     }, []);
 
-    const loggedInStoreId = shop ? shop.id : 'n/a'
-    console.log(loggedInStoreId)
+    const loggedInStoreId = shop && shop.id;
+    console.log(shop)
 
     return (
         <>
@@ -64,12 +65,11 @@ export default function App() {
                 <Route exact path='/'><Home /></Route>
                 <Route exact path='/clients'><Clients clients={clients} /></Route>
                 <Route exact path='/stores'><Stores stores={stores} /></Route>
-                <Route exact path={`/stores/${loggedInStoreId}`}><StoreProfile stores={stores} /></Route>
-                <Route exact path={`/stores/${shop.id}/transactions`}><TransactionsByStore stores={stores} loggedInStoreId={loggedInStoreId} /></Route>
-                <Route exact path={`/stores/${shop.id}/AccountManager`}><StoreAcctPage loggedInStoreId={loggedInStoreId} stores={stores} /></Route>
+                <Route exact path={`/stores/profile`}><StoreProfile stores={stores} /></Route>
+                <Route exact path={`/stores/transactions`}><TransactionsByStore stores={stores} loggedInStoreId={loggedInStoreId} /></Route>
+                <Route exact path={`/stores/SubscribedClients`}><Subscribers loggedInStoreId={loggedInStoreId} clients={clients} stores={stores} /></Route>
+                <Route exact path={`/stores/AccountManager`}><StoreAcctPage loggedInStoreId={loggedInStoreId} stores={stores} /></Route>
                 <Route exact path="/About"><About /></Route>
-                {/* <Route exact path={`/stores/AccountManager`} component={<StoreAcctPage stores={stores} />} /> */}
-                {/* <Route exact path='/stores' render={(props) => <Stores {...props} stores={stores} />}></Route> */}
             </Switch>
         </div>
     </>

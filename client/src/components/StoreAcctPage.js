@@ -6,12 +6,25 @@ import StoreCard from "./StoreCard";
 import TransactionsByStore from "./TransactionsByStore";
 
 
-export default function StoreAcctPage({ stores, loggedInStoreId }) {
+export default function StoreAcctPage({ stores }) {
+
+  const [shop, setShop] = useState(null);
+
+  useEffect(() => {
+    fetch("/check_store_session").then((resp) => {
+      if (resp.ok) {
+        resp.json().then(setShop);
+      }
+    });
+  }, []);
+
+  const loggedInStoreId = shop ? shop.id : 'n/a';
 
   
   // const loggedInStoreId = sessionStorage.getItem('store_id');
   const [store, setStore] = useState(null);
   const [loading, setLoading] = useState(true);
+
   console.log(loggedInStoreId ? loggedInStoreId : 'none')
 
   useEffect(() => {
@@ -54,9 +67,9 @@ export default function StoreAcctPage({ stores, loggedInStoreId }) {
 
   //--------------------------------------------------------------------------------------------
   const initialValues = {
-    name: store.name,
-    email: store.email,
-    code: store.code,
+    name: shop.name,
+    email: shop.email,
+    code: shop.code,
   };
 
   const validationSchema = Yup.object().shape({
@@ -68,7 +81,7 @@ export default function StoreAcctPage({ stores, loggedInStoreId }) {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-        const response = await fetch(`/artists/user_${loggedIn.id}`, {
+        const response = await fetch(`/stores/${loggedInStoreId}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -77,11 +90,11 @@ export default function StoreAcctPage({ stores, loggedInStoreId }) {
         });
 
         if (response.ok) {
-            const updatedUser = await response.json();
+            const updatedStore = await response.json();
             setMessage('Update successful. Redirecting to home...');
-            setLoggedIn(updatedUser);
+            setLoggedIn(updatedStore);
             setTimeout(() => {
-                history.push(`/account_home/${updatedUser.username}`);
+                history.push(`/`);
             }, 2000);
         } else {
             const error = await response.json();
@@ -99,7 +112,7 @@ export default function StoreAcctPage({ stores, loggedInStoreId }) {
 
   return (
     <div>
-      <h2>Welcome to the Store Dashboard, {store.name}!</h2>
+      <h2>Welcome to the Store Dashboard, {shop.name}!</h2>
 
       {/* Formik form for editing store details */}
       <Formik
@@ -127,7 +140,7 @@ export default function StoreAcctPage({ stores, loggedInStoreId }) {
           </div>
 
           {/* Add more form fields as needed */}
-
+          <br/>
           <div>
             <button type="submit">Save Changes</button>
           </div>
@@ -135,7 +148,7 @@ export default function StoreAcctPage({ stores, loggedInStoreId }) {
       </Formik>
 
 
-      <h2>Welcome to the Store Dashboard, {store.name}!</h2>
+      <h2>Welcome to the Store Dashboard, {shop.name}!</h2>
       <p>Store Name: {store.name}</p>
       <p>Store Email: {store.email}</p>
       <p>Store Code: {store.code}</p>

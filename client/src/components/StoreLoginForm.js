@@ -1,6 +1,6 @@
 // LoginForm.js
 import { useHistory } from "react-router-dom";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
@@ -10,6 +10,18 @@ const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
 
   const history = useHistory()
   const [message, setMessage] = useState('');
+  const [shop, setShop] = useState(null);
+
+
+  useEffect(() => {
+    fetch("/check_store_session").then((resp) => {
+      if (resp.ok) {
+        resp.json().then(setShop);
+      }
+    });
+  }, []);
+
+
 
 
   const initialValues = {
@@ -42,7 +54,7 @@ const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
         
         setTimeout(() => {
           setStoreLoggedIn(true)
-          history.push(`/stores/${store.id}`);// After 4 seconds, navigate to the home page
+          history.push(`/stores/${store.id}`);// After 2 seconds, navigate to the home page
         }, 2000);
       } else {
         const error = await response.json();
@@ -63,10 +75,10 @@ const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
           <div>{message}</div>
           <div className="container">
               <svg className="loader" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340">
-                <circle cx="170" cy="170" r="135" stroke="red"/>
-                <circle cx="170" cy="170" r="110" stroke="yellow"/>
-                <circle cx="170" cy="170" r="85" stroke="blue"/>
-                <circle cx="170" cy="170" r="55" stroke="green"/>
+                <circle cx="170" cy="170" r="110" stroke="red"/>
+                <circle cx="170" cy="170" r="85" stroke="yellow"/>
+                <circle cx="170" cy="170" r="60" stroke="blue"/>
+                <circle cx="170" cy="170" r="40" stroke="green"/>
               </svg>  
             </div>
           </div>

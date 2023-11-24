@@ -1,25 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import StoreAcctPage from "./StoreAcctPage";
 import StoreLogout from './StoreLogout.js'
 import { useHistory } from "react-router-dom";
 
-function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores, loggedInStoreId, shop }) {
+function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) {
+  
+  
+  const [shop, setShop] = useState(null);
+
   const history = useHistory()
-
-  const store = stores.map((store) => {
-    const id = store.id ? store.id : 'N/A'
-    const name = store.name ? store.name : 'N/A'
-    const email = store.email ? store.email : 'N/A'
-    const code = store.code ? store.code : 'N/A'
-    const subs = store.subscribed_clients ? store.subscribed_clients : 'N/A'
-    const goods = store.goods_services ? store.goods_services : 'N/A'
-    const trans = store.transactions ? store.transactions : 'N/A'
-    return {
-      id, name, email, code, subs, goods, trans
-    }
-  })
-
+  
+  
 
   const handleStoreLogout = async () => {
     try {
@@ -43,6 +35,18 @@ function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores, logge
   }
 
 
+  //----------------------------------------------------------- STORE SESSION CHECK -------------------
+  useEffect(() => {
+    fetch("/check_store_session").then((resp) => {
+      if (resp.ok) {
+        resp.json().then(setShop);
+      }
+    });
+  }, []);
+
+  const loggedInStoreId = shop && shop.id;
+  const slog = shop ? true : false
+  console.log(shop)
 
 
 
@@ -51,13 +55,13 @@ function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores, logge
       <div className="navbar">
         <li><NavLink className='link' to="/stores" activeClassName="active" >Shops</NavLink></li>
         {/*  ------------STORE NAV SECTION----------------- */}
-        {storeLoggedIn ? (
+        {slog ? (
           <>
             <li><NavLink className='link' to={`/stores/${loggedInStoreId}`} activeClassName="active" >Profile</NavLink></li>
-            <li><NavLink className='link' to={`/stores/${loggedInStoreId}/transactions`} activeClassName="active" >Transactions</NavLink></li>
-            <li><NavLink className='link' to={`/stores/${loggedInStoreId}/services`} activeClassName="active" >Goods and Services</NavLink></li>
-            <li><NavLink className='link' to={`/stores/${loggedInStoreId}/SubscribedClients`} activeClassName="active" >Subscribed Client</NavLink></li>
-            <li><NavLink className='link' to={`/stores/${loggedInStoreId}/AccountManager`} activeClassName="active" >Edit Account</NavLink></li>
+            <li><NavLink className='link' to={`/stores/transactions`} activeClassName="active" >Transactions</NavLink></li>
+            <li><NavLink className='link' to={`/stores/services`} activeClassName="active" >Goods and Services</NavLink></li>
+            <li><NavLink className='link' to={`/stores/SubscribedClients`} activeClassName="active" >Subscribed Client</NavLink></li>
+            <li><NavLink className='link' to={`/stores/AccountManager`} activeClassName="active" >Edit Account</NavLink></li>
             <li><button onClick={handleStoreLogout}>Logout</button></li>
           </>
         ) : (
@@ -74,7 +78,7 @@ function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores, logge
   return (
     <div id="grid">
       <ul>
-        {!clientLoggedIn && !storeLoggedIn ? (
+        {!clientLoggedIn && !slog ? (
           // If neither client nor store is logged in, display login options
           <nav id="navbar">
             <div className="navbar">

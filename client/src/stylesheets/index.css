@@ -1,17 +1,14 @@
 body {
-  box-sizing: border-box;
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
   background-image: url("https://cdn.wallpapersafari.com/74/35/4XgZhW.png");
   background-repeat: no-repeat;
   background-size: cover;
-  position: static;
-  display: flex;
 }
 
 .header{
-  position: absolute;
+  display: flex;
 }
 
 .link {
@@ -77,6 +74,11 @@ footer {
   justify-content: center;
   display: 'flexbox';
   align-items: center;
+}
+
+#subbedclients{
+  display: flex;
+  justify-content: center;
 }
 
 /* ----------------------------------THIS CODE BLOCK MAKES THE LOADING CIRCLES ON LOGIN------------------------start */

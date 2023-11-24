@@ -27,16 +27,18 @@ class Store(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String, nullable=False)
     code = db.Column(db.String, unique=True)
 
-    # Many-to-Many relationship with Client
+    #--------------- Many-to-Many relationship with Client
     subscribed_clients = db.relationship('Client', secondary=subscription_table, back_populates='subscribed_stores')
 
-    # One-to-Many relationship with GoodsService
+    # ---------------One-to-Many relationship with GoodsService
     goods_services = db.relationship('GoodsService', back_populates='store', lazy=True)
 
-    # One-to-Many relationship with Transaction
+    # ---------------One-to-Many relationship with Transaction
     transactions = db.relationship('Transaction', back_populates='store', lazy=True)
+    
+    
 
-    serialize_rules = ('-transactions.store', '-subscribed_clients.subscribed_stores', '-goods_services.store', '-subscribed_clients.transactions')
+    serialize_rules = ('-password_hash', '-transactions.store', '-subscribed_clients.subscribed_stores', '-goods_services.store', '-subscribed_clients.transactions')
 
     @hybrid_property
     def password_hash(self):

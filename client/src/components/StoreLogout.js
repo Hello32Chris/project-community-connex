@@ -18,7 +18,7 @@ const StoreLogout = () => {
             console.log('Logout successful')
 
             setTimeout(() => {
-              history.push(`/`);// After 4 seconds, navigate to the home page
+              history.push(`/`);// After 2 seconds, navigate to the home page
             }, 2000);
         } else {
             console.error('Logout failed');

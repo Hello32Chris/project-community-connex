@@ -38,7 +38,7 @@ def client_by_id(id):
     return resp
 
 
-#--------------------------------------------------------------------------------------------------- STORES BY ID [GET]-------------------
+#--------------------------------------------------------------------------------------------------- STORES BY ID [GET, PATCH, DELETE]-------------------
 @app.route('/stores/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def store_by_id(id):
     store_by_id = Store.query.filter_by(id = id).first()
@@ -144,6 +144,7 @@ def client_logout():
 def store_logout():
     session.pop('store_id', None)
     resp = make_response({'message': 'Logged out successfully'}, 204)
+    print(session)
     print('Session Ended for Store')
     return resp
 
@@ -291,7 +292,7 @@ def check_client_session():
         print('Checking Client Session')
         client = Client.query.filter_by(id = client_id).first()
         if client:
-            resp = make_response(client.to_dict(), 200)
+            resp = make_response(client.to_dict(rules=('-_password_hash',)), 200)
             print('Client Sessions Active')
         else:
             resp = make_response({}, 404)
@@ -312,14 +313,17 @@ def check_store_session():
         print('Checking Store Session')
         store = Store.query.filter_by(id = store_id).first()
         if store: 
-            resp = make_response(store.to_dict(), 200)
-            print('Store Sessions Active')
+            resp = make_response(store.to_dict(rules=('-_password_hash',)), 200)
+            print('\nStore Sessions Active\n')
+            print(session)
         else:
             resp = make_response({}, 404)
             print('No Store Session found!')
+            print(session)
     else:
         resp = make_response({}, 404)
-        print('No Session found!')
+        print('\n<No Session found!>\n')
+        print(session)
     return resp
 
 

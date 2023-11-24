@@ -1,0 +1,17 @@
+const store = stores.map((store) => {
+    const id = store.id ? store.id : 'N/A'
+    const name = store.name ? store.name : 'N/A'
+    const email = store.email ? store.email : 'N/A'
+    const code = store.code ? store.code : 'N/A'
+    const subs = store.subscribed_clients ? store.subscribed_clients : 'N/A'
+    const goods = store.goods_services ? store.goods_services : 'N/A'
+    const trans = store.transactions ? store.transactions : 'N/A'
+    return {
+        id, name, email, code, subs, goods, trans
+    }
+})
+
+---------------------------------------------------
+
+<Route exact path={`/stores/AccountManager`} component={<StoreAcctPage stores={stores} />} /> 
+<Route exact path='/stores' render={(props) => <Stores {...props} stores={stores} />}></Route>  
