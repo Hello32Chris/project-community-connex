@@ -21,10 +21,14 @@ function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) {
       });
       if (response.status === 204) {
         console.log('Logout successful')
-
+        
         setTimeout(() => {
-          setStoreLoggedIn(false)
-          history.push(`/`);// After 2 seconds, navigate to the home page
+        setStoreLoggedIn(false)  
+        history.push(`/`);
+        }, 2000);
+        setTimeout(() => {  
+          window.location.reload()
+          // After 2 seconds, navigate to the home page
         }, 2000);
       } else {
         console.error('Logout failed');

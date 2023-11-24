@@ -53,8 +53,11 @@ const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
         setMessage('Login successful. Redirecting to Home...');
         
         setTimeout(() => {
+        history.push(`/stores/${store.id}`);
+        }, 2000);// After 2 seconds, navigate to the home page
+        setTimeout(() => {
           setStoreLoggedIn(true)
-          history.push(`/stores/${store.id}`);// After 2 seconds, navigate to the home page
+          window.location.reload()
         }, 2000);
       } else {
         const error = await response.json();
