@@ -19,6 +19,7 @@ export default function Clients({ clients }) {
     // console.log(clients.name)
     // console.log(clients.email)
     // console.log(clients.transactions)
+    console.log(clients)
 
     const clientView = clients.map((client) => {
         return (
@@ -31,7 +32,6 @@ export default function Clients({ clients }) {
         )
     })
 
-    // console.log(clients)
 
 
     return (

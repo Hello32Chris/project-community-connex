@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import StoreAcctPage from "./StoreAcctPage";
-import StoreLogout from './StoreLogout.js'
 import { useHistory } from "react-router-dom";
 
-function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) {
+function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) {
   
   
   const [shop, setShop] = useState(null);
+  const [client, setClient] = useState(null);
 
   const history = useHistory()
   
   
+  //----------------------------------------------------------- STORE LOGOUT -------------------
 
   const handleStoreLogout = async () => {
     try {
@@ -38,6 +39,33 @@ function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) {
     }
   }
 
+  //----------------------------------------------------------- CLIENT LOGOUT -------------------
+  
+  const handleClientLogout = async () => {
+    try {
+      const response = await fetch('/client_logout', {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      if (response.status === 204) {
+        console.log('Logout successful')
+        
+        setTimeout(() => {
+          setClientLoggedIn(false)  
+          history.push(`/`);
+        }, 2000);
+        setTimeout(() => {  
+          window.location.reload()
+          // After 2 seconds, navigate to the home page
+        }, 2000);
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  }
+
 
   //----------------------------------------------------------- STORE SESSION CHECK -------------------
   useEffect(() => {
@@ -49,8 +77,25 @@ function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) {
   }, []);
 
   const loggedInStoreId = shop && shop.id;
-  const slog = shop ? true : false
+
+  const slog = shop ? true : false;
+
   console.log(shop)
+  //----------------------------------------------------------- CLIENT SESSION CHECK -------------------
+
+  useEffect(() => {
+    fetch("/check_client_session").then((resp) => {
+      if (resp.ok) {
+        resp.json().then(setClient);
+      }
+    });
+  }, []);
+
+  const loggedInClientId = client && client.id;
+
+  const clog = client ? true : false
+  
+  console.log(client)
 
 
 
@@ -73,6 +118,7 @@ function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) {
           <>
             <li><NavLink className='link' to="/Subscribtions" activeClassName="active" >Subscribed Stores</NavLink></li>
             <li><NavLink className='link' to="/EditAccount" activeClassName="active" >Edit Account</NavLink></li>
+            <li><button onClick={handleClientLogout}>Logout</button></li>
           </>
         )}
         <li><NavLink className='link' to="/About" activeClassName="active" >About</NavLink></li>
@@ -82,7 +128,7 @@ function Navbar({ clientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) {
   return (
     <div id="grid">
       <ul>
-        {!clientLoggedIn && !slog ? (
+        {!clog && !slog ? (
           // If neither client nor store is logged in, display login options
           <nav id="navbar">
             <div className="navbar">

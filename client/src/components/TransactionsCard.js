@@ -1,9 +1,10 @@
 import React from "react";
 
-export default function TransactionCard({ trans, clientId }) {
-  console.log(trans)
+export default function TransactionCard({ trans, clientid }) {
+  console.log(clientid)
   // Filter transactions based on the client_id and then I map it out using variables
-  const clientTransactions = trans.filter((transaction) => transaction.client.id === clientId);
+  const clientTransactions = trans.filter((transaction) => 
+    transaction.client_id == clientid);
 
     const transactionDisplay = clientTransactions.map((transaction) => {
     const key = transaction.id;
@@ -21,6 +22,7 @@ export default function TransactionCard({ trans, clientId }) {
       totalPaid
     };
   });
+  console.log(trans)
 
   return (
     <div>

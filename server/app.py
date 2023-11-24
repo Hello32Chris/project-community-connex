@@ -22,7 +22,8 @@ def stores():
     resp = make_response([store.to_dict(rules=('-_password_hash', '-subscribed_clients._password_hash', '-transactions.stores._password_hash', '-transactions.client._password_hash', '-transactions.client.subscribed_stores')) for store in stores], 200)
     return resp
 
-#--------------------------------------------------------------------------------------------------- CLIENTS BY ID [GET]-------------------
+
+#--------------------------------------------------------------------------------------------------- CLIENTS BY ID [GET, PATCH, DELETE]-------------------
 @app.route('/clients/<int:id>', methods=['GET', 'DELETE'])
 def client_by_id(id):
     client_by_id = Client.query.filter_by(id = id).first()
@@ -33,8 +34,17 @@ def client_by_id(id):
             db.session.delete(client_by_id)
             db.session.commit()
             resp = make_response({}, 204)
+        elif request.method == 'PATCH':
+            form_data=request.get_json()
+            try:
+                for attr in form_data:
+                    setattr(client_by_id, attr, form_data.get(attr))
+                db.session.commit()
+                resp=make_response(client_by_id.to_dict(), 202)
+            except ValueError:
+                resp=make_response({ 'errors' : 'No client found!'}, 404)
     else:
-        resp = make_response({"error" : "No Client found!"})
+        resp = make_response({"error" : ['Validation Errors']})
     return resp
 
 
@@ -132,10 +142,12 @@ def store_login():
 
 
 #--------------------------------------------------------------------------------------------------- LOG OUT FOR CLIENT [POST]-------------
-@app.route('/client_logout', methods=['GET'])
+@app.route('/client_logout', methods=['DELETE'])
 def client_logout():
     session.pop('client_id', None)
-    resp = make_response({'message': 'Logged out successfully'}, 200)
+    resp = make_response({'message': 'Logged out successfully'}, 204)
+    print(session)
+    print('Session Ended for Client\n')
     return resp
 
 
@@ -145,7 +157,7 @@ def store_logout():
     session.pop('store_id', None)
     resp = make_response({'message': 'Logged out successfully'}, 204)
     print(session)
-    print('Session Ended for Store')
+    print('Session Ended for Store\n')
     return resp
 
 
@@ -257,9 +269,9 @@ def create_goods_service():
     return make_response({'message': 'GoodsService created successfully'}, 201)
 
 
-# #--------------------------------------------------------------------------------------------------- CLIENT SUBSCRIBE TO STORE [POST]-------------
+# #--------------------------------------------------------------------------------------------------- CLIENT SUBSCRIBE TO STORE BY CODE [POST]-------------
 @app.route('/subscribe', methods=['POST'])
-def subscribe_to_store():
+def subscribe_to_store_by_code():
     form_data = request.get_json()
 
     # I made it so it grabs the client currently logged in by default via the session
@@ -268,6 +280,32 @@ def subscribe_to_store():
 
     # HERE I Retrieve the client and store objects
     client = Client.query.get(client_id)
+    store = Store.query.filter_by(code=store_code).first()
+
+    if client and store:
+        # Check if the client is already subscribed to the store
+        if store not in client.subscribed_stores:
+            client.subscribed_stores.append(store)
+            db.session.commit()
+            return make_response({'message': f'Client {client_id} subscribed to store {store_code} successfully'})
+        else:
+            return make_response({'message': f'Client {client_id} is already subscribed to store {store_code}'})
+    else:
+        return make_response({'error': 'Invalid client ID or store code'}), 404
+    
+ # #--------------------------------------------------------------------------------------------------- CLIENT SUBSCRIBE TO STORE [POST]-------------   
+@app.route('/subscribe', methods=['POST'])
+def subscribe_to_store():
+    form_data = request.get_json()
+
+    # I made it so it grabs the client currently logged in by default via the session
+    client_id = session.get('client_id')
+    print(client_id)
+    store_code = form_data['store_code']
+    print(store_code)
+
+    # HERE I Retrieve the client and store objects
+    client = Client.query.filter_by(id=client_id).first()
     store = Store.query.filter_by(code=store_code).first()
 
     if client and store:
@@ -292,14 +330,14 @@ def check_client_session():
         print('Checking Client Session')
         client = Client.query.filter_by(id = client_id).first()
         if client:
-            resp = make_response(client.to_dict(rules=('-_password_hash',)), 200)
+            resp = make_response(client.to_dict(rules=('-_password_hash', '-subscribed_stores._password_hash')), 200)
             print('Client Sessions Active')
         else:
             resp = make_response({}, 404)
             print('No Client Session found!')
     else:
-            resp = make_response({}, 404)
-            print('No Session found!')
+        resp = make_response({}, 404)
+        print('No Session found!')
     return resp
 
 

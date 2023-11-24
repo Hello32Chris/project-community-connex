@@ -40,9 +40,12 @@ const ClientLoginForm = ({ getClients, setClientLoggedIn, clientLoggedIn }) => {
         // getClients(client); // this will allow me to alter state
         setMessage('Login successful. Redirecting to home...');
         setTimeout(() => {
-          setClientLoggedIn(true)
-          history.push('/About');// After 4 seconds, navigate to the home page
-        }, 2000);
+          history.push(`/stores`);
+          }, 2000);// After 2 seconds, navigate to the home page
+          setTimeout(() => {
+            setClientLoggedIn(true)
+            window.location.reload()
+          }, 2000);
 
       } else {
         const error = await response.json();

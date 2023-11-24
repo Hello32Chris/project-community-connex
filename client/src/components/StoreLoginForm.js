@@ -1,6 +1,6 @@
 // LoginForm.js
 import { useHistory } from "react-router-dom";
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
@@ -10,16 +10,6 @@ const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
 
   const history = useHistory()
   const [message, setMessage] = useState('');
-  const [shop, setShop] = useState(null);
-
-
-  useEffect(() => {
-    fetch("/check_store_session").then((resp) => {
-      if (resp.ok) {
-        resp.json().then(setShop);
-      }
-    });
-  }, []);
 
 
 

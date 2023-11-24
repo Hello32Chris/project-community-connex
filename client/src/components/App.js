@@ -19,9 +19,10 @@ export default function App() {
     const [stores, setStores] = useState([])
     const [storeLoggedIn, setStoreLoggedIn] = useState(false)
     const [clientLoggedIn, setClientLoggedIn] = useState(false)
+    const [shop, setShop] = useState(null);
     // const [loggedInStoreId, setLoggedInStoreId] = useState(null);
     
-    //this fetch is for clients card
+    //-------------------------------------------------------------------------- CLIENTS FETCH -------------
     useEffect(() => {
         fetch('/clients')
         .then((resp) => resp.json())
@@ -29,6 +30,7 @@ export default function App() {
     }, [])
     
 
+    //-------------------------------------------------------------------------- STORES FETCH -------------
 
     useEffect(() => {
         fetch('/stores')
@@ -36,8 +38,7 @@ export default function App() {
             .then((data) => setStores(data))
     }, [])
 
-    // const loggedInStoreId = sessionStorage.getItem('store_id');
-    const [shop, setShop] = useState(null);
+    // --------------------------------------------------------- CHECK SESSION FOR STORE ---------------------
 
     useEffect(() => {
       fetch("/check_store_session").then((resp) => {
@@ -56,7 +57,7 @@ export default function App() {
             <h1>COMMUNITY CONNEX!</h1>
         </header>
         <div id='bannerdiv'>
-            <Navbar shop={shop} loggedInStoreId={loggedInStoreId} clientLoggedIn={clientLoggedIn} stores={stores} setStoreLoggedIn={setStoreLoggedIn} storeLoggedIn={storeLoggedIn} />
+            <Navbar shop={shop} loggedInStoreId={loggedInStoreId} setClientLoggedIn={setClientLoggedIn} stores={stores} setStoreLoggedIn={setStoreLoggedIn} storeLoggedIn={storeLoggedIn} />
             
         </div>
         <div id='maindiv'>
@@ -65,7 +66,7 @@ export default function App() {
                 <Route exact path='/'><Home /></Route>
                 <Route exact path='/clients'><Clients clients={clients} /></Route>
                 <Route exact path='/stores'><Stores stores={stores} /></Route>
-                <Route exact path={`/stores/profile`}><StoreProfile stores={stores} /></Route>
+                <Route exact path={`/stores/${loggedInStoreId}`}><StoreProfile stores={stores} /></Route>
                 <Route exact path={`/stores/transactions`}><TransactionsByStore stores={stores} loggedInStoreId={loggedInStoreId} /></Route>
                 <Route exact path={`/stores/SubscribedClients`}><Subscribers loggedInStoreId={loggedInStoreId} clients={clients} stores={stores} /></Route>
                 <Route exact path={`/stores/AccountManager`}><StoreAcctPage loggedInStoreId={loggedInStoreId} stores={stores} /></Route>

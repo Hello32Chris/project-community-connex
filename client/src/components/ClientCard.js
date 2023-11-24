@@ -6,7 +6,7 @@ export default function ClientCard({ id, name, email, trans }) {
   // console.log(name)
   // console.log(email)
   // console.log(id)
-  
+    console.log(id)
 
     //---------------STATE-------------
     const [client, setClient] = useState([]);
@@ -58,7 +58,7 @@ export default function ClientCard({ id, name, email, trans }) {
             <b><h1>Transactions:</h1> </b>
             <button onClick={toggleTransactions}>{showTransactions ? 'Hide Transactions' : 'Show Transactions'}</button>
             <br/>
-            {showTransactions && <TransactionsCard  clientId={id} trans={trans} />}
+            {showTransactions && <TransactionsCard  clientid={id} trans={trans} />}
         <br/>
         </div>
     )
