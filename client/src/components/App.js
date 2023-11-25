@@ -10,6 +10,7 @@ import Stores from './Stores';
 import StoreProfile from './StoreProfile';
 import TransactionsByStore from "./TransactionsByStore";
 import Subscribers from './Subscribers';
+import ClientAccountPage from './ClientAcctPage';
 
 
 
@@ -65,6 +66,7 @@ export default function App() {
                 <Route exact path="/Login"><Login  setClientLoggedIn={setClientLoggedIn} setStoreLoggedIn={setStoreLoggedIn} /></Route>
                 <Route exact path='/'><Home /></Route>
                 <Route exact path='/clients'><Clients clients={clients} /></Route>
+                <Route exact path='/EditAccount'><ClientAccountPage clients={clients} /></Route>
                 <Route exact path='/stores'><Stores stores={stores} /></Route>
                 <Route exact path={`/stores/${loggedInStoreId}`}><StoreProfile stores={stores} /></Route>
                 <Route exact path={`/stores/transactions`}><TransactionsByStore stores={stores} loggedInStoreId={loggedInStoreId} /></Route>

@@ -32,6 +32,8 @@ export default function SubscribeButton({ storecode, storeid }) {
             setSubToggle(true)
       }, [mappedStoreIds, storeid])
 
+
+      
     const handleSubscribe = async () => {
         try {
             const response = await fetch('/subscribe', {

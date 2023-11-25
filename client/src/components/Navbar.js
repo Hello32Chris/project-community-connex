@@ -109,7 +109,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
             <li><NavLink className='link' to={`/stores/${loggedInStoreId}`} activeClassName="active" >Profile</NavLink></li>
             <li><NavLink className='link' to={`/stores/transactions`} activeClassName="active" >Transactions</NavLink></li>
             <li><NavLink className='link' to={`/stores/services`} activeClassName="active" >Goods and Services</NavLink></li>
-            <li><NavLink className='link' to={`/stores/SubscribedClients`} activeClassName="active" >Subscribed Client</NavLink></li>
+            <li><NavLink className='link' to={`/clients`} activeClassName="active" >Subscribed Client</NavLink></li>
             <li><NavLink className='link' to={`/stores/AccountManager`} activeClassName="active" >Edit Account</NavLink></li>
             <li><button onClick={handleStoreLogout}>Logout</button></li>
           </>

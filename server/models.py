@@ -31,10 +31,10 @@ class Store(db.Model, SerializerMixin):
     subscribed_clients = db.relationship('Client', secondary=subscription_table, back_populates='subscribed_stores')
 
     # ---------------One-to-Many relationship with GoodsService
-    goods_services = db.relationship('GoodsService', back_populates='store', lazy=True)
+    goods_services = db.relationship('GoodsService', back_populates='store', lazy=True, cascade='all, delete-orphan')
 
     # ---------------One-to-Many relationship with Transaction
-    transactions = db.relationship('Transaction', back_populates='store', lazy=True)
+    transactions = db.relationship('Transaction', back_populates='store', lazy=True, cascade='all, delete-orphan')
     
     
 
@@ -78,7 +78,7 @@ class Client(db.Model, SerializerMixin):
     subscribed_stores = db.relationship('Store', secondary=subscription_table, back_populates='subscribed_clients')
     
     # One-to-Many relationship with Transaction
-    transactions = db.relationship('Transaction', back_populates='client', lazy=True)
+    transactions = db.relationship('Transaction', back_populates='client', lazy=True, cascade='all, delete-orphan')
 
     serialize_rules = ('-transactions.client', '-subscribed_stores.subscribed_clients', '-subscribed_stores.transactions' )
 

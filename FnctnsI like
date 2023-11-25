@@ -15,3 +15,7 @@ const store = stores.map((store) => {
 
 <Route exact path={`/stores/AccountManager`} component={<StoreAcctPage stores={stores} />} /> 
 <Route exact path='/stores' render={(props) => <Stores {...props} stores={stores} />}></Route>  
+
+
+
+// eslint-disable-next-line

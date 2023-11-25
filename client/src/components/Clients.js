@@ -1,33 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ClientCard from "./ClientCard";
 
 export default function Clients({ clients }) {
 
-//     function getSessionStoreId() {
-//         const sessionId = sessionStorage.getItem("sessionId");
-//         return sessionId;
-//       }
+    const [shop, setShop] = useState(null)
 
-//     const loggedInStoreId = getSessionStoreId();
+    useEffect(() => {
+        fetch("/check_store_session").then((resp) => {
+          if (resp.ok) {
+            resp.json().then(setShop);
+          }
+        });
+      }, []);
 
-//     const filteredClients = clients.filter((client) =>
-//     client.subscribed_stores.some((store) => store.id === loggedInStoreId)
-//   );
+    const subbedClients = shop?.subscribed_clients || [];
+
+    const mappedSubbedClients = subbedClients?.map((client) => {
+        console.log(client)
+        const id = client.id
+        return id
+    })
+    console.log(mappedSubbedClients)
+
+    // const checkSub = useEffect(() => {
+    //     if (mappedSubbedClients.includes())
+    // })
+
     
 
 
     // console.log(clients.name)
     // console.log(clients.email)
     // console.log(clients.transactions)
-    console.log(clients)
+    // console.log(clients)
 
-    const clientView = clients.map((client) => {
+    const clientView = subbedClients.map((client) => {
         return (
             <ClientCard key={client.id}
                 id={client.id}
                 name={client.name}
                 email={client.email}
-                trans={client.transactions}
             />
         )
     })

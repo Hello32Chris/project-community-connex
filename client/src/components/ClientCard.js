@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TransactionsCard from "./TransactionsCard";
 
 export default function ClientCard({ id, name, email, trans }) {
@@ -11,33 +11,37 @@ export default function ClientCard({ id, name, email, trans }) {
     //---------------STATE-------------
     const [client, setClient] = useState([]);
     const [showTransactions, setShowTransactions] = useState(false);
+    const [shop, setShop] = useState(null);
 
 
       //---------------FUNCTIONALITY-------------
-    const toggleTransactions = () => {
-      setShowTransactions(!showTransactions);
-    };
+    // const toggleTransactions = () => {
+    //   setShowTransactions(!showTransactions);
+    // };
 
+    useEffect(() => {
+      fetch("/check_store_session").then((resp) => {
+        if (resp.ok) {
+          resp.json().then(setShop);
+        }
+      });
+    }, []);
+
+    const subbedClients = shop ? shop.subscribed_clients : ''
+    
+    console.log(subbedClients)
+
+ 
+    const clientIds = subbedClients.map((client) => {
+      const id = client.id
+      return id})
+  
+
+    console.log(clientIds)
 
 
 
   //---------------------------------------------------------------- MY CLIENT DELETE BUTTON-------------------------------
-    function handleDeleteClient(id) {
-      
-        // eslint-disable-next-line
-        const confirmDelete = window.confirm(`Are you sure you want to delete ${name}?`)
-
-        if (confirmDelete) {
-            fetch(`/clients/${id}`, { method: "DELETE" }).then((resp) => {
-            if (resp.ok) {
-            setClient((clientArr) =>
-              clientArr.filter((client) => client.id !== id)
-            );
-            // window.location.reload();
-            alert(`Client ${name} Deleted!`)
-          }
-        });
-      }}
 
 
       
@@ -55,10 +59,10 @@ export default function ClientCard({ id, name, email, trans }) {
             <button onClick={() => handleDeleteClient(id)}>Delete</button>
             <br/>
             <br/>
-            <b><h1>Transactions:</h1> </b>
+            {/* <b><h1>Transactions:</h1> </b>
             <button onClick={toggleTransactions}>{showTransactions ? 'Hide Transactions' : 'Show Transactions'}</button>
             <br/>
-            {showTransactions && <TransactionsCard  clientid={id} trans={trans} />}
+            {showTransactions && <TransactionsCard  clientid={id} trans={trans} />} */}
         <br/>
         </div>
     )

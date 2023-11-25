@@ -42,7 +42,7 @@ const ClientLoginForm = ({ getClients, setClientLoggedIn, clientLoggedIn }) => {
         setTimeout(() => {
           history.push(`/stores`);
           }, 2000);// After 2 seconds, navigate to the home page
-          setTimeout(() => {
+        setTimeout(() => {
             setClientLoggedIn(true)
             window.location.reload()
           }, 2000);
@@ -50,6 +50,8 @@ const ClientLoginForm = ({ getClients, setClientLoggedIn, clientLoggedIn }) => {
       } else {
         const error = await response.json();
         console.error('Login failed:', error);
+        alert('No user found!')
+        window.location.reload()
         setClientLoggedIn(false)
       }
     } catch (error) {
