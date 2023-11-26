@@ -10,39 +10,27 @@ export default function Clients({ clients }) {
           if (resp.ok) {
             resp.json().then(setShop);
           }
+        if (!shop) {
+        return <div>Loading...</div>;
+      }
         });
       }, []);
 
+    
     const subbedClients = shop?.subscribed_clients || [];
-
-    const mappedSubbedClients = subbedClients?.map((client) => {
-        console.log(client)
-        const id = client.id
-        return id
-    })
-    console.log(mappedSubbedClients)
-
-    // const checkSub = useEffect(() => {
-    //     if (mappedSubbedClients.includes())
-    // })
+    const mappedSubbedClients = subbedClients?.map((client) => client)
 
     
 
+    console.log(mappedSubbedClients)
 
-    // console.log(clients.name)
-    // console.log(clients.email)
-    // console.log(clients.transactions)
-    // console.log(clients)
-
-    const clientView = subbedClients.map((client) => {
-        return (
+    const clientView = mappedSubbedClients.map((client) => (
             <ClientCard key={client.id}
                 id={client.id}
                 name={client.name}
                 email={client.email}
             />
-        )
-    })
+        ))
 
 
 

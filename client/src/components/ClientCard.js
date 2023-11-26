@@ -14,30 +14,7 @@ export default function ClientCard({ id, name, email, trans }) {
     const [shop, setShop] = useState(null);
 
 
-      //---------------FUNCTIONALITY-------------
-    // const toggleTransactions = () => {
-    //   setShowTransactions(!showTransactions);
-    // };
-
-    useEffect(() => {
-      fetch("/check_store_session").then((resp) => {
-        if (resp.ok) {
-          resp.json().then(setShop);
-        }
-      });
-    }, []);
-
-    const subbedClients = shop ? shop.subscribed_clients : ''
-    
-    console.log(subbedClients)
-
  
-    const clientIds = subbedClients.map((client) => {
-      const id = client.id
-      return id})
-  
-
-    console.log(clientIds)
 
 
 
