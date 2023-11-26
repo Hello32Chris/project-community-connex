@@ -87,7 +87,8 @@ with app.app_context():
     new_goods_service = GoodsService(
         name = "Full Wash - Inside/Out",
         price = 60,
-        store_id = 1
+        store_id = 1,
+        image = "https://media.istockphoto.com/id/1287044692/photo/worker-washing-red-car-with-sponge-on-a-car-wash.jpg?s=612x612&w=0&k=20&c=_6WO9k1qkDub5CAEQgnORMduUoQJkU6w3jjVQTdTdwQ="
     )
     db.session.add(new_goods_service)
     db.session.commit()
@@ -95,7 +96,8 @@ with app.app_context():
     new_goods_service2 = GoodsService(
         name = "1/2 hour walk",
         price = 20,
-        store_id = 2
+        store_id = 2,
+        image = "https://images.ctfassets.net/sfnkq8lmu5d7/XWZ5ngsqd3VoV7gz3qKVf/292a0569a1a36e3a4ff6989ceed48072/The_Wildest_Editorial_10_Dog_Walking_Tips_Everyone_Should_Know__Hero.jpg?w=1000&h=750&fl=progressive&q=70&fm=jpg"
     )
     db.session.add(new_goods_service2)
     db.session.commit()
@@ -103,7 +105,8 @@ with app.app_context():
     new_goods_service3 = GoodsService(
         name = "Wax Job",
         price = 30,
-        store_id = 1
+        store_id = 1,
+        image = "https://www.shutterstock.com/image-photo/woman-washing-her-car-selfservice-600nw-1861269733.jpg"
     )
     db.session.add(new_goods_service3)
     db.session.commit()
@@ -111,7 +114,8 @@ with app.app_context():
     new_goods_service4 = GoodsService(
         name = "Same Day Delivery",
         price = 25,
-        store_id = 3
+        store_id = 3,
+        image = "https://www.pluggedin.com/wp-content/uploads/2023/06/kikis-delivery-service-1024x587.jpg"
     )
     db.session.add(new_goods_service4)
     db.session.commit()
@@ -119,7 +123,8 @@ with app.app_context():
     new_goods_service5 = GoodsService(
         name = "Full Body Massage - 1 hour",
         price = 70,
-        store_id = 4
+        store_id = 4,
+        image = "https://hips.hearstapps.com/hmg-prod/images/spa-woman-female-enjoying-massage-in-spa-centre-royalty-free-image-492676582-1549988720.jpg"
     )
     db.session.add(new_goods_service5)
     db.session.commit()

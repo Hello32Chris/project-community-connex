@@ -81,6 +81,10 @@ footer {
   justify-content: center;
 }
 
+.goodsimage{
+  width: 200px;
+  height: 150px;
+}
 
 
 /* ----------------------------------THIS CODE BLOCK MAKES THE LOADING CIRCLES ON LOGIN------------------------start */

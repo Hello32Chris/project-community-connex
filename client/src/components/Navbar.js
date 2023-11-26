@@ -95,7 +95,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
 
   const clog = client ? true : false
   
-  console.log(client)
+  // console.log(client)
 
 
 
