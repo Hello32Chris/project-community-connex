@@ -9,9 +9,10 @@ import StoreAcctPage from './StoreAcctPage';
 import Stores from './Stores';
 import StoreProfile from './StoreProfile';
 import TransactionsByStore from "./TransactionsByStore";
-import Subscribers from './Subscribers';
+import Subscribers from './SubscribedStores';
 import ClientAccountPage from './ClientAcctPage';
 import GoddsServiceForm from './CreateGoodsService';
+import SubscribedStores from './SubscribedStores';
 
 
 
@@ -71,7 +72,7 @@ export default function App() {
                 <Route exact path='/stores'><Stores stores={stores} /></Route>
                 <Route exact path={`/stores/${loggedInStoreId}`}><StoreProfile stores={stores} /></Route>
                 <Route exact path={`/stores/transactions`}><TransactionsByStore stores={stores} loggedInStoreId={loggedInStoreId} /></Route>
-                <Route exact path={`/stores/SubscribedClients`}><Subscribers loggedInStoreId={loggedInStoreId} clients={clients} stores={stores} /></Route>
+                <Route exact path={`/stores/StoreSubscriptions`}><SubscribedStores /></Route>
                 <Route exact path={`/stores/AccountManager`}><StoreAcctPage loggedInStoreId={loggedInStoreId} stores={stores} /></Route>
                 <Route exact path={`/stores/services`}><GoddsServiceForm loggedInStoreId={loggedInStoreId} stores={stores} /></Route>
                 <Route exact path="/About"><About /></Route>

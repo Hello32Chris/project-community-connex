@@ -77,9 +77,13 @@ footer {
 }
 
 #subbedclients{
-  display: flex;
-  justify-content: center;
+  background-color: grey;
+  height: 0;
+  width: 20%;
+  padding-bottom: 20%;
+  margin-left: 40%;
 }
+
 
 .goodsimage{
   width: 200px;
@@ -87,6 +91,14 @@ footer {
 }
 
 #account{
+  background-color: grey;
+  height: 0;
+  width: 20%;
+  padding-bottom: 20%;
+  margin-left: 40%;
+}
+
+.storess{
   background-color: grey;
   height: 0;
   width: 20%;

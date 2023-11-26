@@ -12,8 +12,8 @@ export default function Stores({ stores }) {
 
     // const filteredStores = stores.filter((store) =>
     // store.subscribed_clients.some((store) => store.id === loggedInStoreId)
-  // );
-    
+    // );
+
 
 
     // console.log(stores.name)
@@ -21,7 +21,8 @@ export default function Stores({ stores }) {
     // console.log(stores.transactions)
 
     const storeView = stores.map((store) => {
-        return <StoreCard key={store.id}
+        return <div align='center' className="storess">
+            <StoreCard key={store.id}
                 storeid={store.id}
                 storename={store.name}
                 storeemail={store.email}
@@ -29,14 +30,15 @@ export default function Stores({ stores }) {
                 storesubs={store.subscribed_clients}
                 storegoods={store.goods_services}
                 storetrans={store.transactions}
-            />   
+            />
+        </div>
     })
 
     // console.log(stores)
 
 
     return (
-        <div align='center'>
+        <div>
             {storeView}
         </div>
     )

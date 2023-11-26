@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SubscribeButton from "./SubscribeButton";
-import Subscribers from './Subscribers'
+import Subscribers from './SubscribedStores'
 
 export default function StoreCard({ storeid, storename, storeemail, storecode, storegoods }) {
 

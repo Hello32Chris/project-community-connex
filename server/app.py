@@ -396,7 +396,8 @@ def check_client_session():
         client = Client.query.filter_by(id = client_id).first()
         if client:
             resp = make_response(client.to_dict(rules=('-_password_hash', '-subscribed_stores._password_hash')), 200)
-            print('Client Sessions Active')
+            print('\nClient Sessions Active\n')
+            print(session)
         else:
             resp = make_response({}, 404)
             print('No Client Session found!')

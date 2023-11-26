@@ -116,7 +116,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
         ) : (
           // ------------CLIENT NAV SECTION-----------------
           <>
-            <li><NavLink className='link' to="/Subscribtions" activeClassName="active" >Subscribed Stores</NavLink></li>
+            <li><NavLink className='link' to="/stores/StoreSubscriptions" activeClassName="active" >Subscribed Stores</NavLink></li>
             <li><NavLink className='link' to="/EditAccount" activeClassName="active" >Edit Account</NavLink></li>
             <li><button onClick={handleClientLogout}>Logout</button></li>
           </>
