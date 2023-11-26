@@ -27,7 +27,7 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
     <ul key={good.id}>
       <h2><b>{good.name}</b></h2>
       <p>${parseFloat(good.price).toFixed(2)}</p>
-      <p>{good.image}</p>
+      <img className="goodsimage" src={good.image} alt={`image for ${good.name} at price $${good.price}`} title={`image for ${good.name} at price $${good.price}`} />
     </ul>
   ))
 
@@ -47,6 +47,7 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
     setSubToggle(!subToggle)
 
   }
+  console.log(storegoods)
 
   return (
     <div>
