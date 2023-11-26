@@ -319,6 +319,22 @@ def create_goods_service():
     return make_response({'message': 'GoodsService created successfully'}, 201)
 
 
+#---------------------------------------------------------------------------------------------------REMOVE GOODS/SERVICE [DELETE]-------------
+@app.route('/delete_goods_service/<int:goods_service_id>', methods=['DELETE'])
+def delete_goods_service(goods_service_id):
+    # Retrieve the GoodsService from the database
+    goods_service = GoodsService.query.get(goods_service_id)
+
+    # Check if the GoodsService exists
+    if goods_service:
+    # Delete the GoodsService from the database
+        db.session.delete(goods_service)
+        db.session.commit()
+        return make_response({'message': 'GoodsService deleted successfully'}, 200)
+    else:   
+        return make_response({'error': 'GoodsService not found'}, 404)
+
+
 # #--------------------------------------------------------------------------------------------------- CLIENT SUBSCRIBE TO STORE BY CODE [POST]-------------
 @app.route('/subscribe', methods=['POST'])
 def subscribe_to_store_by_code():
@@ -401,7 +417,7 @@ def check_store_session():
         print('Checking Store Session')
         store = Store.query.filter_by(id = store_id).first()
         if store: 
-            resp = make_response(store.to_dict(rules=('-_password_hash', '-subscribed_clients._password_hash')), 200)
+            resp = make_response(store.to_dict(rules=('-_password_hash', '-subscribed_clients._password_hash', '-transactions.client._password_hash', '-transactions.client.subscribed_stores')), 200)
             print('\nStore Sessions Active\n')
             print(session)
         else:
