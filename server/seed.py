@@ -152,7 +152,7 @@ with app.app_context():
     
     new_client.subscribed_stores.append(new_store)
     new_client.subscribed_stores.append(new_store2)
-    
+    db.session.commit()    
     
     new_client2 = Client(
         id=2,
@@ -164,7 +164,8 @@ with app.app_context():
     db.session.commit()
     
     new_client2.subscribed_stores.append(new_store2)
-    
+    new_client2.subscribed_stores.append(new_store)
+    db.session.commit()
     
     
     new_client3 = Client(
@@ -180,6 +181,7 @@ with app.app_context():
     new_client3.subscribed_stores.append(new_store2)
     new_client3.subscribed_stores.append(new_store3)
     new_client3.subscribed_stores.append(new_store)
+    db.session.commit()
     
     print('Hashed passwords AND added subscriptions...\n')
     
