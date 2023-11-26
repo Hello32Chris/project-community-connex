@@ -8,6 +8,8 @@ import TransactionsByStore from "./TransactionsByStore";
 
 export default function StoreAcctPage({ stores }) {
 
+  const [store, setStore] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [shop, setShop] = useState(null);
 
   useEffect(() => {
@@ -18,101 +20,66 @@ export default function StoreAcctPage({ stores }) {
     });
   }, []);
 
-  const loggedInStoreId = shop ? shop.id : 'n/a';
+  const loggedInStoreId = shop && shop.id;
 
-  
-  // const loggedInStoreId = sessionStorage.getItem('store_id');
-  const [store, setStore] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   console.log(loggedInStoreId ? loggedInStoreId : 'none')
 
-  useEffect(() => {
-    const fetchStoreData = async () => {
-      try {
-        if (loggedInStoreId) {
-          // Filter the stores array based on the logged-in store ID
-          const filteredStores = stores.filter((store) => store.id === parseInt(loggedInStoreId));
 
-          // Check if the filteredStores array has any items
-          if (filteredStores.length > 0) {
-            // Assuming there's only one store with the given ID, set it as the store
-            setStore(filteredStores[0]);
-          } else {
-            console.warn('Store not found with the provided ID.');
-          }
-        } else {
-          console.warn('No store ID available.');
-        }
-      } catch (error) {
-        console.error('Error fetching store data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStoreData();
-  }, [loggedInStoreId, stores]);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (!store) {
-    // Handle the case where store data is not available
-    return <p>Store data not found.</p>;
-  }
-
-  
+  const nameStore = shop?.name
+  const emailStore = shop?.email
+  const codeStore = shop?.code
 
   //--------------------------------------------------------------------------------------------
   const initialValues = {
-    name: shop.name,
-    email: shop.email,
-    code: shop.code,
+    name: nameStore,
+    email: emailStore,
+    code: codeStore,
   };
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string().required('Required'),
-    email: Yup.string().email('Invalid email address').required('Required'),
-    code: Yup.string().required('Required'),
+    name: Yup.string(),
+    email: Yup.string().email('Invalid email address'),
+    code: Yup.string().length(6, 'Code must be exactly 6 characters long'),
     // Add more validations as needed
   });
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    try {
+    const confirmDelete = window.confirm(`Are you sure you want to alter the profile for ${nameStore}?`);
+    
+    if (confirmDelete) {
+      try {
         const response = await fetch(`/stores/${loggedInStoreId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(values),
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(values),
         });
-
-        if (response.ok) {
-            const updatedStore = await response.json();
-            setMessage('Update successful. Redirecting to home...');
-            setLoggedIn(updatedStore);
-            setTimeout(() => {
-                history.push(`/`);
-            }, 2000);
-        } else {
-            const error = await response.json();
-            console.error('User update failed:', error);
+        console.log(response)
+      if (response.ok) {
+          const updatedStore = await response.json();
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
+      } else {
+          const error = await response.json();
+          console.error('User update failed:', error);
         }
-    } catch (error) {
+      } catch (error) {
         console.error('Error during User update:', error);
+      }
+  
+      setSubmitting(false);
     }
-
-    setSubmitting(false);
-}
+  };
 
 
 
 
   return (
-    <div>
-      <h2>Welcome to the Store Dashboard, {shop.name}!</h2>
+    <div align='center' id="account">
+      <h2>Edit Account for {nameStore}!</h2>
 
       {/* Formik form for editing store details */}
       <Formik
@@ -122,25 +89,27 @@ export default function StoreAcctPage({ stores }) {
       >
         <Form>
           <div>
-            <label htmlFor="name">Store Name:</label>
+            <label htmlFor="name"><b>Store Name:</b></label>
             <Field type="text" id="name" name="name" />
             <ErrorMessage name="name" component="div" />
           </div>
+          <br/>
 
           <div>
-            <label htmlFor="email">Store Email:</label>
+            <label htmlFor="email"><b>Store Email:</b></label>
             <Field type="email" id="email" name="email" />
             <ErrorMessage name="email" component="div" />
           </div>
+          <br/>
 
           <div>
-            <label htmlFor="code">Store Code:</label>
+            <label htmlFor="code"><b>Store Code:</b></label>
             <Field type="text" id="code" name="code" />
             <ErrorMessage name="code" component="div" />
           </div>
 
           {/* Add more form fields as needed */}
-          <br/>
+          <br />
           <div>
             <button type="submit">Save Changes</button>
           </div>
@@ -148,11 +117,11 @@ export default function StoreAcctPage({ stores }) {
       </Formik>
 
 
-      <h2>Welcome to the Store Dashboard, {shop.name}!</h2>
-      <p>Store Name: {store.name}</p>
-      <p>Store Email: {store.email}</p>
-      <p>Store Code: {store.code}</p>
-      <p>Services: {}</p>
+      <h2>Welcome to the Store Dashboard, {nameStore}!</h2>
+      <p>Store Name: {nameStore}</p>
+      <p>Store Email: {emailStore}</p>
+      <p>Store Code: {codeStore}</p>
+      <p>Services: { }</p>
       {/* <TransactionsByStore storename={store.name} storeId={store.id} /> */}
       {/* Add more components or details as needed */}
     </div>

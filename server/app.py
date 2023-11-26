@@ -318,7 +318,6 @@ def create_goods_service():
 
     return make_response({'message': 'GoodsService created successfully'}, 201)
 
-
 #---------------------------------------------------------------------------------------------------REMOVE GOODS/SERVICE [DELETE]-------------
 @app.route('/delete_goods_service/<int:goods_service_id>', methods=['DELETE'])
 def delete_goods_service(goods_service_id):

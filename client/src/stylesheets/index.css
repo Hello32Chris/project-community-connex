@@ -86,6 +86,14 @@ footer {
   height: 150px;
 }
 
+#account{
+  background-color: grey;
+  height: 0;
+  width: 20%;
+  padding-bottom: 20%;
+  margin-left: 40%;
+}
+
 
 /* ----------------------------------THIS CODE BLOCK MAKES THE LOADING CIRCLES ON LOGIN------------------------start */
 

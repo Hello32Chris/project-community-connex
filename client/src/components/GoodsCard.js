@@ -6,21 +6,24 @@ export default function GoodsCard({ id, name, price, image }) {
     console.log(image)
 
     const deleteGoodsService = async (goodsServiceId) => {
-        try {
-            const response = await fetch(`/delete_goods_service/${goodsServiceId}`, {
-                method: 'DELETE',
-            });
+        const confirmDelete = window.confirm(`Are you sure you want to delete your service ${name}?`)
+        if (confirmDelete)
+            try {
+                const response = await fetch(`/delete_goods_service/${goodsServiceId}`, {
+                    method: 'DELETE',
+                });
 
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data.message); // Handle success
-            } else {
-                const errorData = await response.json();
-                console.error(errorData.error); // Handle error
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data.message); // Handle success
+                    window.location.reload()
+                } else {
+                    const errorData = await response.json();
+                    console.error(errorData.error); // Handle error
+                }
+            } catch (error) {
+                console.error(error); // Handle unexpected errors
             }
-        } catch (error) {
-            console.error(error); // Handle unexpected errors
-        }
     };
 
     return (
