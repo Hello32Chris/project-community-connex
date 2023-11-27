@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from models import Client, Store, GoodsService, Transaction, subscription_table
+from models import Client, Store, GoodsService, Transaction, subscription_table, cart_table
 from flask import make_response, request, session, abort, g
 from config import app, db, bcrypt
 import random, string
@@ -12,7 +12,7 @@ def index():
 @app.route('/clients', methods=['GET'])
 def clients():
     clients = Client.query.all()
-    resp = make_response([client.to_dict(rules=('-subscribed_stores.goods_services', '-_password_hash', '-subscribed_stores._password_hash', '-transactions.store._password_hash', '-transactions.store.goods_services','-transactions.client_id', '-transactions.store.subscribed_clients')) for client in clients], 200)
+    resp = make_response([client.to_dict(rules=('-client_carts.store._password_hash', '-client_carts.store.transactions', '-subscribed_stores.goods_services', '-_password_hash', '-subscribed_stores._password_hash', '-transactions.store._password_hash', '-transactions.store.goods_services','-transactions.client_id', '-transactions.store.subscribed_clients')) for client in clients], 200)
     return resp
 
 #--------------------------view all carts-------------------------------------------------------------------------VIEW ALL CARTS [GET]-------------------

@@ -17,6 +17,7 @@ subscription_table = Table('subscriptions', db.Model.metadata,
 )
 
 cart_table = Table('carts', db.Model.metadata,
+    Column('id', Integer, primary_key=True),
     Column('goods_service_id', Integer, ForeignKey('goods_services.id')),
     Column('client_id', Integer, ForeignKey('clients.id'))
 )
@@ -43,7 +44,7 @@ class Store(db.Model, SerializerMixin):
     
     
 
-    serialize_rules = ('-password_hash', '-transactions.store', '-subscribed_clients.subscribed_stores', '-goods_services.store', '-subscribed_clients.transactions', '-subscribed_clients.client_carts')
+    serialize_rules = ('-goods_services.goods_carts', '-password_hash', '-transactions.store', '-subscribed_clients.subscribed_stores', '-goods_services.store', '-subscribed_clients.transactions', '-subscribed_clients.client_carts', '-transactions.client.client_carts')
 
     @hybrid_property
     def password_hash(self):
@@ -85,9 +86,9 @@ class Client(db.Model, SerializerMixin):
     # One-to-Many relationship with Transaction
     transactions = db.relationship('Transaction', back_populates='client', lazy=True, cascade='all, delete-orphan')
     
-    # client_carts = db.relationship('GoodsService', secondary=cart_table, back_populates='goods_carts')
+    client_carts = db.relationship('GoodsService', secondary=cart_table, back_populates='goods_carts')
 
-    serialize_rules = ('-transactions.client', '-subscribed_stores.subscribed_clients', '-subscribed_stores.transactions', '-subscribed_stores.goods_services' )
+    serialize_rules = ('-transactions.client','-client_carts.goods_carts', '-subscribed_stores.subscribed_clients', '-subscribed_stores.transactions', '-subscribed_stores.goods_services' )
 
     # Set the password using bcrypt
     @hybrid_property
@@ -128,7 +129,7 @@ class GoodsService(db.Model, SerializerMixin):
     # Many-to-Many relationship with Store
     store = db.relationship('Store', back_populates='goods_services', lazy=True)
     
-    # goods_carts = db.relationship('Client', secondary=cart_table, back_populates='client_carts')
+    goods_carts = db.relationship('Client', secondary=cart_table, back_populates='client_carts')
     
     # transactions = db.relationship('Transaction', back_populates='goods_services', lazy=True)
     
@@ -151,4 +152,4 @@ class Transaction(db.Model, SerializerMixin):
     store = db.relationship('Store', back_populates='transactions', lazy=True)
     client = db.relationship('Client', back_populates='transactions', lazy=True)
 
-    serialize_rules = ('-store.transactions', '-client.transactions','-client.client_carts', '-goods_services.transactions', '-goods_services.store.transactions')
+    serialize_rules = ('-store.transactions', '-client.transactions', '-client.client_carts')
