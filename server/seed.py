@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from models import Client, Store, GoodsService, Transaction, subscription_table
+from models import Client, Store, GoodsService, Transaction, subscription_table, cart_table
 # Remote library imports
 
 # Local imports
@@ -30,6 +30,8 @@ with app.app_context():
     Transaction.query.delete()
     
     db.session.execute(subscription_table.delete())
+    db.session.commit()
+    db.session.execute(cart_table.delete())
     db.session.commit()
     
 
@@ -157,6 +159,9 @@ with app.app_context():
     
     new_client.subscribed_stores.append(new_store)
     new_client.subscribed_stores.append(new_store2)
+    new_client.client_carts.append(new_goods_service)
+    new_client.client_carts.append(new_goods_service2)
+    new_client.client_carts.append(new_goods_service3)
     db.session.commit()    
     
     new_client2 = Client(
@@ -170,6 +175,7 @@ with app.app_context():
     
     new_client2.subscribed_stores.append(new_store2)
     new_client2.subscribed_stores.append(new_store)
+    new_client2.client_carts.append(new_goods_service)
     db.session.commit()
     
     

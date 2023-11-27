@@ -12,8 +12,24 @@ def index():
 @app.route('/clients', methods=['GET'])
 def clients():
     clients = Client.query.all()
-    resp = make_response([client.to_dict(rules=('-_password_hash', '-subscribed_stores._password_hash', '-transactions.store._password_hash', '-transactions.store.goods_services','-transactions.client_id', '-transactions.store.subscribed_clients')) for client in clients], 200)
+    resp = make_response([client.to_dict(rules=('-subscribed_stores.goods_services', '-_password_hash', '-subscribed_stores._password_hash', '-transactions.store._password_hash', '-transactions.store.goods_services','-transactions.client_id', '-transactions.store.subscribed_clients')) for client in clients], 200)
     return resp
+
+#--------------------------view all carts-------------------------------------------------------------------------VIEW ALL CARTS [GET]-------------------
+@app.route('/carts', methods=['GET'])
+def carts():
+       # Query the carts using the ORM
+    carts = db.session.query(cart_table).all()
+
+    # Serialize the cart data
+    cart_data = [{'client_id': cart.client_id, 'goods_service_id': cart.goods_service_id} for cart in carts]
+
+    # Prepare the response data
+    response_data = {
+        'carts': cart_data
+    }
+
+    return make_response(response_data, 200)
 
 #--------------------------------------------------------------------------------------------------- VIEW ALL STORES [GET]-------------------
 @app.route('/stores', methods=['GET'])
@@ -335,7 +351,7 @@ def delete_goods_service(goods_service_id):
 
 
 # #--------------------------------------------------------------------------------------------------- CLIENT SUBSCRIBE TO STORE BY CODE [POST]-------------
-@app.route('/subscribe', methods=['POST'])
+@app.route('/subscribe_by_code', methods=['POST'])
 def subscribe_to_store_by_code():
     form_data = request.get_json()
 
@@ -383,6 +399,33 @@ def subscribe_to_store():
             return make_response({'message': f'Client {client_id} is already subscribed to store {store_code}'})
     else:
         return make_response({'error': 'Invalid client ID or store code'}), 404
+    
+# #--------------------------------------------------------------------------------------------------- UNSUBSCRIBE FROM CLIENT [DELETE]-------------   
+@app.route('/store_unsubscribe', methods=['DELETE'])
+def unsubscribe_from_store():
+    form_data = request.get_json()
+
+    client_id = form_data['client_id']
+    print(client_id)
+    store_code = form_data['store_code']
+    print(store_code)
+    
+    # if not client_id or not store_code:
+    #     return make_response({'error': 'Client ID and store code are required'}, 400)  # Bad Request
+
+    client = Client.query.filter_by(id=client_id).first()
+    store = Store.query.filter_by(code=store_code).first()
+
+    if client and store:
+        # Check if the client is subscribed to the store
+        if client in store.subscribed_clients:
+            store.subscribed_clients.remove(client)
+            db.session.commit()
+            return make_response({'message': f'Client {client_id} unsubscribed from store {store_code} successfully'}, 200)
+        else:
+            return make_response({'message': f'Client {client_id} is not subscribed to store {store_code}'}, 404)
+    else:
+        return make_response({'error': 'Invalid client ID or store code'}, 404)
 
 
 
@@ -458,4 +501,4 @@ def store_protected():
 
 
 if __name__ == '__main__':
-    app.run(port=5555, debug=True)
+    app.run(port=4444, debug=True)

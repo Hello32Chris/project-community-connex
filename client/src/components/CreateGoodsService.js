@@ -7,7 +7,7 @@ export default function GoddsServiceForm() {
 
     const [shop, setShop] = useState(null)
 
-    const handleSubmit = async (values, { setSubmitting }) => {
+    const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         try {
           const response = await fetch('/create_goods_service', {
             method: 'POST',
@@ -20,6 +20,8 @@ export default function GoddsServiceForm() {
             console.log('GoodsService created successfully');
             // Handle success, such as redirecting to another page
             alert(`Succesfully Created Service!`)
+            window.location.reload()
+            resetForm();
         } else {
             const data = await response.json();
             console.error('Error:', data.error);

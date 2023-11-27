@@ -49,7 +49,6 @@ export default function SubscribeButton({ storecode, storeid }) {
                 setSubToggle(true)
                 // Handle successful subscription
                 console.log(data.message);
-                setSubscribed(true);
                 // Notify the parent component that a subscription has occurred
             } else {
                 // Handle errors
