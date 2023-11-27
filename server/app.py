@@ -151,7 +151,7 @@ def transactions():
 @app.route('/goods', methods=['GET'])
 def goods():
     goods = GoodsService.query.all()
-    resp = make_response([good.to_dict(rules=('-store._password_hash', '-store.subscribed_clients', '-store.transactions' )) for good in goods])
+    resp = make_response([good.to_dict(rules=('-goods_carts._password_hash', '-goods_carts.subscribed_stores', '-goods_carts.transactions', '-store._password_hash', '-store.subscribed_clients', '-store.transactions' )) for good in goods])
     return resp
 
 

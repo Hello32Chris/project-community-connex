@@ -133,7 +133,7 @@ class GoodsService(db.Model, SerializerMixin):
     
     # transactions = db.relationship('Transaction', back_populates='goods_services', lazy=True)
     
-    serialize_rules = ('-store.goods_services', '-goods_services.transactions', '-store.subscribed_clients' )
+    serialize_rules = ('-store.goods_services', '-goods_services.transactions', '-store.subscribed_clients', '-goods_carts.client_carts' )
 
 
 #---------------------------------------------------------------------
