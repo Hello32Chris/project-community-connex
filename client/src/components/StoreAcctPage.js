@@ -121,7 +121,6 @@ export default function StoreAcctPage({ stores }) {
       <p>Store Name: {nameStore}</p>
       <p>Store Email: {emailStore}</p>
       <p>Store Code: {codeStore}</p>
-      <p>Services: { }</p>
       {/* <TransactionsByStore storename={store.name} storeId={store.id} /> */}
       {/* Add more components or details as needed */}
     </div>

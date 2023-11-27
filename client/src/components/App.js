@@ -72,7 +72,7 @@ export default function App() {
                 <Route exact path='/stores'><Stores stores={stores} /></Route>
                 <Route exact path={`/stores/${loggedInStoreId}`}><StoreProfile stores={stores} /></Route>
                 <Route exact path={`/stores/transactions`}><TransactionsByStore stores={stores} loggedInStoreId={loggedInStoreId} /></Route>
-                <Route exact path={`/stores/StoreSubscriptions`}><SubscribedStores /></Route>
+                <Route exact path={`/stores/StoreSubscriptions`}><SubscribedStores stores={stores} /></Route>
                 <Route exact path={`/stores/AccountManager`}><StoreAcctPage loggedInStoreId={loggedInStoreId} stores={stores} /></Route>
                 <Route exact path={`/stores/services`}><GoddsServiceForm loggedInStoreId={loggedInStoreId} stores={stores} /></Route>
                 <Route exact path="/About"><About /></Route>

@@ -10,7 +10,6 @@ export default function About() {
         <div align='center' id="regform">
             <img alt='Little happy moose' src="./Images/moose.gif"/>
             <h1>This is my About Page!</h1>
-            <div><RegisterPage /></div>
         </div>
     )
 }
