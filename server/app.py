@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from models import Client, Store, GoodsService, Transaction, subscription_table, cart_table
+from models import Client, Store, GoodsService, Transaction, StoreProfile, subscription_table, cart_table
 from flask import make_response, request, session, abort, g
 from config import app, db, bcrypt
 import random, string
@@ -12,7 +12,23 @@ def index():
 @app.route('/clients', methods=['GET'])
 def clients():
     clients = Client.query.all()
-    resp = make_response([client.to_dict(rules=('-client_carts.store._password_hash', '-client_carts.store.transactions', '-subscribed_stores.goods_services', '-_password_hash', '-subscribed_stores._password_hash', '-transactions.store._password_hash', '-transactions.store.goods_services','-transactions.client_id', '-transactions.store.subscribed_clients')) for client in clients], 200)
+    resp = make_response([client.to_dict(rules=('-client_carts.store._password_hash', 
+                                                '-client_carts.store.transactions',
+                                                '-subscribed_stores.goods_services',
+                                                '-_password_hash', 
+                                                '-subscribed_stores._password_hash', 
+                                                '-transactions.store._password_hash', 
+                                                '-transactions.store.goods_services',
+                                                '-transactions.client_id', 
+                                                '-transactions.store.subscribed_clients')
+                                         ) for client in clients], 200)
+    return resp
+
+#---------------------------------------------------------------------------------------------------VIEW ALL STORE PROFILES [GET]-------------------
+@app.route('/profiles', methods=['GET'])
+def profiles():
+    profiles = StoreProfile.query.all()
+    resp = make_response([profile.to_dict(rules=('-stores._password_hash', '-stores.subscribed_clients', '-stores.transactions' )) for profile in profiles], 200)
     return resp
 
 #--------------------------view all carts-------------------------------------------------------------------------VIEW ALL CARTS [GET]-------------------
@@ -241,6 +257,7 @@ def create_transaction():
 
     resp = make_response(new_transaction.to_dict(), 201)
     return resp
+
 
 
 #--------------------------------------------------------------------------------------------------- NEW CLIENT SIGNUP [POST] -------------

@@ -68,7 +68,7 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
         <br />
         <br />
         {clog &&
-          <SubscribeButton storecode={storecode} storeid={storeid} />
+          <SubscribeButton storename={storename} storecode={storecode} storeid={storeid} />
         }
          
         <br />

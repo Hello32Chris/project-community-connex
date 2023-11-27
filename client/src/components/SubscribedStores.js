@@ -63,7 +63,7 @@ export default function SubscribedStores({ stores }) {
   const subbedStores = client?.subscribed_stores || []
 
   const subDiv = subbedStores.map((store, index) => (
-    <div key={index} >
+    <div align='center' id="subbedclients" key={index} >
       <p>Name: {store.name}</p>
       <p>Email: {store.email}</p>
       <p>Code: {store.code}</p>
@@ -77,10 +77,10 @@ export default function SubscribedStores({ stores }) {
 
 
   return (
-    <div align='center' id="subbedclients">
+    <div>
       <div>{getmessage && getmessage}</div>
       <div  >
-        <div><h1>Subscribed Stores</h1></div>
+        <div align='center'><h1>Subscribed Stores</h1></div>
       </div>
       <div>
         <div>{subDiv}</div>

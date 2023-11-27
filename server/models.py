@@ -5,7 +5,7 @@ from sqlalchemy.orm import validates, relationship
 # from enum import Enum, auto
 
 from config import db, bcrypt
-# import re
+import re
 
 
 
@@ -23,6 +23,30 @@ cart_table = Table('carts', db.Model.metadata,
 )
 
 
+
+class StoreProfile(db.Model, SerializerMixin):
+    __tablename__= 'store_profiles'
+    id = db.Column(db.Integer, primary_key=True)
+    bio = db.Column(db.String, default='Bio')
+    location = db.Column(db.String, default='Location')
+    phone_number = db.Column(db.String, default='Phone Number', unique=True)
+    store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
+    
+    stores = db.relationship('Store', back_populates='store_profile', lazy=True)
+    
+    serialize_rules=('-stores.store_profile',)
+    
+    @validates('phone_number')
+    def validate_phone_number(self, key, value):
+        # Define a regex pattern for valid phone numbers
+        pattern = re.compile(r'^[0-9()-]+$')
+
+        if not pattern.match(value):
+            raise ValueError("Invalid phone number format. Only numbers, hyphens, and parentheses are allowed.")
+
+        return value
+
+
 #---------------------------------------------------------------------
 #-----------------------CLASS Store-----------------------
 class Store(db.Model, SerializerMixin):
@@ -32,6 +56,8 @@ class Store(db.Model, SerializerMixin):
     email = db.Column(db.String, nullable=False)
     _password_hash = db.Column(db.String, nullable=False)
     code = db.Column(db.String, unique=True)
+    
+    
 
     #--------------- Many-to-Many relationship with Client
     subscribed_clients = db.relationship('Client', secondary=subscription_table, back_populates='subscribed_stores')
@@ -42,9 +68,11 @@ class Store(db.Model, SerializerMixin):
     # ---------------One-to-Many relationship with Transaction
     transactions = db.relationship('Transaction', back_populates='store', lazy=True, cascade='all, delete-orphan')
     
+    store_profile = db.relationship('StoreProfile', back_populates='stores', lazy=True)
+    
     
 
-    serialize_rules = ('-goods_services.goods_carts', '-password_hash', '-transactions.store', '-subscribed_clients.subscribed_stores', '-goods_services.store', '-subscribed_clients.transactions', '-subscribed_clients.client_carts', '-transactions.client.client_carts')
+    serialize_rules = ('-store_profile.stores', '-goods_services.goods_carts', '-password_hash', '-transactions.store', '-subscribed_clients.subscribed_stores', '-goods_services.store', '-subscribed_clients.transactions', '-subscribed_clients.client_carts', '-transactions.client.client_carts')
 
     @hybrid_property
     def password_hash(self):

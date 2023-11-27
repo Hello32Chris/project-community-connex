@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from models import Client, Store, GoodsService, Transaction, subscription_table, cart_table
+from models import Client, Store, GoodsService, Transaction, StoreProfile, subscription_table, cart_table
 # Remote library imports
 
 # Local imports
@@ -28,6 +28,8 @@ with app.app_context():
     Store.query.delete()
     GoodsService.query.delete()
     Transaction.query.delete()
+    StoreProfile.query.delete()
+    
     
     db.session.execute(subscription_table.delete())
     db.session.commit()
@@ -196,8 +198,27 @@ with app.app_context():
     
     print('Hashed passwords AND added subscriptions...\n')
     
+    new_store_profile = StoreProfile(
+        bio= 'Love it out here!',
+        location='Beautiful Miami',
+        phone_number='(555)555-5555',
+        store_id = 1
+    )
+    db.session.add(new_store_profile)
+    db.session.commit()
     
     
+    new_store_profile2 = StoreProfile(
+        bio= 'Its Chilly here!',
+        location='New York',
+        phone_number='(777)777-7777',
+        store_id = 2
+    )
+    db.session.add(new_store_profile2)
+    db.session.commit()
+    
+    
+    print('Added New Store Profiles...\n')
     # Adding the client to the session
     
     

@@ -28,7 +28,7 @@ export default function ClientCard({ id, name, email, trans }) {
 
 
 
-  //---------------------------------------------------------------- MY CLIENT DELETE BUTTON-------------------------------
+  //---------------------------------------------------------------- MY CLIENT REMOVE FROM SUBSCRIBED CLIENTS BUTTON-------------------------------
   const [getmessage, setMessage] = useState('');
 
   const shopCode = shop?.code
