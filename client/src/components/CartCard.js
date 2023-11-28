@@ -63,7 +63,7 @@ export default function CartCard() {
 
     console.log(mappedGoods)
 
-    //-------------------------------------------------------------------- FETCH CART BASED ON CLIENT SESSION ---------------------------------
+    //-------------------------------------------------------------------- FETCH CART BASED ON CLIENT ID being pulled in by session ---------------------------------
     const clientId = client?.id
 
     useEffect(() => {
