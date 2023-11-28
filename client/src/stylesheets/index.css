@@ -4,8 +4,22 @@ body {
   font-size: 14px;
   background-image: url("https://cdn.wallpapersafari.com/74/35/4XgZhW.png");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-attachment: fixed;
+  background-position: fixed;
 }
+
+/* .container {
+  background-image: url("https://cdn.wallpapersafari.com/74/35/4XgZhW.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover; /* Adjust the size as needed */
+  /* height: 100vh; /* Set the container height to cover the viewport */
+/* } */
+
+/* Additional styling for your content */
+/* .content {
+  padding: 20px;
+}  */
 
 .header{
   display: flex;
@@ -142,7 +156,7 @@ footer {
   background-color: grey;
   height: 0;
   width: 20%;
-  padding-bottom: 50%;
+  padding-bottom: 70%;
   padding-top: 2%;
   margin-left: 40%;
 }

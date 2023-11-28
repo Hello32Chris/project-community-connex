@@ -74,11 +74,11 @@ export default function App() {
                 <Route exact path='/cart'><Checkout /></Route>
                 <Route exact path='/EditAccount'><ClientAccountPage clients={clients} /></Route>
                 <Route exact path='/stores'><Stores stores={stores} /></Route>
-                <Route exact path={`/stores/:store_id`}><StoreProfile stores={stores} /></Route>
-                <Route exact path={`/stores/transactions`}><TransactionsByStore stores={stores} loggedInStoreId={loggedInStoreId} /></Route>
-                <Route exact path={`/stores/StoreSubscriptions`}><SubscribedStores stores={stores} /></Route>
-                <Route exact path={`/stores/AccountManager`}><StoreAcctPage loggedInStoreId={loggedInStoreId} stores={stores} /></Route>
-                <Route exact path={`/stores/services`}><GoddsServiceForm loggedInStoreId={loggedInStoreId} stores={stores} /></Route>
+                <Route exact path='/stores/:store_id'><StoreProfile stores={stores} /></Route>
+                <Route exact path='/store/transactions'><TransactionsByStore /></Route>
+                <Route exact path='/store/StoreSubscriptions'><SubscribedStores stores={stores} /></Route>
+                <Route exact path='/store/AccountManager'><StoreAcctPage loggedInStoreId={loggedInStoreId} stores={stores} /></Route>
+                <Route exact path='/store/services'><GoddsServiceForm loggedInStoreId={loggedInStoreId} stores={stores} /></Route>
                 <Route exact path="/About"><About /></Route>
             </Switch>
         </div>

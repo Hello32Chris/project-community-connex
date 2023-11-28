@@ -124,16 +124,16 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
         {slog ? (
           <>
             <li><NavLink className='link' to={`/stores/${loggedInStoreId}`} activeClassName="active" >Profile</NavLink></li>
-            <li><NavLink className='link' to={`/stores/transactions`} activeClassName="active" >Transactions</NavLink></li>
-            <li><NavLink className='link' to={`/stores/services`} activeClassName="active" >Goods and Services</NavLink></li>
-            <li><NavLink className='link' to={`/clients`} activeClassName="active" >Subscribed Client</NavLink></li>
-            <li><NavLink className='link' to={`/stores/AccountManager`} activeClassName="active" >Edit Account</NavLink></li>
+            <li><NavLink className='link' to='/store/transactions' activeClassName="active" >Transactions</NavLink></li>
+            <li><NavLink className='link' to='/store/services' activeClassName="active" >Goods and Services</NavLink></li>
+            <li><NavLink className='link' to='/clients' activeClassName="active" >Subscribed Client</NavLink></li>
+            <li><NavLink className='link' to='/store/AccountManager' activeClassName="active" >Edit Account</NavLink></li>
             <li><button onClick={handleStoreLogout}>Logout</button></li>
           </>
         ) : (
           // ------------CLIENT NAV SECTION-----------------
           <>
-            <li><NavLink className='link' to="/stores/StoreSubscriptions" activeClassName="active" >Subscribed Stores</NavLink></li>
+            <li><NavLink className='link' to="/store/StoreSubscriptions" activeClassName="active" >Subscribed Stores</NavLink></li>
             <li><NavLink className='link' to={`/client/transactions`} activeClassName="active" >Transactions</NavLink></li>
             <li><NavLink className='link' to="/EditAccount" activeClassName="active" >Edit Account</NavLink></li>
             <li><button onClick={handleClientLogout}>Logout</button></li>
