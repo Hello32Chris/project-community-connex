@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useHistory } from "react-router-dom";
 
 import StoreCard from "./StoreCard";
 import TransactionsByStore from "./TransactionsByStore";
 
 
 export default function StoreAcctPage({ stores }) {
+
+  const history = useHistory()
 
   const [store, setStore] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -59,6 +62,9 @@ export default function StoreAcctPage({ stores }) {
         console.log(response)
       if (response.ok) {
           const updatedStore = await response.json();
+          setTimeout(() => {
+            history.push('/');
+          }, 500);
           setTimeout(() => {
             window.location.reload();
           }, 500);

@@ -4,33 +4,18 @@ import SubscribeButton from "./SubscribeButton";
 import Subscribers from './SubscribedStores'
 
 export default function StoreCard({ storeid, storename, storeemail, storecode, storegoods }) {
-
+  
   // console.log(name)
   // console.log(email)
   // console.log(id)
-
-
+  
+  
   //---------------STATE-------------
   const [showTransactions, setShowTransactions] = useState(false);
   const [goodsToggle, setGoodsToggle] = useState(false);
   const [subToggle, setSubToggle] = useState(false)
   const [client, setClient] = useState(null)
-
-
-  //------------------------------------------------------------ FUNCTIONALITY-------------
-  const toggleGoods = () => {
-    setGoodsToggle(!goodsToggle);
-  };
-
-  //----------------------------------------------------------- GOODS AND SERVICES MAPPING -------------------
-  const storegood = storegoods.map((good) => (
-    <ul key={good.id}>
-      <h2><b>{good.name}</b></h2>
-      <p>${parseFloat(good.price).toFixed(2)}</p>
-      <img className="goodsimage" src={good.image} alt={`image for ${good.name} at price $${good.price}`} title={`image for ${good.name} at price $${good.price}`} />
-    </ul>
-  ))
-
+  
   //----------------------------------------------------------- CLIENT SESSION CHECK -------------------
   useEffect(() => {
     fetch("/check_client_session").then((resp) => {
@@ -41,6 +26,54 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
   }, []);
 
   const clog = client ? true : false;
+  
+  //------------------------------------------------------------ FUNCTIONALITY-------------
+  const toggleGoods = () => {
+    setGoodsToggle(!goodsToggle);
+  };
+
+
+  //---------------------------------------------------------------------add to cart
+  const clientId = client?.id
+
+  const handleAddToCart = async (goodsServiceID) => {
+    console.log(goodsServiceID)
+    console.log(clientId)
+    try {
+      const response = await fetch('/add_to_cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          client_id: clientId,
+          goods_service_id: goodsServiceID,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message); // or handle success in some way
+      } else {
+        const errorData = await response.json();
+        console.error(errorData.error); // or handle the error in some way
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  //----------------------------------------------------------- GOODS AND SERVICES MAPPING -------------------
+  const storegood = storegoods.map((good) => (
+    <ul key={good.id}>
+      <h2><b>{good.name}</b></h2>
+      <p>${parseFloat(good.price).toFixed(2)}</p>
+      <img className="goodsimage" src={good.image} alt={`image for ${good.name} at price $${good.price}`} title={`image for ${good.name} at price $${good.price}`} />
+      <br/>
+      <button onClick={() => handleAddToCart(good.id)}>Add to Cart</button>
+    </ul>
+  ))
+
 
   //----------------------------------------------------------------- TOGGLE FOR SUBSCRIBE BUTTON -----------
   const handleSubToggle = () => {

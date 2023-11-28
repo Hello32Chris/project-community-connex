@@ -161,6 +161,7 @@ with app.app_context():
     
     new_client.subscribed_stores.append(new_store)
     new_client.subscribed_stores.append(new_store2)
+    
     new_client.client_carts.append(new_goods_service)
     new_client.client_carts.append(new_goods_service2)
     new_client.client_carts.append(new_goods_service3)

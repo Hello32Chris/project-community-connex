@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import StoreAcctPage from "./StoreAcctPage";
 import { useHistory } from "react-router-dom";
+import CartCard from "./CartCard";
 
 function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) {
   
@@ -94,9 +95,25 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
   const loggedInClientId = client && client.id;
 
   const clog = client ? true : false
-  
-  // console.log(client)
 
+  const clientCart = client?.client_carts
+
+  const mappedCart = clientCart?.map((cart) => {
+    console.log(cart)
+  })
+
+
+  
+  const [toggle, setToggle] = useState(false)
+
+  const cart = (!toggle ? <button className="login-butt" id="cartbtn" onClick={() => setToggle(true)}>Cart</button> :
+    <nav >
+      <div>
+        <button id="closebtn" onClick={() => setToggle(false)}>X</button>
+        <CartCard />
+        <NavLink className='link' to="/cart" activeClassName="active">Procced To Cart</NavLink>
+      </div>
+    </nav>)
 
 
   const nav =
@@ -126,6 +143,8 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
     </nav>;
 
   return (
+    <div>
+      <div id="cartnav">{cart}</div>
     <div id="grid">
       <ul>
         {!clog && !slog ? (
@@ -143,6 +162,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
           nav
         )}
       </ul>
+    </div>
     </div>
   );
 }

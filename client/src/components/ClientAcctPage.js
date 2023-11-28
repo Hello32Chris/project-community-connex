@@ -9,6 +9,22 @@ export default function ClientAccountPage() {
 
     const [client, setClient] = useState(null)
 
+    const handleClientLogout = async () => {
+      try {
+        const response = await fetch('/client_logout', {
+          method: 'DELETE',
+          credentials: 'include',
+        });
+        if (response.status === 204) {
+          console.log('Logout successful')
+        } else {
+          console.error('Logout failed');
+        }
+      } catch (error) {
+        console.error('Error during logout:', error);
+      }
+    }
+
     useEffect(() => {
         fetch("/check_client_session").then((resp) => {
           if (resp.ok) {
@@ -29,6 +45,7 @@ export default function ClientAccountPage() {
                 // window.location.reload();
                 alert(`Client ${client.name} Deleted!`)
                 history.push('/')
+                {() => handleClientLogout}
                 setTimeout(() => {
                     window.location.reload()
                 }, 2000)

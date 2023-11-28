@@ -47,6 +47,54 @@ def carts():
 
     return make_response(response_data, 200)
 
+#-----------------------------------------
+
+@app.route('/test_route', methods=['POST'])
+def test_route():
+    client = Client.query.filter_by(id = 1).first()
+    goods_service = GoodsService.query.filter_by(id = 4).first()
+    
+    client.client_carts.append(goods_service)
+    db.session.commit()
+    
+    return make_response({}, 201)
+
+
+
+#----------------------------------------------------------------------------------------------------------------- ADD TO CLIENT CART [POST]-------------------
+@app.route('/add_to_cart', methods=['POST'])
+def add_to_cart():
+    try:
+        form_data = request.get_json()
+
+        client_id = form_data['client_id']
+        goods_service_id = form_data['goods_service_id']
+        
+        print(client_id, goods_service_id)
+
+        # Check if both client_id and goods_service_id are provided
+        if not client_id or not goods_service_id:
+            resp = make_response({'error': 'Both client_id and goods_service_id are required'}, 400)
+
+        # Check if the client and goods_service exist
+        client = Client.query.filter_by(id = client_id).first()
+        goods_service = GoodsService.query.filter_by(id = goods_service_id).first()
+        
+        client.client_carts.append(goods_service)
+        db.session.commit()
+
+        print(client, goods_service)
+        if not client or not goods_service:
+            resp = make_response({'error': 'Client or goods service not found'}, 404)
+        
+        # goods_service.goods_carts.append(client)
+
+        resp = make_response({'message': 'Goods service added to the cart successfully'}, 200)
+
+    except Exception as e:
+        resp = make_response({'error': str(e)}, 500)
+    return resp
+
 #--------------------------------------------------------------------------------------------------- VIEW ALL STORES [GET]-------------------
 @app.route('/stores', methods=['GET'])
 def stores():
@@ -113,7 +161,9 @@ def client_by_id(id):
             resp = make_response(client_by_id.to_dict(rules=('-_password_hash', '-transactions.store._password_hash', '-transactions.store.subscribed_clients', '-transactions.client_id')), 200)
         elif request.method == 'DELETE':
             db.session.delete(client_by_id)
+            db.session.execute(cart_table.delete().where(cart_table.c.client_id == id))
             db.session.commit()
+            
             session.pop('client_id', None)
             resp = make_response({}, 204)
         elif request.method == 'PATCH':

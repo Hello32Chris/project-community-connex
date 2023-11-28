@@ -10,26 +10,30 @@ import re
 
 
 
-# A subscription table
+#---------------------------------------------------------------------
+#-----------------------SUBSCRIPTION TABLE-----------------------
 subscription_table = Table('subscriptions', db.Model.metadata,
     Column('client_id', Integer, ForeignKey('clients.id')),
     Column('store_id', Integer, ForeignKey('stores.id'))
 )
 
+#---------------------------------------------------------------------
+#-----------------------CART TABLE-----------------------
 cart_table = Table('carts', db.Model.metadata,
-    Column('id', Integer, primary_key=True),
+    # Column('id', Integer, primary_key=True),
     Column('goods_service_id', Integer, ForeignKey('goods_services.id')),
     Column('client_id', Integer, ForeignKey('clients.id'))
 )
 
 
-
+#---------------------------------------------------------------------
+#-----------------------CLASS StoreProfile-----------------------
 class StoreProfile(db.Model, SerializerMixin):
     __tablename__= 'store_profiles'
     id = db.Column(db.Integer, primary_key=True)
     bio = db.Column(db.String, default='Bio')
     location = db.Column(db.String, default='Location')
-    phone_number = db.Column(db.String, default='Phone Number', unique=True)
+    phone_number = db.Column(db.String, unique=True)
     store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
     
     stores = db.relationship('Store', back_populates='store_profile', lazy=True)
@@ -116,7 +120,7 @@ class Client(db.Model, SerializerMixin):
     
     client_carts = db.relationship('GoodsService', secondary=cart_table, back_populates='goods_carts')
 
-    serialize_rules = ('-transactions.client','-client_carts.goods_carts', '-subscribed_stores.subscribed_clients', '-subscribed_stores.transactions', '-subscribed_stores.goods_services' )
+    serialize_rules = ('-client_carts.store.transactions', '-client_carts.store._password_hash', '-subscribed_stores.store_profile', '-client_carts.store.store_profile', '-transactions.client','-client_carts.goods_carts', '-subscribed_stores.subscribed_clients', '-subscribed_stores.transactions', '-subscribed_stores.goods_services' )
 
     # Set the password using bcrypt
     @hybrid_property
@@ -161,7 +165,7 @@ class GoodsService(db.Model, SerializerMixin):
     
     # transactions = db.relationship('Transaction', back_populates='goods_services', lazy=True)
     
-    serialize_rules = ('-store.goods_services', '-goods_services.transactions', '-store.subscribed_clients', '-goods_carts.client_carts' )
+    serialize_rules = ('-store.store_profile', '-store.goods_services', '-goods_services.transactions', '-store.subscribed_clients', '-goods_carts.client_carts' )
 
 
 #---------------------------------------------------------------------

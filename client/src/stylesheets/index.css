@@ -30,6 +30,10 @@ body {
   text-shadow: 3px 3px 7px rgba(255, 255, 255, 0.93);
 }
 
+h1{
+  margin-top: 0;
+}
+
 #hoverable-div:hover {
   cursor: pointer;
 }
@@ -107,6 +111,23 @@ footer {
   margin-left: 40%;
 }
 
+#cartnav{
+  right: 10px;
+  position: fixed;
+}
+
+#closebtn{
+  cursor: pointer;
+}
+#cartbtn{
+  cursor: pointer;
+}
+
+#cart{
+  background-color: grey;
+  padding-bottom: 20%;
+  margin-left: 40%;
+}
 
 /* ----------------------------------THIS CODE BLOCK MAKES THE LOADING CIRCLES ON LOGIN------------------------start */
 
