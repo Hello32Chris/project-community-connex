@@ -7,9 +7,11 @@ export default function CartCard() {
     const [client, setClient] = useState([])
     const [carts, setCarts] = useState([]);
     const [filteredCarts, setFilteredCarts] = useState([]);
+    const [goods, setGoods] = useState([]);
+    const [clientGoods, setClientGoods] = useState([]);
 
     
-
+//------------------------------------------------------- CARTS FETCH --------------------
     useEffect(() => {
         const fetchCarts = () => {
             fetch('/carts')
@@ -29,7 +31,7 @@ export default function CartCard() {
 
         fetchCarts();
     }, [client.id]);
-
+//--------------------------------------------------------- CHECK CLIENT SESSION ---------------------
     useEffect(() => {
         fetch("/check_client_session").then((resp) => {
             if (resp.ok) {
@@ -38,39 +40,77 @@ export default function CartCard() {
         });
     }, []);
 
+    
+//------------------------------------------------------------ GOODS SERVICES FETCH --------------------
+    useEffect(() => {
+        fetch('/goods')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                setGoods(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching goods:', error);
+            });
+    }, []);
+
+    const mappedGoods = goods.map((good) => {
+        const id = good.id
+        const name = good.name
+        const price = good.price
+        return {id, name, price}
+    })
+
+    console.log(mappedGoods)
+
+//-------------------------------------------------------------------- FETCH CART BASED ON CLIENT SESSION ---------------------------------
     const clientId = client?.id
 
-    const presentCarts = carts && carts
-
-    
-    
-    
     useEffect(() => {
         if (clientId) {
-            // Filter carts based on clientId
-            const clientCarts = carts.filter((cart) => cart.client_id === clientId);
-            setFilteredCarts(clientCarts);
+          // Filter carts based on clientId
+          const clientCarts = carts.filter((cart) => cart.client_id === clientId);
+          setFilteredCarts(clientCarts);
         }
-    }, [clientId, carts]);
+      }, [clientId, carts]);
+
+    //   const clientGoods = mappedGoods.filter((goods) => goods.id)
+    useEffect(() => {
+        if (filteredCarts.length > 0 && goods.length > 0) {
+            // Filter goods based on goods_service_id in filteredCarts
+            const goodsInCarts = filteredCarts.map((cart) =>
+                goods.find((good) => good.id === cart.goods_service_id)
+            );
+            setClientGoods(goodsInCarts);
+        }
+    }, [filteredCarts, goods]);
+
     
-    console.log(filteredCarts)
+    console.log(clientGoods)
 
-    console.log(clientId)
+    const cartDisplay = clientGoods.map((good) => 
+        <div key={good.id}>
+            <div>Service -{good.name}</div>
+            <div>Price - {good.price}</div>
+            <br/>
+        </div>
+        
+    )
 
 
-    //   const cartItems = clientCarts?.map((item) => {
-    //     return <div key={item.id}>
-    //         <div>Service - {item.name}</div>
-    //         <div>Store - {item.store.name}</div>
-    //         <div>Price - {item.price}</div>
-    //         <br/>
-    //     </div>
-    //   })
+    
+
+
+    // console.log(filteredCarts)
+    // console.log(clientId)
+    // console.log(goods)
+
+
 
 
     return (
         <div align='center' id="cart">
-            {/* {cartItems} */}
+            {cartDisplay}
         </div>
     )
 }

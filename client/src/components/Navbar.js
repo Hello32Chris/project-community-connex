@@ -99,7 +99,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
   const clientCart = client?.client_carts
 
   const mappedCart = clientCart?.map((cart) => {
-    console.log(cart)
+    // console.log(cart)
   })
 
 
@@ -144,7 +144,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
 
   return (
     <div>
-      <div id="cartnav">{cart}</div>
+      <div id="cartnav">{ clog ? cart : null}</div>
     <div id="grid">
       <ul>
         {!clog && !slog ? (

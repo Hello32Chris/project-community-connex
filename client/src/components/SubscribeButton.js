@@ -53,8 +53,8 @@ export default function SubscribeButton({ storecode, storeid, storename }) {
 
                 if (response.ok) {
                     setMessage('Unsubscribed!')
-                    alert(`Successfully unsubscribed from ${storename}`)
                     setSubToggle(false)
+                    alert(`Successfully unsubscribed from ${storename}`)
                     setTimeout(() => {
                         setMessage('')
                     }, 2000)
@@ -106,7 +106,6 @@ export default function SubscribeButton({ storecode, storeid, storename }) {
         return <p>Loading...</p>; // You might want to display a loading indicator
     }
 
-    const subButtons = !subToggle ? <button onClick={(handleSubscribe)} >Subscribe</button> : <button onClick={(handleUnsubscribe)} >Unsubscribe</button>
     //  
 
 
@@ -115,7 +114,7 @@ export default function SubscribeButton({ storecode, storeid, storename }) {
             {checkSub}
             {message}
             <br />
-            {subButtons}
+            {!subToggle ? <button onClick={(handleSubscribe)} >Subscribe</button> : <button onClick={(handleUnsubscribe)} >Unsubscribe</button>}
         </div>
     )
 }

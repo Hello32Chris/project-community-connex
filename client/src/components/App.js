@@ -13,6 +13,7 @@ import Subscribers from './SubscribedStores';
 import ClientAccountPage from './ClientAcctPage';
 import GoddsServiceForm from './CreateGoodsService';
 import SubscribedStores from './SubscribedStores';
+import Checkout from './Checkout';
 
 
 
@@ -68,6 +69,7 @@ export default function App() {
                 <Route exact path="/Login"><Login  setClientLoggedIn={setClientLoggedIn} setStoreLoggedIn={setStoreLoggedIn} /></Route>
                 <Route exact path='/'><Home /></Route>
                 <Route exact path='/clients'><Clients clients={clients} /></Route>
+                <Route exact path='/cart'><Checkout /></Route>
                 <Route exact path='/EditAccount'><ClientAccountPage clients={clients} /></Route>
                 <Route exact path='/stores'><Stores stores={stores} /></Route>
                 <Route exact path={`/stores/${loggedInStoreId}`}><StoreProfile stores={stores} /></Route>

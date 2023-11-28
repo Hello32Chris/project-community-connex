@@ -31,7 +31,7 @@ def profiles():
     resp = make_response([profile.to_dict(rules=('-stores._password_hash', '-stores.subscribed_clients', '-stores.transactions' )) for profile in profiles], 200)
     return resp
 
-#--------------------------view all carts-------------------------------------------------------------------------VIEW ALL CARTS [GET]-------------------
+#--------------------------view all carts----------------------------------------------------------VIEW ALL CARTS [GET]-------------------
 @app.route('/carts', methods=['GET'])
 def carts():
        # Query the carts using the ORM
@@ -221,6 +221,52 @@ def goods():
     return resp
 
 
+
+#--------------------------------------------------------------------------------------------------- CREATE TRANSACTION [POST]-------------
+# @app.route('/create_transaction', methods=['POST'])
+# def create_transaction():
+#     form_data = request.get_json()
+#     new_transaction = Transaction(
+#         total_amount=form_data['total_amount'],
+#         store_id=form_data['store_id'],
+#         client_id=form_data['client_id'],
+#     )
+#     db.session.add(new_transaction)
+#     db.session.commit()
+
+#     resp = make_response(new_transaction.to_dict(), 201)
+#     return resp
+
+
+#--------------------------------------------------------------------------------------------------- CREATE NEW TRANSACTION [POST]---------------------------
+@app.route('/create_transaction', methods=['POST'])
+def create_transaction():
+    try:
+        form_data = request.get_json()
+        
+        total_amount = form_data['total_amount']
+        store_id = form_data['store_id']
+        client_id = form_data['client_id']
+
+        if not total_amount or not store_id or not client_id:
+            return make_response({'error': 'Total amount, store_id, and client_id are required'}, 400)
+
+        store = Store.query.get(store_id)
+        client = Client.query.get(client_id)
+
+        if not store or not client:
+            return make_response({'error': 'Store or client not found'}, 404)
+
+        new_transaction = Transaction(total_amount=total_amount, store=store, client=client)
+        db.session.add(new_transaction)
+        db.session.commit()
+        return make_response({'message': 'Transaction added successfully'}, 201)
+
+    except Exception as e:
+        # Return error response
+        return make_response({'error': str(e)}, 500)
+
+
 #---------------------------------------------------------------------------------------------------LOGIN FOR CLIENT [POST]-------------
 @app.route('/client_login', methods = ['POST'])
 def client_login():
@@ -291,24 +337,6 @@ def store_logout():
     print(session)
     print('Session Ended for Store\n')
     return resp
-
-
-#--------------------------------------------------------------------------------------------------- CREATE TRANSACTION [POST]-------------
-@app.route('/create_transaction', methods=['POST'])
-def create_transaction():
-    form_data = request.get_json()
-    new_transaction = Transaction(
-        total_amount=form_data['total_amount'],
-        store_id=form_data['store_id'],
-        client_id=form_data['client_id'],
-    )
-    db.session.add(new_transaction)
-    db.session.commit()
-
-    resp = make_response(new_transaction.to_dict(), 201)
-    return resp
-
-
 
 #--------------------------------------------------------------------------------------------------- NEW CLIENT SIGNUP [POST] -------------
 @app.route('/client_signup', methods = ['POST'])
