@@ -120,7 +120,7 @@ class Client(db.Model, SerializerMixin):
     
     client_carts = db.relationship('GoodsService', secondary=cart_table, back_populates='goods_carts')
 
-    serialize_rules = ('-client_carts.store.transactions', '-client_carts.store._password_hash', '-subscribed_stores.store_profile', '-client_carts.store.store_profile', '-transactions.client','-client_carts.goods_carts', '-subscribed_stores.subscribed_clients', '-subscribed_stores.transactions', '-subscribed_stores.goods_services' )
+    serialize_rules = ('-client_carts.store.transactions', '-transactions.store.subscribed_clients._password_hash', '-transactions.store._password_hash', '-client_carts.store._password_hash', '-subscribed_stores.store_profile', '-client_carts.store.store_profile', '-transactions.client','-client_carts.goods_carts', '-subscribed_stores.subscribed_clients', '-subscribed_stores.transactions', '-subscribed_stores.goods_services' )
 
     # Set the password using bcrypt
     @hybrid_property
@@ -175,6 +175,7 @@ class Transaction(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     total_amount = db.Column(db.Float, nullable=False)
     timestamp = db.Column(db.DateTime, default=db.func.now())
+    goods_service_names = db.Column(db.String)
 
     # Foreign keys
     store_id = db.Column(db.Integer, db.ForeignKey('stores.id'), nullable=False)

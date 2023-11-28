@@ -110,8 +110,8 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
     <nav >
       <div>
         <button id="closebtn" onClick={() => setToggle(false)}>X</button>
+        <NavLink className='link' to="/cart" activeClassName="active">Checkout</NavLink>
         <CartCard />
-        <NavLink className='link' to="/cart" activeClassName="active">Procced To Cart</NavLink>
       </div>
     </nav>)
 
@@ -134,6 +134,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
           // ------------CLIENT NAV SECTION-----------------
           <>
             <li><NavLink className='link' to="/stores/StoreSubscriptions" activeClassName="active" >Subscribed Stores</NavLink></li>
+            <li><NavLink className='link' to={`/client/transactions`} activeClassName="active" >Transactions</NavLink></li>
             <li><NavLink className='link' to="/EditAccount" activeClassName="active" >Edit Account</NavLink></li>
             <li><button onClick={handleClientLogout}>Logout</button></li>
           </>
@@ -153,7 +154,6 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
             <div className="navbar">
               <li><NavLink className='link' to="/Login" activeClassName="active">Login</NavLink></li>
               <li><NavLink className='link' to="/stores" activeClassName="active" >Stores</NavLink></li>
-              <li><NavLink className='link' to="/clients" activeClassName="active" >Clients</NavLink></li>
               <li><NavLink className='link' to="/About" activeClassName="active" >About</NavLink></li>
             </div>
           </nav>

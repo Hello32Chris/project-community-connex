@@ -4,14 +4,14 @@ import RegisterPage from "./RegisterPage";
 
 export default function CartCard() {
 
-    const [client, setClient] = useState([])
+    const [client, setClient] = useState({})
     const [carts, setCarts] = useState([]);
     const [filteredCarts, setFilteredCarts] = useState([]);
     const [goods, setGoods] = useState([]);
     const [clientGoods, setClientGoods] = useState([]);
 
-    
-//------------------------------------------------------- CARTS FETCH --------------------
+
+    //------------------------------------------------------- CARTS FETCH --------------------
     useEffect(() => {
         const fetchCarts = () => {
             fetch('/carts')
@@ -31,7 +31,7 @@ export default function CartCard() {
 
         fetchCarts();
     }, [client.id]);
-//--------------------------------------------------------- CHECK CLIENT SESSION ---------------------
+    //--------------------------------------------------------- CHECK CLIENT SESSION ---------------------
     useEffect(() => {
         fetch("/check_client_session").then((resp) => {
             if (resp.ok) {
@@ -40,8 +40,8 @@ export default function CartCard() {
         });
     }, []);
 
-    
-//------------------------------------------------------------ GOODS SERVICES FETCH --------------------
+
+    //------------------------------------------------------------ GOODS SERVICES FETCH --------------------
     useEffect(() => {
         fetch('/goods')
             .then((response) => response.json())
@@ -58,23 +58,23 @@ export default function CartCard() {
         const id = good.id
         const name = good.name
         const price = good.price
-        return {id, name, price}
+        return { id, name, price }
     })
 
     console.log(mappedGoods)
 
-//-------------------------------------------------------------------- FETCH CART BASED ON CLIENT SESSION ---------------------------------
+    //-------------------------------------------------------------------- FETCH CART BASED ON CLIENT SESSION ---------------------------------
     const clientId = client?.id
 
     useEffect(() => {
         if (clientId) {
-          // Filter carts based on clientId
-          const clientCarts = carts.filter((cart) => cart.client_id === clientId);
-          setFilteredCarts(clientCarts);
+            // Filter carts based on clientId
+            const clientCarts = carts.filter((cart) => cart.client_id === clientId);
+            setFilteredCarts(clientCarts);
         }
-      }, [clientId, carts]);
+    }, [clientId, carts]);
 
-    //   const clientGoods = mappedGoods.filter((goods) => goods.id)
+    //----------------------------------------------------------------------------------- FILTER THROUGH CARTS BY GOODS ID ------
     useEffect(() => {
         if (filteredCarts.length > 0 && goods.length > 0) {
             // Filter goods based on goods_service_id in filteredCarts
@@ -85,20 +85,43 @@ export default function CartCard() {
         }
     }, [filteredCarts, goods]);
 
-    
-    console.log(clientGoods)
 
-    const cartDisplay = clientGoods.map((good) => 
+    console.log(clientGoods)
+    //------------------------------------------------------------------ DELETE CART ITEMS -------------------
+    const handleDeleteCartItems = async (goods_id, goods_name) => {
+        try {
+            const response = await fetch('/delete_cart_items', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ clientId, goods_id }),
+            });
+
+            if (response.ok) {
+                console.log('Cart items deleted successfully');
+                alert(`Item ${goods_name} deleted from Cart!`)
+                // You can perform additional actions if needed
+            } else {
+                console.error('Failed to delete cart items');
+            }
+        } catch (error) {
+            console.error('Error during cart item deletion:', error);
+        }
+    };
+
+
+    const cartDisplay = clientGoods.map((good) =>
         <div key={good.id}>
             <div>Service -{good.name}</div>
             <div>Price - {good.price}</div>
-            <br/>
+
+            <button onClick={() => handleDeleteCartItems(good?.id, good?.name)} >Remove Cart Item</button>
+            <br />
+            <br />
         </div>
-        
     )
 
-
-    
 
 
     // console.log(filteredCarts)

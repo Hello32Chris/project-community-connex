@@ -95,6 +95,27 @@ def add_to_cart():
         resp = make_response({'error': str(e)}, 500)
     return resp
 
+# -------------------------------------------------------------------------------------------------- DELETE CART ITEMS --------------------------
+@app.route('/delete_cart_items', methods=['POST'])
+def delete_cart_items():
+    try:
+        form_data = request.get_json()
+        client_id = int(form_data['clientId'])
+        goods_id = int(form_data['goods_id'])
+        print(client_id, goods_id)
+
+        if not client_id and goods_id:
+            return make_response({'error': 'Client ID is required'}, 400)
+
+        # Delete items from cart_table based on client_id
+        db.session.execute(cart_table.delete().where((cart_table.c.client_id == client_id) & (cart_table.c.goods_service_id == goods_id)))
+        db.session.commit()
+
+        return make_response({'message': 'Cart items deleted successfully'}, 200)
+
+    except Exception as e:
+        return make_response({'error': str(e)}, 500)
+
 #--------------------------------------------------------------------------------------------------- VIEW ALL STORES [GET]-------------------
 @app.route('/stores', methods=['GET'])
 def stores():
@@ -247,6 +268,7 @@ def create_transaction():
         total_amount = form_data['total_amount']
         store_id = form_data['store_id']
         client_id = form_data['client_id']
+        goods_service_names = form_data['goods_service_names']
 
         if not total_amount or not store_id or not client_id:
             return make_response({'error': 'Total amount, store_id, and client_id are required'}, 400)
@@ -257,8 +279,9 @@ def create_transaction():
         if not store or not client:
             return make_response({'error': 'Store or client not found'}, 404)
 
-        new_transaction = Transaction(total_amount=total_amount, store=store, client=client)
+        new_transaction = Transaction(total_amount=total_amount, store=store, client=client, goods_service_names=goods_service_names)
         db.session.add(new_transaction)
+        db.session.execute(cart_table.delete().where(cart_table.c.client_id == client_id))
         db.session.commit()
         return make_response({'message': 'Transaction added successfully'}, 201)
 

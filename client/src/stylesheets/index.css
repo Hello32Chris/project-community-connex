@@ -138,6 +138,15 @@ footer {
   margin-left: 40%;
 }
 
+#clienttrans{
+  background-color: grey;
+  height: 0;
+  width: 20%;
+  padding-bottom: 50%;
+  padding-top: 2%;
+  margin-left: 40%;
+}
+
 /* ----------------------------------THIS CODE BLOCK MAKES THE LOADING CIRCLES ON LOGIN------------------------start */
 
 .container {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import RegisterPage from "./RegisterPage";
 
 
@@ -9,6 +10,10 @@ export default function Checkout() {
     const [filteredCarts, setFilteredCarts] = useState([]);
     const [goods, setGoods] = useState([]);
     const [clientGoods, setClientGoods] = useState([]);
+
+    const clientId = client?.id
+    const history = useHistory()
+
     //------------------------------------------------------- CARTS FETCH --------------------
     useEffect(() => {
         const fetchCarts = () => {
@@ -62,7 +67,6 @@ export default function Checkout() {
     console.log(mappedGoods)
 
     //-------------------------------------------------------------------- FETCH CART BASED ON CLIENT SESSION ---------------------------------
-    const clientId = client?.id
 
     useEffect(() => {
         if (clientId) {
@@ -72,7 +76,7 @@ export default function Checkout() {
         }
     }, [clientId, carts]);
 
-    //   const clientGoods = mappedGoods.filter((goods) => goods.id)
+
     useEffect(() => {
         if (filteredCarts.length > 0 && goods.length > 0) {
             // Filter goods based on goods_service_id in filteredCarts
@@ -85,32 +89,94 @@ export default function Checkout() {
 
 
     console.log(clientGoods)
-
+    //--------------------------------------------------------------------------------- CALCULATE TOTAL OF CART ----------------------------
     const calculateTotalPrice = () => {
-        // Summing up the prices of goods in the cart
         const totalPrice = clientGoods.reduce((total, good) => total + good.price, 0);
         return totalPrice.toFixed(2); // Displaying the total price with two decimal places
-      };
-
+    };
+    //-------------------------------------------------------------------------- CART DISPLAY FOR RETURN ----------------
     const cartDisplay = clientGoods.map((good) =>
         <div key={good.id}>
             <div>Service -{good.name}</div>
             <div>Price - {good.price.toFixed(2)}</div>
-            <button>Remove from Cart</button>
-            <br/>
-            <br/>
+            <br />
+            <button onClick={() => handleDeleteCartItems(good.id, good.name)}>Remove from Cart</button>
+            <br />
+            <br />
         </div>
 
     )
 
+    //------------------------------------------------------------------------------ POST METHOD -------------------------
+    const checkout = async () => {
+        const confirmDelete = window.confirm(` Check Out for total   $${calculateTotalPrice()}?`)
+        if (confirmDelete) {
+            try {
+                const response = await fetch("/create_transaction", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        total_amount: calculateTotalPrice(),
+                        store_id: 2,
+                        client_id: clientId,
+                        goods_service_names: clientGoods.map((good) => good.name).join(", "),
+                    }),
+                });
 
-    return (
-        <div align='center' id="checkout">
-            {cartDisplay}
-            <div>Total Amount: ${calculateTotalPrice()}</div>
-            <br/>
-            <button onClick={() => document.documentElement.innerHTML="<div><h1>So proud of you!<br/>Keep up the great work!</h1><img src='https://t1.gstatic.com/licensed-image?q=tbn:ANd9GcTVNBVgDTZrFvUARECMzBrur7L34aGgMgeqrY3JE6rWUauX3cRgAjXim93D7cn2UTQM' alt=`Its a picture of a pupppy` ></img></div>"}>Checkout</button>
-        </div>
-    )
-}
+                if (response.ok) {
+                    alert('Transaction Completed!\nThank you!')
+                    setTimeout(() => {
+                        history.push('/client/transactions')
+                    }, 1000)
+                    console.log("Transaction created successfully");
+                } else {
+                    // Handle error (e.g., show an error message)
+                    console.error("Failed to create transaction");
+                }
+            } catch (error) {
+                // Handle network or other errors
+                console.error("Error during checkout:", error);
+            }
+        }
+    };
+    //----------------------------------------------------------------------------------- DELETE CART ITEMS ---------------
+    const handleDeleteCartItems = async (goods_id, goods_name) => {
+        const confirmDelete = window.confirm(` Remove ${goods_name} from Cart?`)
+        if (confirmDelete) {
+            try {
+                const response = await fetch('/delete_cart_items', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ clientId, goods_id }),
+                });
+
+                if (response.ok) {
+                    console.log('Cart items deleted successfully');
+                    alert(`Item ${goods_name} deleted from Cart!`)
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 10)
+                    // You can perform additional actions if needed
+                } else {
+                    console.error('Failed to delete cart items');
+                }
+            } catch (error) {
+                console.error('Error during cart item deletion:', error);
+            }
+        };}
+
+        //------------------------------------------------------------------------------------------------------------
+        return (
+            <div align='center' id="checkout">
+                {cartDisplay}
+                <div><b>Total Amount:</b> ${calculateTotalPrice()}</div>
+                <br />
+                <button onClick={checkout}>Checkout</button>
+            </div>
+        )
+    }
 

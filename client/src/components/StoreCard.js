@@ -70,7 +70,7 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
       <p>${parseFloat(good.price).toFixed(2)}</p>
       <img className="goodsimage" src={good.image} alt={`image for ${good.name} at price $${good.price}`} title={`image for ${good.name} at price $${good.price}`} />
       <br/>
-      <button onClick={() => handleAddToCart(good.id)}>Add to Cart</button>
+      <button onClick={() => handleAddToCart(good?.id)}>Add to Cart</button>
     </ul>
   ))
 
@@ -80,7 +80,7 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
     setSubToggle(!subToggle)
 
   }
-  console.log(storegoods)
+  // console.log(storegoods)
 
   return (
     <div>
