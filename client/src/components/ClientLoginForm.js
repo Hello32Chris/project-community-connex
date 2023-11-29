@@ -4,14 +4,12 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-const ClientLoginForm = ({ getClients, setClientLoggedIn, clientLoggedIn }) => {
+const ClientLoginForm = ({ setClientLoggedIn, clientLoggedIn }) => {
 
   const history = useHistory()
   const [message, setMessage] = useState('');
 
-
-
-
+// ------------------------------------------------------------------- FORM SCHEMA ------------
   const initialValues = {
     email: '',
     password: '',
@@ -22,6 +20,7 @@ const ClientLoginForm = ({ getClients, setClientLoggedIn, clientLoggedIn }) => {
     password: Yup.string().required('Required'),
   });
 
+// ----------------------------------------------------------------- POST FOR CLIENT LOGIN----
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       setMessage('Logging in...');
@@ -33,20 +32,16 @@ const ClientLoginForm = ({ getClients, setClientLoggedIn, clientLoggedIn }) => {
         },
         body: JSON.stringify(values),
       });
-
       if (response.ok) {
-        await response.json();
-        
-        // getClients(client); // this will allow me to alter state
+        await response.json();       
         setMessage('Login successful. Redirecting to home...');
         setTimeout(() => {
           history.push(`/stores`);
-          }, 2000);// After 2 seconds, navigate to the home page
+          }, 2000);
         setTimeout(() => {
             setClientLoggedIn(true)
             window.location.reload()
           }, 2000);
-
       } else {
         const error = await response.json();
         console.error('Login failed:', error);
@@ -57,10 +52,11 @@ const ClientLoginForm = ({ getClients, setClientLoggedIn, clientLoggedIn }) => {
     } catch (error) {
       console.error('Error during login:', error);
     }
-
     setSubmitting(false);
   };
-          console.log(clientLoggedIn)
+
+  console.log(clientLoggedIn)
+
     return (
       <div>
         {message ? (
@@ -77,8 +73,7 @@ const ClientLoginForm = ({ getClients, setClientLoggedIn, clientLoggedIn }) => {
           </div>
         ) : (
           <div>
-            <div>Client Login:</div>
-            
+            <div>Client Login:</div> 
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -108,7 +103,7 @@ const ClientLoginForm = ({ getClients, setClientLoggedIn, clientLoggedIn }) => {
       </div>
     );
   };
-          
+        
 
 export default ClientLoginForm;
 

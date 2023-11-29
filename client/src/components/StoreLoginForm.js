@@ -4,16 +4,12 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
-  // const loggedInStoreId = sessionStorage.getItem('store_id');
-
+const StoreLoginForm = ({ setStoreLoggedIn }) => {
 
   const history = useHistory()
   const [message, setMessage] = useState('');
 
-
-
-
+// -------------------------------------------------------------- SCHEMA SETUP -----------------
   const initialValues = {
     email: '',
     password: '', 
@@ -24,6 +20,7 @@ const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
     password: Yup.string().required('Required'),
   });
 
+// -------------------------------------------------------------- STORE LOGIN POST ------------
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       setMessage('Logging in...');
@@ -35,13 +32,9 @@ const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
         },
         body: JSON.stringify(values),
       });
-
       if (response.ok) {
-        // const store = 
         const store = await response.json();
-        // getStores(store);
-        setMessage('Login successful. Redirecting to Home...');
-        
+        setMessage('Login successful. Redirecting to Home...');     
         setTimeout(() => {
         history.push(`/stores/${store.id}`);
         }, 2000);// After 2 seconds, navigate to the home page
@@ -57,9 +50,10 @@ const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
     } catch (error) {
       console.error('Error during login:', error);
     }
-
     setSubmitting(false);
   };
+
+
 
   return (
     <div>
@@ -77,8 +71,7 @@ const StoreLoginForm = ({ setStoreLoggedIn, getStores }) => {
           </div>
       ) : (
         <div>
-            <div> Store Login: </div>
-          
+            <div> Store Login: </div>         
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

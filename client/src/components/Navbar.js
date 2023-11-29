@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import StoreAcctPage from "./StoreAcctPage";
 import { useHistory } from "react-router-dom";
 import CartCard from "./CartCard";
 
@@ -9,12 +8,12 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
   
   const [shop, setShop] = useState(null);
   const [client, setClient] = useState(null);
+  const [toggle, setToggle] = useState(false)
 
   const history = useHistory()
   
   
-  //----------------------------------------------------------- STORE LOGOUT -------------------
-
+//----------------------------------------------------------------------------------------- STORE LOGOUT ------------
   const handleStoreLogout = async () => {
     try {
       const response = await fetch('/store_logout', {
@@ -40,8 +39,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
     }
   }
 
-  //----------------------------------------------------------- CLIENT LOGOUT -------------------
-  
+//------------------------------------------------------------------------------------------- CLIENT LOGOUT -----------
   const handleClientLogout = async () => {
     try {
       const response = await fetch('/client_logout', {
@@ -67,8 +65,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
     }
   }
 
-
-  //----------------------------------------------------------- STORE SESSION CHECK -------------------
+//---------------------------------------------------------------------------------------- STORE SESSION CHECK --------
   useEffect(() => {
     fetch("/check_store_session").then((resp) => {
       if (resp.ok) {
@@ -78,12 +75,11 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
   }, []);
 
   const loggedInStoreId = shop && shop.id;
-
   const slog = shop ? true : false;
 
   console.log(shop)
-  //----------------------------------------------------------- CLIENT SESSION CHECK -------------------
 
+//----------------------------------------------------------------------------------------- CLIENT SESSION CHECK --------
   useEffect(() => {
     fetch("/check_client_session").then((resp) => {
       if (resp.ok) {
@@ -92,19 +88,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
     });
   }, []);
 
-  const loggedInClientId = client && client.id;
-
   const clog = client ? true : false
-
-  const clientCart = client?.client_carts
-
-  const mappedCart = clientCart?.map((cart) => {
-    // console.log(cart)
-  })
-
-
-  
-  const [toggle, setToggle] = useState(false)
 
   const cart = (!toggle ? <button className="login-butt" id="cartbtn" onClick={() => setToggle(true)}>Cart</button> :
     <nav >
@@ -115,7 +99,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
       </div>
     </nav>)
 
-
+// ---------------------------------------------------------------------------- CONDITIONALLY RENDERED NAVBAR -------------
   const nav =
     <nav id="navbar">
       <div className="navbar">
@@ -158,7 +142,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
             </div>
           </nav>
         ) : (
-          // Display dynamic navigation based on login status
+//----------------- NAV DISPLAY -----//
           nav
         )}
       </ul>

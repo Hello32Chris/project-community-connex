@@ -4,6 +4,7 @@ import StoreCard from "./StoreCard";
 export default function Stores({ stores }) {
 
 
+// ----------------------------------------------------------- STORE LOGIN POST ------------
     const storeView = stores.map((store) => {
         return <div key={store.id} align='center' className="storess">
             <StoreCard 
@@ -17,8 +18,6 @@ export default function Stores({ stores }) {
             />
         </div>
     })
-
-    // console.log(stores)
 
 
     return (

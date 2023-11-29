@@ -3,18 +3,15 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useHistory } from "react-router-dom";
 
-import StoreCard from "./StoreCard";
-import TransactionsByStore from "./TransactionsByStore";
 
 
-export default function StoreAcctPage({ stores }) {
+export default function StoreAcctPage() {
 
   const history = useHistory()
 
-  const [store, setStore] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [shop, setShop] = useState(null);
 
+// ------------------------------------------------------------------- CHECK STORE SESSION ---------------
   useEffect(() => {
     fetch("/check_store_session").then((resp) => {
       if (resp.ok) {
@@ -24,16 +21,14 @@ export default function StoreAcctPage({ stores }) {
   }, []);
 
   const loggedInStoreId = shop && shop.id;
-
-
   console.log(loggedInStoreId ? loggedInStoreId : 'none')
 
-
+// ---------------------------------------------------------------- SETTING VARIABLES BASED ON SESSION ---
   const nameStore = shop?.name
   const emailStore = shop?.email
   const codeStore = shop?.code
 
-  //--------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------- FORM SCHEMA -----------------
   const initialValues = {
     name: nameStore,
     email: emailStore,
@@ -47,6 +42,7 @@ export default function StoreAcctPage({ stores }) {
     // Add more validations as needed
   });
 
+// ---------------------------------------------------------------------------- FORM SCHEMA ---------------
   const handleSubmit = async (values, { setSubmitting }) => {
     const confirmDelete = window.confirm(`Are you sure you want to alter the profile for ${nameStore}?`);
 
@@ -82,15 +78,14 @@ export default function StoreAcctPage({ stores }) {
 
   const storeId = shop?.id
 
+// ------------------------------------------------------------------- DELETE STORE ACCOUNT --------
   const handleDelete = async () => {
     const confirmDelete = window.confirm(`Are you sure you want to Delete profile for ${nameStore}?`);
-
     if (confirmDelete) {
       try {
         const response = await fetch(`/stores/${storeId}`, {
           method: 'DELETE',
         });
-
         if (response.ok) {
           alert('Store deleted successfully');
           history.push('/login')
@@ -109,13 +104,9 @@ export default function StoreAcctPage({ stores }) {
   };
 
 
-
-
   return (
     <div align='center' id="account">
       <h2>Edit Account for {nameStore}!</h2>
-
-      {/* Formik form for editing store details */}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -128,21 +119,17 @@ export default function StoreAcctPage({ stores }) {
             <ErrorMessage name="name" component="div" />
           </div>
           <br />
-
           <div>
             <label htmlFor="email"><b>Store Email:</b></label>
             <Field type="email" id="email" name="email" />
             <ErrorMessage name="email" component="div" />
           </div>
           <br />
-
           <div>
             <label htmlFor="code"><b>Store Code:</b></label>
             <Field type="text" id="code" name="code" />
             <ErrorMessage name="code" component="div" />
           </div>
-
-          {/* Add more form fields as needed */}
           <br />
           <div>
             <button type="submit">Save Changes</button>
@@ -150,16 +137,12 @@ export default function StoreAcctPage({ stores }) {
         </Form>
       </Formik>
 
-
       <h2>Welcome to the Store Dashboard, {nameStore}!</h2>
       <p>Store Name: {nameStore}</p>
       <p>Store Email: {emailStore}</p>
       <p>Store Code: {codeStore}</p>
-      {/* <TransactionsByStore storename={store.name} storeId={store.id} /> */}
-      {/* Add more components or details as needed */}
       <br />
       <button onClick={handleDelete}>Delete Account</button>
-
     </div>
   );
 };

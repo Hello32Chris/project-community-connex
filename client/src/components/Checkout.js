@@ -14,7 +14,7 @@ export default function Checkout() {
     const clientId = client?.id
     const history = useHistory()
 
-    //------------------------------------------------------- CARTS FETCH --------------------
+//--------------------------------------------------------- CARTS FETCH -----------------------------
     useEffect(() => {
         const fetchCarts = () => {
             fetch('/carts')
@@ -31,10 +31,11 @@ export default function Checkout() {
                     console.error(error.message);
                 });
         };
-
         fetchCarts();
     }, [client.id]);
-    //--------------------------------------------------------- CHECK CLIENT SESSION ---------------------
+
+
+//--------------------------------------------------------- CHECK CLIENT SESSION ---------------------
     useEffect(() => {
         fetch("/check_client_session").then((resp) => {
             if (resp.ok) {
@@ -44,7 +45,7 @@ export default function Checkout() {
     }, []);
 
 
-    //------------------------------------------------------------ GOODS SERVICES FETCH --------------------
+//------------------------------------------------------------ GOODS SERVICES FETCH -------------------
     useEffect(() => {
         fetch('/goods')
             .then((response) => response.json())
@@ -66,20 +67,18 @@ export default function Checkout() {
 
     console.log(mappedGoods)
 
-    //-------------------------------------------------------------------- FETCH CART BASED ON CLIENT SESSION ---------------------------------
-
+//-------------------------------------------------- FETCH CART BASED ON CLIENT SESSION --------------------
     useEffect(() => {
         if (clientId) {
-            // Filter carts based on clientId
             const clientCarts = carts.filter((cart) => cart.client_id === clientId);
             setFilteredCarts(clientCarts);
         }
     }, [clientId, carts]);
 
 
+//------------------------------------------------ COMPARING FETCHED CARTS AND GOODS/SERVICES TO GET LIST----
     useEffect(() => {
         if (filteredCarts.length > 0 && goods.length > 0) {
-            // Filter goods based on goods_service_id in filteredCarts
             const goodsInCarts = filteredCarts.map((cart) =>
                 goods.find((good) => good.id === cart.goods_service_id)
             );
@@ -87,14 +86,15 @@ export default function Checkout() {
         }
     }, [filteredCarts, goods]);
 
-
     console.log(clientGoods)
-    //--------------------------------------------------------------------------------- CALCULATE TOTAL OF CART ----------------------------
+
+//------------------------------------------------------------ CALCULATE TOTAL OF CART ------------------------
     const calculateTotalPrice = () => {
         const totalPrice = clientGoods.reduce((total, good) => total + good.price, 0);
-        return totalPrice.toFixed(2); // Displaying the total price with two decimal places
+        return totalPrice.toFixed(2); 
     };
-    //-------------------------------------------------------------------------- CART DISPLAY FOR RETURN ----------------
+
+//-------------------------------------------------------------------------- CART DISPLAY FOR RETURN ----------
     const cartDisplay = clientGoods.map((good) =>
         <div key={good.id}>
             <div>Service -{good.name}</div>
@@ -107,7 +107,7 @@ export default function Checkout() {
 
     )
 
-    //------------------------------------------------------------------------------ POST METHOD -------------------------
+//------------------------------------------------------------------------------ POST METHOD --------------------
     const checkout = async () => {
         const confirmDelete = window.confirm(` Check Out for total   $${calculateTotalPrice()}?`)
         if (confirmDelete) {
@@ -124,7 +124,6 @@ export default function Checkout() {
                         goods_service_names: clientGoods.map((good) => good.name).join(", "),
                     }),
                 });
-
                 if (response.ok) {
                     alert('Transaction Completed!\nThank you!')
                     setTimeout(() => {
@@ -132,16 +131,15 @@ export default function Checkout() {
                     }, 1000)
                     console.log("Transaction created successfully");
                 } else {
-                    // Handle error (e.g., show an error message)
                     console.error("Failed to create transaction");
                 }
             } catch (error) {
-                // Handle network or other errors
                 console.error("Error during checkout:", error);
             }
         }
     };
-    //----------------------------------------------------------------------------------- DELETE CART ITEMS ---------------
+
+//----------------------------------------------------------------------------------- DELETE CART ITEMS -----------
     const handleDeleteCartItems = async (goods_id, goods_name) => {
         const confirmDelete = window.confirm(` Remove ${goods_name} from Cart?`)
         if (confirmDelete) {
@@ -153,14 +151,12 @@ export default function Checkout() {
                     },
                     body: JSON.stringify({ clientId, goods_id }),
                 });
-
                 if (response.ok) {
                     console.log('Cart items deleted successfully');
                     alert(`Item ${goods_name} deleted from Cart!`)
                     setTimeout(() => {
                         window.location.reload()
                     }, 10)
-                    // You can perform additional actions if needed
                 } else {
                     console.error('Failed to delete cart items');
                 }
@@ -169,7 +165,6 @@ export default function Checkout() {
             }
         };}
 
-        //------------------------------------------------------------------------------------------------------------
         return (
             <div align='center' id="checkout">
                 {cartDisplay}

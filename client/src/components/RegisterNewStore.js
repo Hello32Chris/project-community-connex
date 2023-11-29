@@ -9,7 +9,7 @@ const history = useHistory()
 const [message, setMessage] = useState('');
 
 
-
+// ------------------------------------------------------------------- FORM SCHEMA ---------------
   const initialValues = {
     name: '',
     email: '',
@@ -26,6 +26,7 @@ const [message, setMessage] = useState('');
       .required('Required'),
   });
 
+// ------------------------------------------------------------------- NEW STORE SIGNUP ---------------
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await fetch('/store_signup', {
@@ -35,12 +36,11 @@ const [message, setMessage] = useState('');
         },
         body: JSON.stringify(values),
       });
-
       if (response.ok) {
         const storeData = await response.json();
         setMessage('Registration successful. Redirecting to home...');
         setTimeout(() => {
-          history.push(`/stores/${storeData.id}`); // After 4 seconds, navigate to the store profile page
+          history.push(`/stores/${storeData.id}`);
         }, 100);
         setTimeout(() => {
            alert('Lets set up Your profile!')
@@ -48,7 +48,6 @@ const [message, setMessage] = useState('');
         setTimeout(() => {
           window.location.reload() 
         }, 200);
-
       } else {
         const error = await response.json();
         console.error('Store signup failed:', error);
@@ -56,7 +55,6 @@ const [message, setMessage] = useState('');
     } catch (error) {
       console.error('Error during store signup:', error);
     }
-
     setSubmitting(false);
   };
 

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Formik, Form, Field } from 'formik';
 
-export default function StoreProfile({ stores }) {
+export default function StoreProfile() {
+    
     const { store_id } = useParams();
 
     const [shop, setShop] = useState(null);
@@ -13,7 +14,7 @@ export default function StoreProfile({ stores }) {
     const slog = storeSession?.id === shop?.id ? true : false;
 
 
-    //------------------------------------------------------ FETCH FOR CLIENT SESSION -->
+//------------------------------------------------------ FETCH FOR CLIENT SESSION ---------
     useEffect(() => {
         fetch("/check_client_session").then((resp) => {
             if (resp.ok) {
@@ -23,6 +24,7 @@ export default function StoreProfile({ stores }) {
     }, []);
 
 
+//------------------------------------------------------ FETCH FOR STORE SESSION ---------
     useEffect(() => {
         fetch("/check_store_session").then((resp) => {
             if (resp.ok) {
@@ -31,7 +33,8 @@ export default function StoreProfile({ stores }) {
         });
     }, []);
 
-    //------------------------------------------------------ ADD TO CART --------------->
+
+//------------------------------------------------------ ADD TO CART ----------------------
     const handleAddToCart = async (goodsServiceID) => {
         try {
             const response = await fetch('/add_to_cart', {
@@ -56,7 +59,9 @@ export default function StoreProfile({ stores }) {
             console.error('Error:', error);
         }
     };
-    //------------------------------------------------------ FETCH STORE BY ID ----->
+
+
+//------------------------------------------------------------------ FETCH STORE BY ID -----
     useEffect(() => {
         const fetchStoreById = async () => {
             try {
@@ -71,10 +76,11 @@ export default function StoreProfile({ stores }) {
                 console.error("Error fetching store data:", error);
             }
         };
-
         fetchStoreById();
     }, [store_id]);
 
+
+// ------------------------------------------------------------ MAP THROUGH SHOP PROFILE -----
     const shopProfile = shop?.store_profile.map((prof) => (
         <div key={prof.id}>
             <h1>{prof.bio}</h1>
@@ -83,6 +89,8 @@ export default function StoreProfile({ stores }) {
         </div>
     ));
 
+
+// --------------------------------------------------------------- MAP THROUGHT STORE GOODS ----
     const goods = shop?.goods_services.map((good) => (
         <div key={good.id}>
             <br />
@@ -96,6 +104,8 @@ export default function StoreProfile({ stores }) {
 
     const initialValues = shop?.store_profile[0] || { bio: '', location: '', phone_number: '' };
 
+
+// -------------------------------------------------------------- PROFILE UPDATE FORM ------------
     const storeProfileForm = (
         <Formik
             initialValues={initialValues}
@@ -129,6 +139,8 @@ export default function StoreProfile({ stores }) {
         </Formik>
     );
 
+
+// -------------------------------------------------------------- PATCH PROFILE ------------
     const handleUpdateStoreProfile = async (updatedProfile) => {
         try {
             const response = await fetch(`/store_profiles/${shop?.store_profile[0]?.id}`, {
@@ -153,7 +165,6 @@ export default function StoreProfile({ stores }) {
     };
 
     
-
     const toggleForm = () => {
         setShowForm(!showForm);
     };
@@ -165,12 +176,12 @@ export default function StoreProfile({ stores }) {
             <br />
             {goods}
             <br />
-
             {slog && <button onClick={toggleForm}>{showForm ? 'Hide Edit Profile' : 'Show Edit Profile'}</button>}
             {showForm && storeProfileForm}
-            {showForm && <div>
-                <Link to={`/store/services`} style={{ textDecoration: 'none', color: 'inherit' }} ><h2 id='editgoodsbtn'>Edit Goods and Services</h2></Link>
-            </div>}
+            {showForm && 
+                <div>
+                    <Link to={`/store/services`} style={{ textDecoration: 'none', color: 'inherit' }} ><h2 id='editgoodsbtn'>Edit Goods and Services</h2></Link>
+                </div>}
         </div>
     );
 }

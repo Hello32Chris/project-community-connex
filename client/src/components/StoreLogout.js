@@ -5,9 +5,9 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 const StoreLogout = () => {
 
   const history = useHistory()
-  
-  const handleStoreLogout = async () => {
 
+// -------------------------------------------------------------- STORE LOGOUT ------------  
+  const handleStoreLogout = async () => {
     try {
         const response = await fetch('/store_logout', {
             method: 'DELETE',
@@ -30,8 +30,7 @@ const StoreLogout = () => {
 
   return (
     <div>
-      <p>Logging out...</p>
-      {/* You can add a loading spinner or other UI elements here */}
+      <p>Logging out... 🏈</p>
     </div>
   );
 };

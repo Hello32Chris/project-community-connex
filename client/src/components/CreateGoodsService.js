@@ -7,6 +7,7 @@ export default function GoddsServiceForm() {
 
     const [shop, setShop] = useState(null)
 
+//---------------------------------------------------------------------- HANDLE SUBMIT FORM ----
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         try {
           const response = await fetch('/create_goods_service', {
@@ -35,8 +36,7 @@ export default function GoddsServiceForm() {
         }
       };
 
-
-
+// ------------------------------------------------------------------- CHECK CLIENT SESSION ------      
       useEffect(() => {
         fetch("/check_store_session").then((resp) => {
           if (resp.ok) {
@@ -50,6 +50,7 @@ export default function GoddsServiceForm() {
 
       console.log(shop?.goods_services)
 
+// --------------------------------------------------------------- MAP AND CREATE GOODS CARD -----
       const goodsCard = shop && shop.goods_services.map((good) => {
         return <GoodsCard key={good.id}
             id={good.id}
@@ -58,6 +59,7 @@ export default function GoddsServiceForm() {
             image={good.image}
         />
       })
+
 
       return (
         <div align='center'>
@@ -73,7 +75,6 @@ export default function GoddsServiceForm() {
           }}
           validate={(values) => {
             const errors = {};
-            // Add custom validation logic if needed
             return errors;
           }}
           onSubmit={handleSubmit}
@@ -85,21 +86,18 @@ export default function GoddsServiceForm() {
               <ErrorMessage name="name" component="div" />
             </div>
             <br/>
-    
             <div>
               <label id='imagelabel' htmlFor="image">Image:</label>
               <Field style={{resize:'none'}} as="textarea" id="image" name="image" />
               <ErrorMessage name="image" component="div" />
             </div>
-            <br/>
-    
+            <br/>   
             <div>
               <label htmlFor="price">Price:</label>
               <Field type="number" id="price" name="price" />
               <ErrorMessage name="price" component="div" />
             </div>
-            <br/>
-    
+            <br/>    
             <div>
               <button type="submit">Submit</button>
             </div>

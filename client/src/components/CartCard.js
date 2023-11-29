@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import RegisterPage from "./RegisterPage";
 
 
 export default function CartCard() {
@@ -11,7 +10,7 @@ export default function CartCard() {
     const [clientGoods, setClientGoods] = useState([]);
 
 
-    //------------------------------------------------------- CARTS FETCH --------------------
+//------------------------------------------------------------------- CARTS FETCH --------------------
     useEffect(() => {
         const fetchCarts = () => {
             fetch('/carts')
@@ -28,10 +27,11 @@ export default function CartCard() {
                     console.error(error.message);
                 });
         };
-
         fetchCarts();
     }, [client.id]);
-    //--------------------------------------------------------- CHECK CLIENT SESSION ---------------------
+
+
+//--------------------------------------------------------- CHECK CLIENT SESSION ---------------------
     useEffect(() => {
         fetch("/check_client_session").then((resp) => {
             if (resp.ok) {
@@ -41,7 +41,7 @@ export default function CartCard() {
     }, []);
 
 
-    //------------------------------------------------------------ GOODS SERVICES FETCH --------------------
+//------------------------------------------------------------ GOODS SERVICES FETCH -------------------
     useEffect(() => {
         fetch('/goods')
             .then((response) => response.json())
@@ -54,6 +54,8 @@ export default function CartCard() {
             });
     }, []);
 
+
+//------------------------------------------------------------ MAPPING THRU MAPPED-GOODS --------------
     const mappedGoods = goods.map((good) => {
         const id = good.id
         const name = good.name
@@ -63,21 +65,21 @@ export default function CartCard() {
 
     console.log(mappedGoods)
 
-    //-------------------------------------------------------------------- FETCH CART BASED ON CLIENT ID being pulled in by session ---------------------------------
+
+//----------------------------------------------------- FETCH CART BASED ON CLIENT SESSION ------------
     const clientId = client?.id
 
     useEffect(() => {
         if (clientId) {
-            // Filter carts based on clientId
             const clientCarts = carts.filter((cart) => cart.client_id === clientId);
             setFilteredCarts(clientCarts);
         }
     }, [clientId, carts]);
 
-    //----------------------------------------------------------------------------------- FILTER THROUGH CARTS BY GOODS ID ------
+
+//--------------------------------------------------------------- FILTER THROUGH CARTS BY GOODS ID ------
     useEffect(() => {
         if (filteredCarts.length > 0 && goods.length > 0) {
-            // Filter goods based on goods_service_id in filteredCarts
             const goodsInCarts = filteredCarts.map((cart) =>
                 goods.find((good) => good.id === cart.goods_service_id)
             );
@@ -85,9 +87,10 @@ export default function CartCard() {
         }
     }, [filteredCarts, goods]);
 
-
     console.log(clientGoods)
-    //------------------------------------------------------------------ DELETE CART ITEMS -------------------
+
+
+//------------------------------------------------------------------ DELETE CART ITEMS -------------------
     const handleDeleteCartItems = async (goods_id, goods_name) => {
         try {
             const response = await fetch('/delete_cart_items', {
@@ -97,11 +100,9 @@ export default function CartCard() {
                 },
                 body: JSON.stringify({ clientId, goods_id }),
             });
-
             if (response.ok) {
                 console.log('Cart items deleted successfully');
                 alert(`Item ${goods_name} deleted from Cart!`)
-                // You can perform additional actions if needed
             } else {
                 console.error('Failed to delete cart items');
             }
@@ -111,25 +112,16 @@ export default function CartCard() {
     };
 
 
+//---------------------------------------------------------------------- CARTS MAPPED OUT FOR DISPLAY ------
     const cartDisplay = clientGoods.map((good) =>
         <div key={good.id}>
             <div>Service -{good.name}</div>
             <div>Price - {good.price}</div>
-
             <button onClick={() => handleDeleteCartItems(good?.id, good?.name)} >Remove Cart Item</button>
             <br />
             <br />
         </div>
     )
-
-
-
-    // console.log(filteredCarts)
-    // console.log(clientId)
-    // console.log(goods)
-
-
-
 
     return (
         <div align='center' id="cart">

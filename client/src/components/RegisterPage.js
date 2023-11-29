@@ -6,12 +6,6 @@ const RegisterPage = () => {
 
   const [clicked, setClicked] = useState(true)
 
-
-  const handleSignup = (storeData) => {
-    // Handle successful signup, e.g., redirect to a different page
-    console.log('Store signup successful:', storeData);
-  };
-
   const handleClick = () => {
     return setClicked(!clicked)
   }

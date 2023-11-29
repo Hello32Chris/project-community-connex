@@ -1,18 +1,12 @@
 import React, { useState, useEffect } from "react";
-import TransactionsCard from "./TransactionsCard";
 
-export default function ClientCard({ id, name, email, trans }) {
 
-  // console.log(name)
-  // console.log(email)
-  // console.log(id)
-  console.log(id)
+export default function ClientCard({ id, name, email}) {
 
-  //---------------STATE-------------
   const [shop, setShop] = useState(null);
+  const [getmessage, setMessage] = useState('');
 
-
-
+//--------------------------------------------------------------------STORE SESSION CHECK ----------------------------------
   useEffect(() => {
     fetch("/check_store_session").then((resp) => {
       if (resp.ok) {
@@ -23,13 +17,7 @@ export default function ClientCard({ id, name, email, trans }) {
 
   console.log(shop?.code)
 
-
-
-
-
-
-  //---------------------------------------------------------------- MY CLIENT REMOVE FROM SUBSCRIBED CLIENTS BUTTON-------------------------------
-  const [getmessage, setMessage] = useState('');
+//------------------------------------------------------ REMOVE CLIENT FROM SUBSCRIBED CLIENTS -------------------------------
 
   const shopCode = shop?.code
   const shopName = shop?.name
@@ -46,10 +34,6 @@ export default function ClientCard({ id, name, email, trans }) {
           },
           body: JSON.stringify({ client_id: id, store_code: shopCode }),
         });
-
-        const data = await response.json();
-        console.log(response.status)
-
         if (response.ok) {
           alert(`Successfully unsubscribed ${name} from ${shopName}`)
           setTimeout(() => {
@@ -67,13 +51,6 @@ export default function ClientCard({ id, name, email, trans }) {
     };
   }
 
-
-
-
-
-
-
-
   return (
     <div align='center'>
       {getmessage ? getmessage : ''}
@@ -85,11 +62,6 @@ export default function ClientCard({ id, name, email, trans }) {
       <br />
       <button onClick={handleUnsubscribe}>Unsubscribe Client</button>
       <br />
-      <br />
-      {/* <b><h1>Transactions:</h1> </b>
-            <button onClick={toggleTransactions}>{showTransactions ? 'Hide Transactions' : 'Show Transactions'}</button>
-            <br/>
-            {showTransactions && <TransactionsCard  clientid={id} trans={trans} />} */}
       <br />
     </div>
   )

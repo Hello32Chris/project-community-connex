@@ -9,7 +9,7 @@ export default function SubscribeButton({ storecode, storeid, storename }) {
     const [client, setclient] = useState([])
 
 
-    //------------------------------------------------------------------ CLIENT CHECK SESSION -------------------------
+//------------------------------------------------------------------ CLIENT CHECK SESSION -------------------------
     useEffect(() => {
         fetch("/check_client_session").then((resp) => {
             if (resp.ok) {
@@ -19,21 +19,22 @@ export default function SubscribeButton({ storecode, storeid, storename }) {
     }, []);
 
 
-    //------------------------------------------------------------------ SUBSCRIPTION LOGIC --------------------------------------------
+//------------------------------------------------------------------ SUBSCRIPTION LOGIC --------------------------------------------
     const subStores = client?.subscribed_stores || []
     const mappedStoreIds = subStores.map((store) => {
         const id = store.id
         return id
     })
 
-    //------------------------------------------ CHECKS FOR SUBSCRIPTIONS ALREADY PRESENT AND FLIPS BUTTONS BASED ON CLIENT SESSION ----------------------
+    
+//------------------------------------------ CHECKS FOR SUBSCRIPTIONS ALREADY PRESENT AND FLIPS BUTTONS BASED ON CLIENT SESSION ----------------------
     const checkSub = useEffect(() => {
         if (mappedStoreIds.includes(storeid))
             setSubToggle(true)
     }, [mappedStoreIds, storeid])
 
 
-    //------------------------------------------------------------------------------------------------ HANDLE SUBSCRIBE -------------------------
+//------------------------------------------------------------------------------------------------ HANDLE SUBSCRIBE -------------------------
     const clientId = client?.id
     const handleUnsubscribe = async () => {
         const confirmUnsub = window.confirm(`Are you sure you want to usunbscribe from ${storename}?`);
@@ -69,7 +70,7 @@ export default function SubscribeButton({ storecode, storeid, storename }) {
     }
 
 
-    //------------------------------------------------------------------------------------------------ HANDLE SUBSCRIBE -------------------------
+//------------------------------------------------------------------------------------------------ HANDLE SUBSCRIBE -------------------------
     const handleSubscribe = async () => {
         try {
             const response = await fetch('/subscribe', {
@@ -104,9 +105,7 @@ export default function SubscribeButton({ storecode, storeid, storename }) {
 
     if (!client) {
         return <p>Loading...</p>; // You might want to display a loading indicator
-    }
-
-    //  
+    } 
 
 
     return (

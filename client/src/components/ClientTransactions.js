@@ -5,6 +5,7 @@ export default function ClientTransactions() {
 
   const [client, setClient] = useState(null)
 
+//-------------------------------------------------------------------- CHECK CLIENT SESSION -----------
   useEffect(() => {
     fetch("/check_client_session").then((resp) => {
       if (resp.ok) {
@@ -15,6 +16,7 @@ export default function ClientTransactions() {
 
   console.log(client?.transactions)
 
+// ------------------------------------------------------------------ MAPPED CLIENT TRANSACTIONS ------
   const clientTransactions = client?.transactions.map((trans) => {
     const formattedDate = new Date(trans.timestamp).toLocaleString('en-US', {
       year: 'numeric',
@@ -25,7 +27,6 @@ export default function ClientTransactions() {
       hour12: true,
       timeZone: 'America/New_York',
     });
-
     return (<div key={trans.id}>
       <div><b>Service(s) Received:</b> <h5>{trans.goods_service_names}</h5></div>
       <div><b>Total Amount Paid:</b> ${trans.total_amount.toFixed(2)}</div>
@@ -39,15 +40,6 @@ export default function ClientTransactions() {
     );
   })
 
-
-
-
-
-
-
-
-
-
   return (
     <div align='center' id="clienttrans">
       Client Transactions for {client?.name}:
@@ -58,4 +50,3 @@ export default function ClientTransactions() {
     </div>
   )
 }
-

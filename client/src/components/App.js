@@ -16,8 +16,6 @@ import SubscribedStores from './SubscribedStores';
 import Checkout from './Checkout';
 import ClientTransactions from './ClientTransactions';
 
-
-
 export default function App() {
 
     const [clients, setClients] = useState([])
@@ -27,7 +25,7 @@ export default function App() {
     const [shop, setShop] = useState(null);
     // const [loggedInStoreId, setLoggedInStoreId] = useState(null);
     
-    //-------------------------------------------------------------------------- CLIENTS FETCH -------------
+//-------------------------------------------------------------------------- CLIENTS FETCH ------------------------------
     useEffect(() => {
         fetch('/clients')
         .then((resp) => resp.json())
@@ -35,16 +33,14 @@ export default function App() {
     }, [])
     
 
-    //-------------------------------------------------------------------------- STORES FETCH -------------
-
+//-------------------------------------------------------------------------- STORES FETCH -------------------------------
     useEffect(() => {
         fetch('/stores')
             .then((resp) => resp.json())
             .then((data) => setStores(data))
     }, [])
 
-    // --------------------------------------------------------- CHECK SESSION FOR STORE ---------------------
-
+// ------------------------------------------------------------------------- CHECK SESSION FOR STORE ---------------------
     useEffect(() => {
       fetch("/check_store_session").then((resp) => {
         if (resp.ok) {
@@ -54,7 +50,13 @@ export default function App() {
     }, []);
 
     const loggedInStoreId = shop && shop.id;
-    console.log(shop)
+    console.log(loggedInStoreId)
+
+
+
+
+
+
 
     return (
         <>
@@ -67,8 +69,8 @@ export default function App() {
         </div>
         <div id='maindiv'>
             <Switch>
-                <Route exact path="/Login"><Login  setClientLoggedIn={setClientLoggedIn} setStoreLoggedIn={setStoreLoggedIn} /></Route>
                 <Route exact path='/'><Home /></Route>
+                <Route exact path="/Login"><Login  setClientLoggedIn={setClientLoggedIn} setStoreLoggedIn={setStoreLoggedIn} /></Route>
                 <Route exact path='/clients'><Clients clients={clients} /></Route>
                 <Route exact path='/client/transactions'><ClientTransactions /></Route>
                 <Route exact path='/cart'><Checkout /></Route>

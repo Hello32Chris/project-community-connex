@@ -9,14 +9,13 @@ const history = useHistory()
 const [message, setMessage] = useState('');
 
 
-
+// ------------------------------------------------------------------- FORM SCHEMA ---------------
   const initialValues = {
     name: '',
     email: '',
     password: '',
     confirmPassword: '', // New field for confirming the password
   };
-
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Required'),
     email: Yup.string().email('Invalid email address').required('Required'),
@@ -26,6 +25,8 @@ const [message, setMessage] = useState('');
       .required('Required'),
   });
 
+
+// --------------------------------------------------------------- HANDLE NEW CLIENT SIGNUP ------
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await fetch('/client_signup', {
@@ -35,7 +36,6 @@ const [message, setMessage] = useState('');
         },
         body: JSON.stringify(values),
       });
-
       if (response.ok) {
         const clientData = await response.json();// Callback to handle successful signup
         setMessage('Login successful. Redirecting to home...');
@@ -53,9 +53,9 @@ const [message, setMessage] = useState('');
     } catch (error) {
       console.error('Error during store signup:', error);
     }
-
     setSubmitting(false);
   };
+
 
   return (
     <div>

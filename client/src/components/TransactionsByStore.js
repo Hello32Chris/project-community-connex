@@ -6,6 +6,8 @@ const TransactionsByStore = () => {
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
+// ------------------------------------------------------------------ STORE SESSION CHECK --------------
   useEffect(() => {
     fetch("/check_store_session")
       .then((resp) => {
@@ -15,6 +17,7 @@ const TransactionsByStore = () => {
       });
   }, []);
 
+// ------------------------------------------------------------------ FETCH FOR ALL TRANSACTIONS --------
   useEffect(() => {
     fetch('/transactions')
       .then((resp) => resp.json())
@@ -22,18 +25,16 @@ const TransactionsByStore = () => {
       .finally(() => setLoading(false));
   }, []);
 
+// -------------------------------------------------------------------   
   useEffect(() => {
     if (!shop || !trans || loading) {
       return;
     }
-
     const shopGoodsServiceNames = shop.goods_services.map((service) => service.name);
-
     const filtered = trans.filter((transaction) => {
       const transactionGoodsServiceNames = transaction.goods_service_names?.split(', ') || [];
       return transactionGoodsServiceNames.some((name) => shopGoodsServiceNames.includes(name));
     });
-
     setFilteredTransactions(filtered);
   }, [shop, trans, loading]);
 
@@ -41,13 +42,14 @@ const TransactionsByStore = () => {
 
   return (
     <div align='center' className='storess'>
-      <h2>Filtered Transactions for {shop ? shop.name : ""}</h2>
+      <br/>
+      <h2>Filtered Transactions for<br/> {shop ? shop.name : ""}</h2>
       <ul>
         {filteredTransactions.map((tran) => (
           <div key={tran.id}>
             <p>Client: {tran.client.name}</p>
             <p>Email: {tran.client.email}</p>
-            <p>Total Amount: {tran.total_amount}</p>
+            <p>Total Amount: ${tran.total_amount.toFixed(2)}</p>
             <p>Services: {tran.goods_service_names}</p>
           </div>
         ))}
