@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-
-
-
+import { useParams, Link } from "react-router-dom";
+import { Formik, Form, Field } from 'formik';
 
 export default function StoreProfile({ stores }) {
-    const { store_id } = useParams()
+    const { store_id } = useParams();
 
     const [shop, setShop] = useState(null);
+    const [storeSession, setStoreSession] = useState(null)
     const [client, setClient] = useState(null);
+    const [showForm, setShowForm] = useState(false);
+    const clientId = client?.id;
+    const slog = storeSession?.id === shop?.id ? true : false;
 
 
-
+    //------------------------------------------------------ FETCH FOR CLIENT SESSION -->
     useEffect(() => {
         fetch("/check_client_session").then((resp) => {
             if (resp.ok) {
@@ -20,9 +22,16 @@ export default function StoreProfile({ stores }) {
         });
     }, []);
 
-    const clog = client ? true : false;
-    const clientId = client?.id
-    //------------------------------------------------------------------------------ ADD TO CART ------------------------------
+
+    useEffect(() => {
+        fetch("/check_store_session").then((resp) => {
+            if (resp.ok) {
+                resp.json().then(setStoreSession);
+            }
+        });
+    }, []);
+
+    //------------------------------------------------------ ADD TO CART --------------->
     const handleAddToCart = async (goodsServiceID) => {
         try {
             const response = await fetch('/add_to_cart', {
@@ -35,27 +44,22 @@ export default function StoreProfile({ stores }) {
                     goods_service_id: goodsServiceID,
                 }),
             });
-
             if (response.ok) {
-                alert(`Added to Cart Successfully`)
+                alert(`Added to Cart Successfully`);
                 const data = await response.json();
-                console.log(data.message); // or handle success in some way
+                console.log(data.message);
             } else {
                 const errorData = await response.json();
-                console.error(errorData.error); // or handle the error in some way
+                console.error(errorData.error);
             }
         } catch (error) {
             console.error('Error:', error);
         }
     };
-    //---------------------------------------------------------------------------------------------------------------
-
-
-
+    //------------------------------------------------------ FETCH STORE BY ID ----->
     useEffect(() => {
         const fetchStoreById = async () => {
             try {
-                // Use store_id from useParams to fetch the specific store
                 const response = await fetch(`/stores/${store_id}`);
                 if (response.ok) {
                     const data = await response.json();
@@ -71,37 +75,88 @@ export default function StoreProfile({ stores }) {
         fetchStoreById();
     }, [store_id]);
 
-    console.log(shop)
+    const shopProfile = shop?.store_profile.map((prof) => (
+        <div key={prof.id}>
+            <h1>{prof.bio}</h1>
+            <h1>{prof.location}</h1>
+            <h1>{prof.phone_number}</h1>
+        </div>
+    ));
 
+    const goods = shop?.goods_services.map((good) => (
+        <div key={good.id}>
+            <br />
+            <img className="goodsimage" alt={`An image of ${good.name}`} src={good.image} />
+            <h2>{good.name}</h2>
+            <h2>${good.price.toFixed(2)}</h2>
+            <button onClick={() => handleAddToCart(good.id)}>Add To Cart</button>
+            <br />
+        </div>
+    ));
 
+    const initialValues = shop?.store_profile[0] || { bio: '', location: '', phone_number: '' };
 
-    // console.log(shop?.goods_services)
-
-    const shopProfile = shop?.store_profile.map((prof) => {
-        //bio location phone_number
-        // console.log(prof)
-        return (
-            <div key={prof.id}>
-                <h1>{prof.bio}</h1>
-                <h1>{prof.location}</h1>
-                <h1>{prof.phone_number}</h1>
-            </div>
-        );
-    })
-
-    const goods = shop?.goods_services.map((good) => {
-        // console.log(good) //image, name, price, id
-        return (
-            <div key={good.id}>
+    const storeProfileForm = (
+        <Formik
+            initialValues={initialValues}
+            onSubmit={(values) => {
+                handleUpdateStoreProfile(values)
+                alert('Submission Complete!')
+            }}
+        >
+            <Form>
                 <br />
-                <img className="goodsimage" alt={`An image of ${good.name}`} src={good.image} />
-                <h2>{good.name}</h2>
-                <h2>${good.price.toFixed(2)}</h2>
-                <button onClick={() => handleAddToCart(good.id)} >Add To Cart</button>
+                <div>
+                    <label htmlFor="bio">Bio:</label>
+                    <Field type="text" id="bio" name="bio" />
+                </div>
                 <br />
-            </div>
-        );
-    })
+                <div>
+                    <label htmlFor="location">Location:</label>
+                    <Field type="text" id="location" name="location" />
+                </div>
+                <br />
+                <div>
+                    <label htmlFor="phone_number">Phone Number:</label>
+                    <Field type="text" id="phone_number" name="phone_number" />
+                </div>
+                <br />
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+                <br />
+            </Form>
+        </Formik>
+    );
+
+    const handleUpdateStoreProfile = async (updatedProfile) => {
+        try {
+            const response = await fetch(`/store_profiles/${shop?.store_profile[0]?.id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedProfile),
+            });
+            if (response.ok) {
+                alert('Store profile updated successfully!');
+                setTimeout(() => {
+                    window.location.reload()
+                }, 125)
+            } else {
+                const errorData = await response.json();
+                console.error(errorData.error);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    
+
+    const toggleForm = () => {
+        setShowForm(!showForm);
+    };
 
     return (
         <div align='center'>
@@ -109,7 +164,13 @@ export default function StoreProfile({ stores }) {
             {shopProfile}
             <br />
             {goods}
-        </div>
-    )
-}
+            <br />
 
+            {slog && <button onClick={toggleForm}>{showForm ? 'Hide Edit Profile' : 'Show Edit Profile'}</button>}
+            {showForm && storeProfileForm}
+            {showForm && <div>
+                <Link to={`/store/services`} style={{ textDecoration: 'none', color: 'inherit' }} ><h2 id='editgoodsbtn'>Edit Goods and Services</h2></Link>
+            </div>}
+        </div>
+    );
+}

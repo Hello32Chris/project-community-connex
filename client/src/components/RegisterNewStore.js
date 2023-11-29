@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-const RegisterNewStore = ({ onSignup }) => {
+const RegisterNewStore = () => {
 
 const history = useHistory()
 const [message, setMessage] = useState('');
@@ -38,11 +38,17 @@ const [message, setMessage] = useState('');
 
       if (response.ok) {
         const storeData = await response.json();
-        onSignup(storeData); // Callback to handle successful signup
-        setMessage('Login successful. Redirecting to home...');
+        setMessage('Registration successful. Redirecting to home...');
         setTimeout(() => {
           history.push(`/stores/${storeData.id}`); // After 4 seconds, navigate to the store profile page
-        }, 2000);
+        }, 100);
+        setTimeout(() => {
+           alert('Lets set up Your profile!')
+        }, 200);
+        setTimeout(() => {
+          window.location.reload() 
+        }, 200);
+
       } else {
         const error = await response.json();
         console.error('Store signup failed:', error);

@@ -47,18 +47,6 @@ def carts():
 
     return make_response(response_data, 200)
 
-#-----------------------------------------
-
-@app.route('/test_route', methods=['POST'])
-def test_route():
-    client = Client.query.filter_by(id = 1).first()
-    goods_service = GoodsService.query.filter_by(id = 4).first()
-    
-    client.client_carts.append(goods_service)
-    db.session.commit()
-    
-    return make_response({}, 201)
-
 
 
 #----------------------------------------------------------------------------------------------------------------- ADD TO CLIENT CART [POST]-------------------
@@ -234,29 +222,37 @@ def transactions():
     return resp
 
 
+## ------------------------------------------------------------------------------------------------- PATCH STORE PROFILE [PATCH]-----
+@app.route('/store_profiles/<int:profile_id>', methods=['PATCH'])
+def update_store_profile(profile_id):
+    store_profile = StoreProfile.query.filter_by(id = profile_id).first()
+    data = request.get_json()
+
+    if 'bio' in data:
+        store_profile.bio = data['bio']
+
+    if 'location' in data:
+        store_profile.location = data['location']
+
+    if 'phone_number' in data:
+        store_profile.phone_number = data['phone_number']
+
+    # Validate and commit the changes
+    try:
+        db.session.add(store_profile)
+        db.session.commit()
+        return make_response({'message': 'Store profile updated/created successfully'}, 200)
+    except Exception as e:
+        db.session.rollback()
+        return make_response({'error': str(e)}, 500)
+
+
 #---------------------------------------------------------------------------------------------------VIEW ALL GOODS AND SERVICES [GET]-------------
 @app.route('/goods', methods=['GET'])
 def goods():
     goods = GoodsService.query.all()
     resp = make_response([good.to_dict(rules=('-goods_carts._password_hash', '-goods_carts.subscribed_stores', '-goods_carts.transactions', '-store._password_hash', '-store.subscribed_clients', '-store.transactions' )) for good in goods])
     return resp
-
-
-
-#--------------------------------------------------------------------------------------------------- CREATE TRANSACTION [POST]-------------
-# @app.route('/create_transaction', methods=['POST'])
-# def create_transaction():
-#     form_data = request.get_json()
-#     new_transaction = Transaction(
-#         total_amount=form_data['total_amount'],
-#         store_id=form_data['store_id'],
-#         client_id=form_data['client_id'],
-#     )
-#     db.session.add(new_transaction)
-#     db.session.commit()
-
-#     resp = make_response(new_transaction.to_dict(), 201)
-#     return resp
 
 
 #--------------------------------------------------------------------------------------------------- CREATE NEW TRANSACTION [POST]---------------------------
@@ -415,6 +411,10 @@ def store_signup():
         # generates hashed password
         new_store.password_hash = password
         db.session.add(new_store)
+        db.session.commit()
+        
+        new_store_profile = StoreProfile(store_id=new_store.id)
+        db.session.add(new_store_profile)
         db.session.commit()
         # sets signed in store to session
         session['store_id'] = new_store.id

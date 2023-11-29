@@ -59,14 +59,8 @@ export default function GoddsServiceForm() {
         />
       })
 
-
-
-
-
-
-    
       return (
-        <div>
+        <div align='center'>
             <span>
                 {goodsCard}
             </span>
@@ -90,18 +84,21 @@ export default function GoddsServiceForm() {
               <Field type="text" id="name" name="name" />
               <ErrorMessage name="name" component="div" />
             </div>
+            <br/>
     
             <div>
-              <label htmlFor="image">Image:</label>
-              <Field type="text" id="image" name="image" />
+              <label id='imagelabel' htmlFor="image">Image:</label>
+              <Field style={{resize:'none'}} as="textarea" id="image" name="image" />
               <ErrorMessage name="image" component="div" />
             </div>
+            <br/>
     
             <div>
               <label htmlFor="price">Price:</label>
               <Field type="number" id="price" name="price" />
               <ErrorMessage name="price" component="div" />
             </div>
+            <br/>
     
             <div>
               <button type="submit">Submit</button>

@@ -49,7 +49,7 @@ export default function StoreAcctPage({ stores }) {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     const confirmDelete = window.confirm(`Are you sure you want to alter the profile for ${nameStore}?`);
-    
+
     if (confirmDelete) {
       try {
         const response = await fetch(`/stores/${loggedInStoreId}`, {
@@ -60,7 +60,7 @@ export default function StoreAcctPage({ stores }) {
           body: JSON.stringify(values),
         });
         console.log(response)
-      if (response.ok) {
+        if (response.ok) {
           const updatedStore = await response.json();
           setTimeout(() => {
             history.push('/');
@@ -68,15 +68,43 @@ export default function StoreAcctPage({ stores }) {
           setTimeout(() => {
             window.location.reload();
           }, 500);
-      } else {
+        } else {
           const error = await response.json();
           console.error('User update failed:', error);
         }
       } catch (error) {
         console.error('Error during User update:', error);
       }
-  
+
       setSubmitting(false);
+    }
+  };
+
+  const storeId = shop?.id
+
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm(`Are you sure you want to Delete profile for ${nameStore}?`);
+
+    if (confirmDelete) {
+      try {
+        const response = await fetch(`/stores/${storeId}`, {
+          method: 'DELETE',
+        });
+
+        if (response.ok) {
+          alert('Store deleted successfully');
+          history.push('/login')
+          setTimeout(() => {
+            window.location.reload()
+          }, 150)
+          // You can perform additional actions after successful deletion
+        } else {
+          const errorData = await response.json();
+          setDeleteMessage(`Error: ${errorData.error}`);
+        }
+      } catch (error) {
+        console.error('Error during store deletion:', error);
+      }
     }
   };
 
@@ -99,14 +127,14 @@ export default function StoreAcctPage({ stores }) {
             <Field type="text" id="name" name="name" />
             <ErrorMessage name="name" component="div" />
           </div>
-          <br/>
+          <br />
 
           <div>
             <label htmlFor="email"><b>Store Email:</b></label>
             <Field type="email" id="email" name="email" />
             <ErrorMessage name="email" component="div" />
           </div>
-          <br/>
+          <br />
 
           <div>
             <label htmlFor="code"><b>Store Code:</b></label>
@@ -129,6 +157,9 @@ export default function StoreAcctPage({ stores }) {
       <p>Store Code: {codeStore}</p>
       {/* <TransactionsByStore storename={store.name} storeId={store.id} /> */}
       {/* Add more components or details as needed */}
+      <br />
+      <button onClick={handleDelete}>Delete Account</button>
+
     </div>
   );
 };

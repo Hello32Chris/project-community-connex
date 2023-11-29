@@ -1,35 +1,55 @@
 import React, { useState, useEffect } from 'react';
 
 const TransactionsByStore = () => {
-
-const [shop, setShop] = useState(null);
+  const [shop, setShop] = useState(null);
+  const [trans, setTrans] = useState(null);
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/check_store_session").then((resp) => {
-      if (resp.ok) {
-        resp.json().then((store) => setShop(store));
-      }
-    });
+    fetch("/check_store_session")
+      .then((resp) => {
+        if (resp.ok) {
+          resp.json().then((store) => setShop(store));
+        }
+      });
   }, []);
 
-  // Check if shop is null or undefined
-  if (!shop) {
-    return <p>Loading...</p>; // You might want to display a loading indicator
-  }
+  useEffect(() => {
+    fetch('/transactions')
+      .then((resp) => resp.json())
+      .then((data) => setTrans(data))
+      .finally(() => setLoading(false));
+  }, []);
 
-  // Check if transactions is null or undefined
-  const trans = shop.transactions || [];
+  useEffect(() => {
+    if (!shop || !trans || loading) {
+      return;
+    }
+
+    const shopGoodsServiceNames = shop.goods_services.map((service) => service.name);
+
+    const filtered = trans.filter((transaction) => {
+      const transactionGoodsServiceNames = transaction.goods_service_names?.split(', ') || [];
+      return transactionGoodsServiceNames.some((name) => shopGoodsServiceNames.includes(name));
+    });
+
+    setFilteredTransactions(filtered);
+  }, [shop, trans, loading]);
+
+  console.log(filteredTransactions)
 
   return (
     <div align='center' className='storess'>
-      <h2>Transactions for {shop ? shop.name : ""}</h2>
+      <h2>Filtered Transactions for {shop ? shop.name : ""}</h2>
       <ul>
-        {trans.map((tran) => (
-          <p key={tran.id}>
+        {filteredTransactions.map((tran) => (
+          <div key={tran.id}>
             <p>Client: {tran.client.name}</p>
             <p>Email: {tran.client.email}</p>
             <p>Total Amount: {tran.total_amount}</p>
-          </p>
+            <p>Services: {tran.goods_service_names}</p>
+          </div>
         ))}
       </ul>
     </div>
@@ -37,6 +57,49 @@ const [shop, setShop] = useState(null);
 };
 
 export default TransactionsByStore;
+
+
+  
+//   useEffect(() => {
+//     // Check if shop is null or undefined
+//     if (!shop || loading) {
+//       return; 
+//     }
+
+//     const trans = shop.transactions || [];
+
+//     const allTransactions = clients?.reduce((acc, client) => acc.concat(client.transactions), []);
+//     console.log(allTransactions)
+
+//     // Now you can filter the transactions based on your criteria
+//     const filtered = allTransactions?.filter(transaction => {
+//         const name = transaction?.goods_service_names.split(', ') || []
+//       return transaction.goods_service_names.split(', ') === shop.name;
+//     });
+//     console.log(filtered);
+
+//     setFilteredTransactions(filtered);
+//   }, [shop, clients]);
+
+//   console.log(filteredTransactions)
+
+//   return (
+//     <div align='center' className='storess'>
+//       <h2>Transactions for {shop ? shop.name : ""}</h2>
+//       <ul>
+//         {trans.map((tran) => (
+//           <p key={tran.id}>
+//             <p>Client: {tran.client.name}</p>
+//             <p>Email: {tran.client.email}</p>
+//             <p>Total Amount: {tran.total_amount}</p>
+//           </p>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// };
+
+// export default TransactionsByStore;
 
 //   const [shop, setShop] = useState(null);
 //   const [carts, setCarts] = useState(null);
@@ -122,5 +185,3 @@ export default TransactionsByStore;
 //     </div>
 //   );
 // };
-
-// export default TransactionsByStore;
