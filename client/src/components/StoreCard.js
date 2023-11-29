@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SubscribeButton from "./SubscribeButton";
-import Subscribers from './SubscribedStores'
 
 export default function StoreCard({ storeid, storename, storeemail, storecode, storegoods }) {
   
-  // console.log(name)
-  // console.log(email)
-  // console.log(id)
   
-  
-  //---------------STATE-------------
-  const [showTransactions, setShowTransactions] = useState(false);
+//---------------STATE-------------
   const [goodsToggle, setGoodsToggle] = useState(false);
   const [subToggle, setSubToggle] = useState(false)
   const [client, setClient] = useState(null)
   
-  //----------------------------------------------------------- CLIENT SESSION CHECK -------------------
+  
+//----------------------------------------------------------- CLIENT SESSION CHECK -------------------
   useEffect(() => {
     fetch("/check_client_session").then((resp) => {
       if (resp.ok) {
@@ -27,13 +22,14 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
 
   const clog = client ? true : false;
   
-  //------------------------------------------------------------ FUNCTIONALITY-------------
+
+//----------------------------------------------------------------------- FUNCTIONALITY-------------
   const toggleGoods = () => {
     setGoodsToggle(!goodsToggle);
   };
 
 
-  //---------------------------------------------------------------------add to cart
+//-------------------------------------------------------------------------- ADD TO CART ------------
   const clientId = client?.id
 
   const handleAddToCart = async (goodsServiceID) => {
@@ -50,7 +46,6 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
           goods_service_id: goodsServiceID,
         }),
       });
-
       if (response.ok) {
         const data = await response.json();
         console.log(data.message); // or handle success in some way
@@ -63,14 +58,15 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
     }
   };
 
-  //----------------------------------------------------------- GOODS AND SERVICES MAPPING -------------------
+
+//----------------------------------------------------------- GOODS AND SERVICES MAPPING -------------------
   const storegood = storegoods.map((good) => (
     <ul key={good.id}>
       <h2><b>{good.name}</b></h2>
       <p>${parseFloat(good.price).toFixed(2)}</p>
       <img className="goodsimage" src={good.image} alt={`image for ${good.name} at price $${good.price}`} title={`image for ${good.name} at price $${good.price}`} />
       <br/>
-      <button onClick={() => handleAddToCart(good?.id)}>Add to Cart</button>
+      {client ? <button onClick={() => handleAddToCart(good?.id)}>Add to Cart</button> : null}
     </ul>
   ))
 

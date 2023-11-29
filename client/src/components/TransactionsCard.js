@@ -2,7 +2,9 @@ import React from "react";
 
 export default function TransactionCard({ trans, clientid }) {
   console.log(clientid)
-  // Filter transactions based on the client_id and then I map it out using variables
+
+
+//------------------------------------------------------------- FILTER THROUGH CLIENT TRANSACTIONS -------------
   const clientTransactions = trans.filter((transaction) => 
     transaction.client_id == clientid);
 
@@ -12,7 +14,6 @@ export default function TransactionCard({ trans, clientid }) {
     const email = transaction.store ? transaction.store.email : "N/A";
     const serviceReceived = transaction.store && transaction.store.goods_services && transaction.store.goods_services.length > 0 ? transaction.store.goods_services[0].name : "N/A";
     const totalPaid = parseFloat(transaction.total_amount).toFixed(2);
-
 
     return {
       key,
@@ -54,15 +55,3 @@ export default function TransactionCard({ trans, clientid }) {
     </div>
   );
 }
-//     const formattedPrice = parseFloat(price).toFixed(2);
-
-//     return (
-//         <div align='center'>
-//            <p><h3><b>Business:</b></h3> {name}</p> 
-//            <p><h3><b>Email:</b></h3> {email}</p> 
-//            <p><h3><b>Service Recieved:</b></h3> {service}</p> 
-//            <p><h3><b>Total Paid:</b></h3> ${formattedPrice}</p> 
-//         </div>
-//     )
-// }
-

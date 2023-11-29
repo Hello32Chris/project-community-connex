@@ -6,6 +6,7 @@ export default function SubscribedStores() {
   const [client, setClient] = useState(null)
   const [getmessage, setMessage] = useState('');
 
+
 //------------------------------------------------------------- FETCH FOR CLIENT SESSION ---------
   useEffect(() => {
     fetch("/check_client_session").then((resp) => {
@@ -49,6 +50,7 @@ export default function SubscribedStores() {
 
   const subbedStores = client?.subscribed_stores || []
 
+  
 //------------------------------------------------------ MAPPING THROUGH SUBSCRIBED STORES ---------
   const subDiv = subbedStores.map((store, index) => (
     <div align='center' id="subbedclients" key={index} >

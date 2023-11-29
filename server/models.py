@@ -61,7 +61,7 @@ class Store(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String, nullable=False)
     code = db.Column(db.String, unique=True)
     
-    
+
 
     #--------------- Many-to-Many relationship with Client
     subscribed_clients = db.relationship('Client', secondary=subscription_table, back_populates='subscribed_stores')

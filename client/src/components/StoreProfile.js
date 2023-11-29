@@ -61,7 +61,7 @@ export default function StoreProfile() {
     };
 
 
-//------------------------------------------------------------------ FETCH STORE BY ID -----
+//------------------------------------------------------------------ FETCH STORE BY ID ------
     useEffect(() => {
         const fetchStoreById = async () => {
             try {
@@ -80,7 +80,7 @@ export default function StoreProfile() {
     }, [store_id]);
 
 
-// ------------------------------------------------------------ MAP THROUGH SHOP PROFILE -----
+// ------------------------------------------------------------ MAP THROUGH SHOP PROFILE -------
     const shopProfile = shop?.store_profile.map((prof) => (
         <div key={prof.id}>
             <h1>{prof.bio}</h1>
@@ -97,7 +97,7 @@ export default function StoreProfile() {
             <img className="goodsimage" alt={`An image of ${good.name}`} src={good.image} />
             <h2>{good.name}</h2>
             <h2>${good.price.toFixed(2)}</h2>
-            <button onClick={() => handleAddToCart(good.id)}>Add To Cart</button>
+            {client ? <button onClick={() => handleAddToCart(good.id)}>Add To Cart</button> : null}
             <br />
         </div>
     ));
