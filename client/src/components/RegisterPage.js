@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import RegisterNewStore from './RegisterNewStore';
+import RegisterNewClient from './RegisterNewClient';
 
 const RegisterPage = () => {
 
@@ -26,8 +27,7 @@ const RegisterPage = () => {
           ) : (
         <div>
           <h2>Client Signup</h2>
-          {/* <ClientSignupForm onSignup={handleSignup} /> */}
-          Hello!!
+          <RegisterNewClient />
         </div>
       )}
     </div>

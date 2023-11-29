@@ -28,7 +28,7 @@ const [message, setMessage] = useState('');
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const response = await fetch('/store_signup', {
+      const response = await fetch('/client_signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -37,12 +37,15 @@ const [message, setMessage] = useState('');
       });
 
       if (response.ok) {
-        const storeData = await response.json();
-        onSignup(storeData); // Callback to handle successful signup
+        const clientData = await response.json();// Callback to handle successful signup
         setMessage('Login successful. Redirecting to home...');
+        alert(`Welcome ${clientData.name}`)
         setTimeout(() => {
-          history.push(`/stores/${storeData.id}`); // After 4 seconds, navigate to the store profile page
-        }, 2000);
+          history.push(`/stores`); // After 4 seconds, navigate to the store profile page
+        }, 1000);
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000);
       } else {
         const error = await response.json();
         console.error('Store signup failed:', error);
@@ -62,7 +65,7 @@ const [message, setMessage] = useState('');
         </div>
       ) : (
       <div>
-        <div>Register New Store: </div>
+        <div>Register as New User: </div>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -71,7 +74,7 @@ const [message, setMessage] = useState('');
           <Form>
             <br />
             <div>
-              <label htmlFor="name">Store Name:</label>
+              <label htmlFor="name">Name:</label>
               <Field type="text" id="name" name="name" />
               <ErrorMessage name="name" component="div" />
             </div>
@@ -105,4 +108,4 @@ const [message, setMessage] = useState('');
   );
 };
 
-export default RegisterNewStore;
+export default RegisterNewClient;

@@ -49,7 +49,7 @@ export default function ClientAccountPage() {
                 history.push('/')
                 setTimeout(() => {
                     window.location.reload()
-                }, 2000)
+                }, 10)
             }
         });
       }}
