@@ -138,9 +138,10 @@ with app.app_context():
 
     # goods_services = GoodsService.query.limit(5).all()
     new_transaction = Transaction(
-        total_amount=32.50,
+        total_amount=70.00,
         store_id=1,
         client_id=1,
+        goods_service_names='Wash - whole car, Wax & BUff, Rim Detail, Interior Vaccuum'
     )
     db.session.add(new_transaction)
     db.session.commit()
