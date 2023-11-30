@@ -419,6 +419,26 @@ footer {
   border-radius: 4px;
 }
 
+#profilee{
+  border: solid 2px black;
+  width: 20%;
+  height: 600px;
+  min-height: 60vh;
+  width: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  flex: 1;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(255, 255, 255, 0.403);
+  border: solid 7px black;
+  border-radius: 20px;
+  margin-bottom: 70px;
+}
+
 /* ------------------------------------------------------------------------------ */
 
 /* ------------------------------------------------- ABOUT SECTION ------------- */
@@ -652,6 +672,8 @@ h1 {
   width: 20%;
   padding-bottom: 20%;
   margin-left: 40%;
+  border: double 2px ;
+  border-radius: 20%;
 }
 
 /* --------------------------------------------------- SHOPS PAGE --------------------- */

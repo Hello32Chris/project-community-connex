@@ -148,7 +148,7 @@ export default function StoreAcctPage() {
       <p>Store Email: {emailStore}</p>
       <p>Store Code: {codeStore}</p>
       <br />
-      <button onClick={handleDelete}>Delete Account</button>
+      <button className="deletebtn" onClick={handleDelete}>Delete Account</button>
     </div>
   );
 };

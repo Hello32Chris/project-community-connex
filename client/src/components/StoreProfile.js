@@ -176,11 +176,13 @@ export default function StoreProfile() {
     };
 
     return (
-        <div align='center'>
+        <div align='center' id="profilee">
             <h1>Welcome to {shop?.name}!</h1>
             {shopProfile}
             <br />
+            <div className="storeservices">
             {goods}
+            </div>
             <br />
             {slog && <button onClick={toggleForm}>{showForm ? 'Hide Edit Profile' : 'Show Edit Profile'}</button>}
             {showForm && storeProfileForm}
