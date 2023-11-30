@@ -3,6 +3,7 @@ body {
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
 }
+
 .aboutBack {
   margin: 0;
   font-family: "Open Sans", sans-serif;
@@ -13,7 +14,8 @@ body {
   background-position: fixed;
   background-size: cover;
 }
-.checkoutbtn{
+
+.checkoutbtn {
   font-weight: bold;
   color: black;
   text-decoration: none;
@@ -21,11 +23,11 @@ body {
   transition: transform 0.3s ease-in-out;
 }
 
-.header{
+.header {
   display: flex;
 }
 
-#title{
+#title {
   font-size: 4.5em;
   text-align: center;
   color: white;
@@ -34,11 +36,12 @@ body {
   font-family: 'Arial', sans-serif;
   position: relative;
   perspective: 1000px;
-  text-shadow: 8px 8px 7px grey;
+  text-shadow: 8px 8px 7px rgb(57, 55, 55);
 }
 
 
-#header{
+
+#header {
   display: flex;
   justify-content: center;
   background-image: url('/public/Images/header.gif');
@@ -63,7 +66,8 @@ body {
   background-size: cover;
   height: 100%;
 }
-.shopback{
+
+.shopback {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -73,7 +77,8 @@ body {
   background-position: center;
   background-size: cover;
 }
-.clientaccountback{
+
+.clientaccountback {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -83,7 +88,8 @@ body {
   background-position: cover;
   background-size: cover;
 }
-.loginback{
+
+.loginback {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -93,7 +99,8 @@ body {
   background-position: cover;
   background-size: cover;
 }
-.substoreback{
+
+.substoreback {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -104,7 +111,8 @@ body {
   background-position: center;
   border-radius: 5%;
 }
-.clienttransactionback{
+
+.clienttransactionback {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -116,7 +124,7 @@ body {
   border-radius: 5%;
 }
 
-.goodsback{
+.goodsback {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -127,7 +135,8 @@ body {
   background-position: center;
   border-radius: 5%;
 }
-.checkoutback{
+
+.checkoutback {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -138,7 +147,8 @@ body {
   background-position: center;
   border-radius: 5%;
 }
-.storeprofileback{
+
+.storeprofileback {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -149,7 +159,8 @@ body {
   background-position: center;
   border-radius: 5%;
 }
-.storeacctback{
+
+.storeacctback {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -160,7 +171,8 @@ body {
   background-position: center;
   border-radius: 5%;
 }
-.storetransback{
+
+.storetransback {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -171,6 +183,7 @@ body {
   background-position: center;
   border-radius: 5%;
 }
+
 .clientsubback {
   margin: 0;
   font-family: "Open Sans", sans-serif;
@@ -187,6 +200,7 @@ body {
   0% {
     background-image: url('/public/Images/valveDAY.gif');
   }
+
   100% {
     background-image: url('/public/Images/valveEVE.gif');
   }
@@ -201,9 +215,10 @@ footer {
 }
 
 /* ----------------------------------------------------------------- LOGIN PAGE ----- */
-#registercontainer{
+#registercontainer {
   height: 60vh;
-  width: 1000px; /* Adjust as needed */
+  width: 1000px;
+  /* Adjust as needed */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -215,13 +230,14 @@ footer {
   align-items: center;
   text-align: center;
 }
-.storecardprof{
+
+.storecardprof {
   border: solid 3px black;
   background-color: rgba(128, 128, 128, 0.832);
   display: flexbox;
 }
 
-.clientsubscard{
+.clientsubscard {
   border: solid 3px black;
   background-color: rgba(128, 128, 128, 0.832);
   display: flexbox;
@@ -243,7 +259,7 @@ footer {
   cursor: pointer;
 }
 
-#registerDiv{
+#registerDiv {
   height: 10vh;
   display: flex;
   justify-content: center;
@@ -256,16 +272,16 @@ footer {
   text-align: center;
 }
 
-#clientregisterform{
+#clientregisterform {
   background-image: url('/public/Images/passingcar.gif');
-  margin: 0 30px 0 30px; 
+  margin: 0 30px 0 30px;
   flex: 1;
   background-size: cover;
   background-position: center bottom;
   border-radius: 5%;
 }
 
-.newservform{
+.newservform {
   background-color: green;
   width: 20%;
   height: 220px;
@@ -273,16 +289,17 @@ footer {
   border: solid 2px black;
   border-radius: 10px;
 }
-#registerBox{
+
+#registerBox {
   background-image: url('/public/Images/passingcar.gif');
-  margin: 0 30px 0 30px; 
+  margin: 0 30px 0 30px;
   flex: 1;
   background-size: cover;
   background-position: center bottom;
   border-radius: 5%;
 }
 
-#registerBtn{
+#registerBtn {
   height: 50px;
   width: 200px;
   border: 2px solid black;
@@ -294,11 +311,12 @@ footer {
   transition: all .1s ease-in-out;
   margin-top: 100px;
 }
-#registerBtn:hover{
+
+#registerBtn:hover {
   background-color: white;
 }
 
-.regswitchformbtn{
+.regswitchformbtn {
   height: 50px;
   width: 200px;
   border: 2px solid black;
@@ -311,13 +329,15 @@ footer {
   margin-bottom: 30px;
 
 }
-.regswitchformbtn:hover{
+
+.regswitchformbtn:hover {
   background-color: white;
 }
 
 #logincontainer {
   height: 60vh;
-  width: 1000px; /* Adjust as needed */
+  width: 1000px;
+  /* Adjust as needed */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -331,7 +351,7 @@ footer {
 }
 
 #store-login {
-  margin: 0 30px 0 30px; 
+  margin: 0 30px 0 30px;
   flex: 1;
   background-image: url('/public/Images/cornerstore.gif');
   background-size: cover;
@@ -340,7 +360,7 @@ footer {
 }
 
 #client-login {
-  margin: 0 30px 0 30px; 
+  margin: 0 30px 0 30px;
   flex: 1;
   background-image: url('/public/Images/standingguy.JPG');
   background-size: cover;
@@ -355,7 +375,7 @@ footer {
   border-radius: 5%;
   padding: 100px;
   width: 300px;
-  box-shadow: 0 0 0 3px black; 
+  box-shadow: 0 0 0 3px black;
 }
 
 #login-message {
@@ -365,20 +385,23 @@ footer {
   align-items: 'center';
   height: '50vh';
 }
-#LoginTitle{
-  background-color: orange;
-  border: solid 2px black;
-  border-radius: 15%;
-}
-.RegTitle{
+
+#LoginTitle {
   background-color: orange;
   border: solid 2px black;
   border-radius: 15%;
 }
 
-.formik-box{
+.RegTitle {
+  background-color: orange;
+  border: solid 2px black;
+  border-radius: 15%;
+}
+
+.formik-box {
   border-radius: 5px;
-  resize: vertical; /* Allow vertical resizing of the textarea */
+  resize: vertical;
+  /* Allow vertical resizing of the textarea */
   border-radius: 10px;
 }
 
@@ -387,6 +410,7 @@ footer {
   font-weight: bold;
   color: #333;
 }
+
 .label-text {
   display: inline-block;
   background-color: #27864f;
@@ -399,8 +423,9 @@ footer {
 
 /* ------------------------------------------------- ABOUT SECTION ------------- */
 #about-message {
-  height: 60vh;
-  width: 1000px; /* Adjust as needed */
+  height: 40vh;
+  width: 1000px;
+  /* Adjust as needed */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -412,7 +437,7 @@ footer {
   border-radius: 20px;
 }
 
-#about{
+#about {
   /* background-image: url('/public/Images/About.gif'); */
   background-attachment: fixed;
   background-size: cover;
@@ -421,18 +446,19 @@ footer {
 }
 
 
-.frame{
+.frame {
   width: 500px;
   height: 400px;
   border: 3px solid rebeccapurple;
   perspective: 200px;
 }
-.shape:hover{
+
+.shape:hover {
   transform: rotateY(45deg);
   transition: all .7s ease-in-out;
 }
 
-.shape{
+.shape {
   width: 500px;
   height: 400px;
 }
@@ -442,7 +468,7 @@ footer {
 
 
 /* ------------------------------------------------- GOODS SECTION ------------- */
-.goodscard{
+.goodscard {
   border: solid 3px black;
   border-radius: 10px;
   width: 20%;
@@ -453,23 +479,23 @@ footer {
 /* ------------------------------------------------------------------------------ */
 /* ------------------------------------------------- NAVBAR SECTION ------------- */
 
-.navsign{
-background-image: url('/public/Images/singlesign.png');
-background-repeat: no-repeat;
-background-size: cover;
-height: 70px;
-width: 280px;
-text-align: center;
-display: flex;
-align-items: center;
-justify-content: center;
+.navsign {
+  background-image: url('/public/Images/singlesign.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 70px;
+  width: 280px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#grid{
+#grid {
   width: 280px;
-  height: auto; 
+  height: auto;
   /* background-attachment: fixed; */
-  border: none; 
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -504,13 +530,13 @@ h1 {
   cursor: pointer;
 }
 
-.deletebtn{
+.deletebtn {
   background-color: red;
   width: 200px;
   border: dotted 2px black;
 }
 
-#profilebtn{
+#profilebtn {
   width: 200px;
   height: 50px;
   border-radius: 8px;
@@ -534,13 +560,71 @@ h1 {
   background-color: rgba(0, 128, 0, 0.378);
 }
 
-#hello{
-  font-size: 60px;
-  border: solid rebeccapurple;
+#helloframe {
+  margin-top: 200px;
   width: 400px;
+  height: 400px;
+  border: 10px double white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 20%;
+  left: 45%;
 }
 
-#welcomesign{
+#hello {
+  width: 400px;
+  height: 400px;
+  background-image: url('/public/Images/signmaterial.jpg');
+  border: double 15px black;
+  transform: rotate(45deg);
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+}
+
+#helloframe h1 {
+  margin-bottom: 1px;
+  z-index: 1;
+}
+
+#lastdiv {
+  margin-top: 100px;
+}
+
+/* 
+#helloframe {
+  width: 400px;
+  height: 400px;
+  border: 3px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+#hello {
+  width: 100%;
+  height: 100%;
+  background-color: lightblue;
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#hello h1 {
+  z-index: 1;
+  text-align: center; 
+} */
+
+
+
+#welcomesign {
   height: 600px;
   width: auto;
   position: fixed;
@@ -569,8 +653,9 @@ h1 {
   padding-bottom: 20%;
   margin-left: 40%;
 }
+
 /* --------------------------------------------------- SHOPS PAGE --------------------- */
-.storecardDIV{
+.storecardDIV {
   display: flex;
   justify-content: space-around;
   border: 2px solid black;
@@ -579,13 +664,13 @@ h1 {
   background-color: rgba(255, 255, 255, 0.641);
 }
 
-.storeservices{
+.storeservices {
   display: flex;
   overflow-y: auto;
   flex-wrap: wrap;
 }
 
-.storeservicebtn{
+.storeservicebtn {
   width: 130px;
   height: 50px;
   position: flex;
@@ -606,13 +691,15 @@ h1 {
   color: black;
   text-decoration: none;
   font-size: 16px;
-  transition: transform .3s ease-in-out, font-size .3s ease-in-out; /* Add font-size to the transition */
+  transition: transform .3s ease-in-out, font-size .3s ease-in-out;
+  /* Add font-size to the transition */
 }
 
 .substores:hover {
   font-size: 18px;
   text-shadow: 3px 3px 7px rgba(255, 255, 255, 0.93);
-  transform: scale(1.1); /* You can add other transformations here if needed */
+  transform: scale(1.1);
+  /* You can add other transformations here if needed */
 }
 
 .storess {
@@ -634,7 +721,7 @@ h1 {
   margin-bottom: 70px;
 }
 
-#checkoutbtn{
+#checkoutbtn {
   justify-content: center;
   align-content: center;
   display: flex;
@@ -659,7 +746,8 @@ h1 {
 
 .finalchkout:hover {
   background-color: bisque;
-  transform: scale(1.05); /* Increase the size on hover */
+  transform: scale(1.05);
+  /* Increase the size on hover */
 }
 
 #cartnav {
@@ -675,16 +763,17 @@ h1 {
 
 #cartbtn {
   cursor: pointer;
-  background-image: url('/public/Images/picnic-basket.png'); /* Replace with your image path */
+  background-image: url('/public/Images/picnic-basket.png');
+  /* Replace with your image path */
   background-color: rgba(255, 255, 255, 0);
-  background-size: cover; 
+  background-size: cover;
   border: none;
-  width: 100px; 
-  height: 100px; 
+  width: 100px;
+  height: 100px;
   cursor: pointer;
 }
 
-h2#cartword{
+h2#cartword {
   text-shadow: 2px 2px 2px white;
 }
 

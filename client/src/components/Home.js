@@ -9,18 +9,12 @@ export default function Home() {
         }
     }, []);
 
-
     return (
-        <div align='center'>
-            <div>
-                <h1 id="hello" >
-                    Hello and welcome to your future business!
-                </h1>
-            </div>
-            <div>
-                <img id="welcomesign" src='/Images/welcomesign.png' alt='' />
-            </div>
+        <div id="lastdiv" align='center'>
+          <div id="helloframe">
+            <div id="hello"></div>
+            <h1 id="text">Hello and welcome to your future business!</h1>
+          </div>
         </div>
-    )
-}
-
+      )
+    }
