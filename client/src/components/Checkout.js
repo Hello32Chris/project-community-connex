@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import RegisterPage from "./RegisterPage";
 
 
 export default function Checkout() {
+
+    useEffect(() => {
+        document.body.className = 'checkoutback';
+        return () => {
+          document.body.className = '';
+      }}, []);
 
     const [client, setClient] = useState([])
     const [carts, setCarts] = useState([]);
@@ -170,7 +175,7 @@ export default function Checkout() {
                 {cartDisplay}
                 <div><b>Total Amount:</b> ${calculateTotalPrice()}</div>
                 <br />
-                <button onClick={checkout}>Checkout</button>
+                <button className="finalchkout" onClick={checkout}><b>Checkout</b></button>
             </div>
         )
     }

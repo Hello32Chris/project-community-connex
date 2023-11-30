@@ -137,7 +137,7 @@ export default function ClientAccountPage() {
           />
         </div>
         <br />
-        <button type="submit">Update Profile</button>
+        <button id="profilebtn" type="submit">Update Profile</button>
       </form>
     </div>
   );
@@ -150,7 +150,7 @@ export default function ClientAccountPage() {
       <br />
       {toggle && formikForm}
       <br />
-      <button onClick={() => { handleDeleteClient(client?.id); handleClientLogout(); }} >Delete Account</button>
+      <button className="deletebtn" onClick={() => { handleDeleteClient(client?.id); handleClientLogout(); }} >Delete Account</button>
     </div>
   )
 }

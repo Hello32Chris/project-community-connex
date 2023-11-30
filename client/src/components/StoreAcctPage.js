@@ -7,6 +7,12 @@ import { useHistory } from "react-router-dom";
 
 export default function StoreAcctPage() {
 
+  useEffect(() => {
+    document.body.className = 'storeacctback';
+    return () => {
+      document.body.className = '';
+  }}, []);
+
   const history = useHistory()
 
   const [shop, setShop] = useState(null);

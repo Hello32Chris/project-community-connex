@@ -3,6 +3,12 @@ import { useParams, Link } from "react-router-dom";
 import { Formik, Form, Field } from 'formik';
 
 export default function StoreProfile() {
+
+    useEffect(() => {
+        document.body.className = 'storeprofileback';
+        return () => {
+          document.body.className = '';
+      }}, []);
     
     const { store_id } = useParams();
 

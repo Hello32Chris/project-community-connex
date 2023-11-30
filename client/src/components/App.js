@@ -54,6 +54,22 @@ export default function App() {
     }, []);
 
     useEffect(() => {
+      fetch("/check_store_session").then((resp) => {
+        if (resp.ok) {
+          resp.json().then(setUserId);
+        }
+      });
+    }, []);
+
+    useEffect(() => {
+      fetch("/check_client_session").then((resp) => {
+        if (resp.ok) {
+          resp.json().then(setUserId);
+        }
+      });
+    }, []);
+
+    useEffect(() => {
         fetch('/clients')
             .then((resp) => resp.json())
             .then(setUserId);
@@ -61,10 +77,6 @@ export default function App() {
 
     const loggedInStoreId = shop && shop.id;
     console.log(loggedInStoreId)
-
-
-
-
 
 
 

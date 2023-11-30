@@ -3,6 +3,12 @@ import React, { useState, useEffect } from "react";
 
 export default function ClientCard({ id, name, email}) {
 
+  useEffect(() => {
+    document.body.className = 'clientsubback';
+    return () => {
+      document.body.className = '';
+  }}, []);
+
   const [shop, setShop] = useState(null);
   const [getmessage, setMessage] = useState('');
 
@@ -52,7 +58,7 @@ export default function ClientCard({ id, name, email}) {
   }
 
   return (
-    <div align='center'>
+    <div className="clientsubscard" align='center'>
       {getmessage ? getmessage : ''}
       <br />
       <b>Name:</b> {name}

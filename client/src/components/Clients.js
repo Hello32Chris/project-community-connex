@@ -15,7 +15,7 @@ export default function Clients() {
           return <div>Loading...</div>;
         }
         });
-      }, [shop]);
+      }, []);
     const subbedClients = shop?.subscribed_clients || [];
     const mappedSubbedClients = subbedClients?.map((client) => client)
 

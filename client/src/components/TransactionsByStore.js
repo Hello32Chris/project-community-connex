@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 const TransactionsByStore = () => {
 
+  useEffect(() => {
+    document.body.className = 'storetransback';
+    return () => {
+      document.body.className = '';
+  }}, []);
+
   
   const [shop, setShop] = useState(null);
   const [trans, setTrans] = useState(null);
@@ -47,10 +53,10 @@ useEffect(() => {
   return (
     <div align='center' className='storess'>
       <br/>
-      <h2>Filtered Transactions for<br/> {shop ? shop.name : ""}</h2>
+      <h2 className='storecardprof'>Filtered Transactions for<br/> {shop ? shop.name : ""}</h2>
       <ul>
         {filteredTransactions.map((tran) => (
-          <div key={tran.id}>
+          <div className='storecardprof' key={tran.id}>
             <p>Client: {tran.client.name}</p>
             <p>Email: {tran.client.email}</p>
             <p>Total Amount: ${tran.total_amount.toFixed(2)}</p>

@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 
 export default function SubscribedStores() {
 
-  
+
 
   useEffect(() => {
     document.body.className = 'substoreback';
     return () => {
       document.body.className = '';
-  }}, []);
+    }
+  }, []);
 
   const [client, setClient] = useState(null)
   const [getmessage, setMessage] = useState('');
 
 
-//------------------------------------------------------------- FETCH FOR CLIENT SESSION ---------
+  //------------------------------------------------------------- FETCH FOR CLIENT SESSION ---------
   useEffect(() => {
     fetch("/check_client_session").then((resp) => {
       if (resp.ok) {
@@ -25,7 +27,7 @@ export default function SubscribedStores() {
   }, []);
 
 
-//------------------------------------------------------------------ UNSUBSCRIBE BUTTON ----------
+  //------------------------------------------------------------------ UNSUBSCRIBE BUTTON ----------
   const clientId = client?.id
 
   const handleUnsub = async (store) => {
@@ -58,29 +60,30 @@ export default function SubscribedStores() {
 
   const subbedStores = client?.subscribed_stores || []
 
-  
-//------------------------------------------------------ MAPPING THROUGH SUBSCRIBED STORES ---------
+  //------------------------------------------------------ MAPPING THROUGH SUBSCRIBED STORES ---------
   const subDiv = subbedStores.map((store, index) => (
     <div align='center' id="subbedclients" key={index} >
-      <p>Name: {store.name}</p>
-      <p>Email: {store.email}</p>
-      <p>Code: {store.code}</p>
-      <br />
-      <button onClick={() => handleUnsub(store)}>Unsubscribe</button>
+      <Link className='substores' to={`/stores/${store.id}`}>
+        <p><b>Name: </b>{store.name}</p>
+        <p><b>Email: </b>{store.email}</p>
+        <p><b>Code:</b> {store.code}</p>
+        <br />
+        <button onClick={() => handleUnsub(store)}>Unsubscribe</button>
+      </Link>
     </div>
   ))
 
   console.log(client?.subscribed_stores)
 
   return (
-    <div>
+    <div id='subdiv'>
       <div>{getmessage && getmessage}</div>
-        <div align='center'>
-          <h1>Subscribed Stores</h1>
-        </div>
-        <div>
-          {subDiv}
-        </div>
+      <div align='center'>
+        <h1>Subscribed Stores</h1>
+      </div>
+      <div>
+        {subDiv}
+      </div>
     </div>
   )
 }

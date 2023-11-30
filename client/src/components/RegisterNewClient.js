@@ -5,11 +5,11 @@ import * as Yup from 'yup';
 
 const RegisterNewClient = () => {
 
-const history = useHistory()
-const [message, setMessage] = useState('');
+  const history = useHistory()
+  const [message, setMessage] = useState('');
 
 
-// ------------------------------------------------------------------- FORM SCHEMA ---------------
+  // ------------------------------------------------------------------- FORM SCHEMA ---------------
   const initialValues = {
     name: '',
     email: '',
@@ -26,7 +26,7 @@ const [message, setMessage] = useState('');
   });
 
 
-// --------------------------------------------------------------- HANDLE NEW CLIENT SIGNUP ------
+  // --------------------------------------------------------------- HANDLE NEW CLIENT SIGNUP ------
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const response = await fetch('/client_signup', {
@@ -58,51 +58,51 @@ const [message, setMessage] = useState('');
 
 
   return (
-    <div>
+    <div id="clientregisterform">
       {message ? (
         <div>
           <div>{message}</div>
         </div>
       ) : (
-      <div className="loginform">
-        <h1>Register New User: </h1>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          <Form>
-            <br />
-            <div>
-              <label htmlFor="name">Name:</label>
-              <Field type="text" id="name" name="name" />
-              <ErrorMessage name="name" component="div" />
-            </div>
-            <br />
-            <div>
-              <label htmlFor="email">Email:</label>
-              <Field type="email" id="email" name="email" />
-              <ErrorMessage name="email" component="div" />
-            </div>
-            <br />
-            <div>
-              <label htmlFor="password">Password:</label>
-              <Field type="password" id="password" name="password" />
-              <ErrorMessage name="password" component="div" />
-            </div>
-            <br />
-            <div>
-              <label htmlFor="confirmPassword">Confirm Password:</label>
-              <Field type="password" id="confirmPassword" name="confirmPassword" />
-              <ErrorMessage name="confirmPassword" component="div" />
-            </div>
-            <br />
-            <div>
-              <button type="submit">Sign Up</button>
-            </div>
-          </Form>
-        </Formik>
-      </div>
+        <div className="loginform">
+          <h1 className="RegTitle">Register New User: </h1>
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <Form>
+              <br />
+              <div>
+                <label className='label-text' htmlFor="name">Name:</label>
+                <Field type="text" id="name" name="name" />
+                <ErrorMessage name="name" component="div" />
+              </div>
+              <br />
+              <div>
+                <label className='label-text' htmlFor="email">Email:</label>
+                <Field type="email" id="email" name="email" />
+                <ErrorMessage name="email" component="div" />
+              </div>
+              <br />
+              <div>
+                <label className='label-text' htmlFor="password">Password:</label>
+                <Field type="password" id="password" name="password" />
+                <ErrorMessage name="password" component="div" />
+              </div>
+              <br />
+              <div>
+                <label className='label-text' htmlFor="confirmPassword">Confirm Password:</label>
+                <Field type="password" id="confirmPassword" name="confirmPassword" />
+                <ErrorMessage name="confirmPassword" component="div" />
+              </div>
+              <br />
+              <div>
+                <button type="submit">Sign Up</button>
+              </div>
+            </Form>
+          </Formik>
+        </div>
       )}
     </div>
   );

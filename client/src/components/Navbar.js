@@ -90,13 +90,16 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
     });
   }, []);
 
+  console.log(userId ? userId.id : null)
+  const user_id = userId?.name
+
   const clog = client ? true : false
 
   const cart = (!toggle ? <button id="cartbtn" onClick={() => setToggle(true)}><h2 id="cartword">Cart</h2></button> :
     <nav >
       <div>
         <button id="closebtn" onClick={() => setToggle(false)}>X</button>
-        <NavLink className='link' to="/cart" activeClassName="active">Checkout</NavLink>
+        <div id="checkoutbtn"><NavLink className='link' to="/cart" activeClassName="active">Checkout</NavLink></div>
         <CartCard />
       </div>
     </nav>)
@@ -122,7 +125,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
             <li className="navsign"><NavLink className='link' to="/store/StoreSubscriptions" activeClassName="active" >Subscribed Stores</NavLink></li>
             <li className="navsign"><NavLink className='link' to={`/client/transactions`} activeClassName="active" >Transactions</NavLink></li>
             <li className="navsign"><NavLink className='link' to="/EditAccount" activeClassName="active" >Edit Account</NavLink></li>
-            <li className="navsign"><button onClick={handleClientLogout}>{`Logout${userId}`}</button></li>
+            <li className="navsign"><button onClick={handleClientLogout}>{`Logout ${user_id}`}</button></li>
           </>
         )}
         <li className="navsign"><NavLink className='link' to="/About" activeClassName="active" >About</NavLink></li>

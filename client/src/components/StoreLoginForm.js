@@ -2,6 +2,7 @@
 import { useHistory } from "react-router-dom";
 import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import * as Yup from 'yup';
 
 const StoreLoginForm = ({ setStoreLoggedIn }) => {
@@ -53,6 +54,12 @@ const StoreLoginForm = ({ setStoreLoggedIn }) => {
     setSubmitting(false);
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
 
 
   return (
@@ -86,8 +93,13 @@ const StoreLoginForm = ({ setStoreLoggedIn }) => {
               </div>
               <br/>
               <div>
-                <label className='label-text' htmlFor="password">Password:</label>
-                <Field type="password" id="storepassword" name="password" />
+              <label className='label-text' htmlFor="password">Password:</label>
+                <div className="password-field-container">
+                  <Field type={showPassword ? 'text' : 'password'} id="password" name="password" />
+                  <div className="password-toggle-icon" onClick={toggleShowPassword}>
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </div>
+                </div>
                 <ErrorMessage name="password" component="div" />
               </div>
               <br/>
