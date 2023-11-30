@@ -87,7 +87,6 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
             <p><b>Name:  </b>{storename}</p>
             <p><b>email:  </b>{storeemail}</p>
             <p><b>code:  </b>{storecode}</p>
-            <h2><b>Services</b></h2>
           </div>
         </Link >
       </div>

@@ -369,7 +369,6 @@ footer {
 
 .loginform {
   background-image: none;
-  background-image: url("");
   background-size: cover;
   border: solid 4px orange;
   border-radius: 5%;
@@ -450,7 +449,6 @@ footer {
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  background-image: url();
   flex: 1;
   background-color: rgba(255, 255, 255, 0.713);
   border: solid 10px black;
@@ -458,7 +456,6 @@ footer {
 }
 
 #about {
-  /* background-image: url('/public/Images/About.gif'); */
   background-attachment: fixed;
   background-size: cover;
   height: 100vh;
@@ -509,6 +506,7 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
 }
 
 #grid {
@@ -534,9 +532,9 @@ footer {
 .link:hover {
   color: rgb(11, 52, 13);
   cursor: pointer;
-  font-size: 33px;
-  height: 35px;
-  margin-right: 30px;
+  font-size: 31px;
+  height: auto;
+  margin-right: 10px;
   transition: 0.3s;
   border-radius: 5px;
   text-shadow: 3px 3px 7px rgba(255, 255, 255, 0.93);
@@ -699,6 +697,16 @@ h1 {
   align-items: center;
   margin-top: 10px;
   margin-bottom: 10px;
+  background-color: aquamarine;
+  cursor: pointer;
+  border-radius: 7%;
+  transition: background-color 0.3s ease;
+}
+
+.storeservicebtn:hover{
+  background-color: rgb(71, 93, 78);
+  border: double 3px rgb(48, 61, 48);
+  color: white;
 }
 
 .goodsimage {
@@ -741,6 +749,7 @@ h1 {
   border: solid 7px black;
   border-radius: 20px;
   margin-bottom: 70px;
+  opacity: 0.97;
 }
 
 #checkoutbtn {
@@ -793,7 +802,26 @@ h1 {
   width: 100px;
   height: 100px;
   cursor: pointer;
+  transition: transform 0.2s;
 }
+
+#cartbtn:hover {
+  animation: wiggle .5s ease infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+  75% {
+    transform: rotate(10deg);
+  }}
 
 h2#cartword {
   text-shadow: 2px 2px 2px white;
@@ -844,6 +872,25 @@ h2#cartword {
   word-wrap: break-word;
 }
 
+.storestransdiv{
+  height: auto;
+  min-height: 60vh;
+  width: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  flex: 1;
+  background-image: url('/public/Images/shopfront.gif');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(255, 255, 255, 0.403);
+  border: solid 7px black;
+  border-radius: 20px;
+  margin-bottom: 70px;
+  opacity: 0.97;
+}
 /* ----------------------------------THIS CODE BLOCK MAKES THE LOADING CIRCLES ON LOGIN------------------------start */
 
 .container {

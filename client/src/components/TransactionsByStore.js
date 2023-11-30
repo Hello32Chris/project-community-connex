@@ -51,7 +51,7 @@ useEffect(() => {
   console.log(filteredTransactions)
 
   return (
-    <div align='center' className='storess'>
+    <div align='center' className='storestransdiv'>
       <br/>
       <h2 className='storecardprof'>Filtered Transactions for<br/> {shop ? shop.name : ""}</h2>
       <ul>
