@@ -27,13 +27,15 @@ export default function GoodsCard({ id, name, price, image }) {
     };
 
     return (
-        <div>
+        <div className="goodscard">
             <br />
             <br />
             <div><b>Name:</b> {name}</div>
-            <div><b>price:</b> {price}</div>
+            <div><b>price:</b> ${price.toFixed(2)}</div>
+            <br/>
             <div>{image && <img className="goodsimage" src={image} alt={`Image of ${name} from store_id ${id}`} />}</div>
-            <button onClick={() => deleteGoodsService(id)} >Remove Service</button>
+            <br/>
+            <button className="" onClick={() => deleteGoodsService(id)} >Remove Service</button>
             <br />
             <br />
 

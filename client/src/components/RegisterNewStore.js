@@ -59,14 +59,14 @@ const [message, setMessage] = useState('');
   };
 
   return (
-    <div>
+    <div id="registerBox">
       {message ? (
         <div>
           <div>{message}</div>
         </div>
       ) : (
-      <div>
-        <div>Register New Store: </div>
+      <div className="loginform">
+        <h1 className='RegTitle'>Register New Store: </h1>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -75,25 +75,25 @@ const [message, setMessage] = useState('');
           <Form>
             <br />
             <div>
-              <label htmlFor="name">Store Name:</label>
+              <label className='label-text' htmlFor="name">Store Name:</label>
               <Field type="text" id="name" name="name" />
               <ErrorMessage name="name" component="div" />
             </div>
             <br />
             <div>
-              <label htmlFor="email">Email:</label>
+              <label className='label-text' htmlFor="email">Email:</label>
               <Field type="email" id="email" name="email" />
               <ErrorMessage name="email" component="div" />
             </div>
             <br />
             <div>
-              <label htmlFor="password">Password:</label>
+              <label className='label-text' htmlFor="password">Password:</label>
               <Field type="password" id="password" name="password" />
               <ErrorMessage name="password" component="div" />
             </div>
             <br />
             <div>
-              <label htmlFor="confirmPassword">Confirm Password:</label>
+              <label className='label-text' htmlFor="confirmPassword">Confirm Password:</label>
               <Field type="password" id="confirmPassword" name="confirmPassword" />
               <ErrorMessage name="confirmPassword" component="div" />
             </div>

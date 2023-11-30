@@ -56,7 +56,7 @@ const StoreLoginForm = ({ setStoreLoggedIn }) => {
 
 
   return (
-    <div>
+    <div className="loginform">
       {message ? (
         <div id="login-message">
           <div>{message}</div>
@@ -71,7 +71,7 @@ const StoreLoginForm = ({ setStoreLoggedIn }) => {
           </div>
       ) : (
         <div>
-            <div> Store Login: </div>         
+            <h1 id="LoginTitle">Store Login: </h1>         
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -80,13 +80,13 @@ const StoreLoginForm = ({ setStoreLoggedIn }) => {
             <Form>
             <br/>
               <div>
-                <label htmlFor="email">Email:</label>
+                <label className='label-text' htmlFor="email">Email:</label>
                 <Field type="email" id="email" name="email" />
                 <ErrorMessage name="email" component="div" />
               </div>
               <br/>
               <div>
-                <label htmlFor="password">Password:</label>
+                <label className='label-text' htmlFor="password">Password:</label>
                 <Field type="password" id="storepassword" name="password" />
                 <ErrorMessage name="password" component="div" />
               </div>

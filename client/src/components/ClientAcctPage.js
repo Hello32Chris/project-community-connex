@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import RegisterPage from "./RegisterPage";
 import { useFormik } from "formik";
 
 
 export default function ClientAccountPage() {
+
+  useEffect(() => {
+    document.body.className = 'clientaccountback';
+    return () => {
+      document.body.className = '';
+  }}, []);
 
   const history = useHistory()
 
@@ -141,7 +146,7 @@ export default function ClientAccountPage() {
     <div align='center' id="regform">
       <h1>Account page for {client?.name}</h1>
       <br />
-      <button onClick={() => setToggle(!toggle)} >Edit Account</button>
+      <button className="regswitchformbtn" onClick={() => setToggle(!toggle)} >Edit Account</button>
       <br />
       {toggle && formikForm}
       <br />

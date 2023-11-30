@@ -119,7 +119,7 @@ with app.app_context():
         name = "Same Day Delivery",
         price = 25,
         store_id = 3,
-        image = "https://www.pluggedin.com/wp-content/uploads/2023/06/kikis-delivery-service-1024x587.jpg"
+        image = "https://i.pinimg.com/originals/59/0e/26/590e26fc96fbbcaa30438cf5822ed65b.gif"
     )
     db.session.add(new_goods_service4)
     db.session.commit()

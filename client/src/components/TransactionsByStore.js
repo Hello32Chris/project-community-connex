@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 const TransactionsByStore = () => {
+
+  
   const [shop, setShop] = useState(null);
   const [trans, setTrans] = useState(null);
   const [filteredTransactions, setFilteredTransactions] = useState([]);

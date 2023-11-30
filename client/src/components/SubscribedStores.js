@@ -3,6 +3,14 @@ import React, { useState, useEffect } from "react";
 
 export default function SubscribedStores() {
 
+  
+
+  useEffect(() => {
+    document.body.className = 'substoreback';
+    return () => {
+      document.body.className = '';
+  }}, []);
+
   const [client, setClient] = useState(null)
   const [getmessage, setMessage] = useState('');
 

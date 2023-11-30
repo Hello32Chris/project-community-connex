@@ -61,9 +61,9 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
 
 //----------------------------------------------------------- GOODS AND SERVICES MAPPING -------------------
   const storegood = storegoods.map((good) => (
-    <ul key={good.id}>
-      <h2><b>{good.name}</b></h2>
-      <p>${parseFloat(good.price).toFixed(2)}</p>
+    <ul className="storecardgood" key={good.id}>
+      <p><h3>Service: </h3>{good.name}</p>
+      <p><h3>Price: </h3>${parseFloat(good.price).toFixed(2)}</p>
       <img className="goodsimage" src={good.image} alt={`image for ${good.name} at price $${good.price}`} title={`image for ${good.name} at price $${good.price}`} />
       <br/>
       {client ? <button onClick={() => handleAddToCart(good?.id)}>Add to Cart</button> : null}
@@ -79,9 +79,9 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
   // console.log(storegoods)
 
   return (
-    <div>
+    <div className="storecardDIV">
       <div id="linkdiv">
-        <Link to={`/stores/${storeid}`} style={{ textDecoration: 'none', color: 'inherit' }} >
+        <Link className='storeCard' to={`/stores/${storeid}`} style={{ textDecoration: 'none', color: 'inherit' }} >
           <div align='center' style={{ cursor: 'pointer' }}>
             <h2>Store:</h2>
             <p><b>Name:  </b>{storename}</p>
@@ -91,14 +91,16 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
           </div>
         </Link >
       </div>
-      <div>
-        <button onClick={toggleGoods}>{!goodsToggle ? 'Show Services' : 'Hide Services'}</button>
+      <div className="storeservices">
+        <button className="storeservicebtn" onClick={toggleGoods}>{!goodsToggle ? 'Show Services' : 'Hide Services'}</button>
         {goodsToggle ? storegood : null}
         <br />
         <br />
+        <div >
         {clog &&
           <SubscribeButton storename={storename} storecode={storecode} storeid={storeid} />
         }
+        </div>
          
         <br />
       </div>

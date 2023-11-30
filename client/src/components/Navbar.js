@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import CartCard from "./CartCard";
+import { useUserContext } from "../UserContext";
 
 function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) {
   
   
   const [shop, setShop] = useState(null);
   const [client, setClient] = useState(null);
-  const [toggle, setToggle] = useState(false)
+  const [toggle, setToggle] = useState(false);
+  const { userId, setUserId } = useUserContext();
 
   const history = useHistory()
   
@@ -90,7 +92,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
 
   const clog = client ? true : false
 
-  const cart = (!toggle ? <button className="login-butt" id="cartbtn" onClick={() => setToggle(true)}>Cart</button> :
+  const cart = (!toggle ? <button id="cartbtn" onClick={() => setToggle(true)}><h2 id="cartword">Cart</h2></button> :
     <nav >
       <div>
         <button id="closebtn" onClick={() => setToggle(false)}>X</button>
@@ -101,44 +103,44 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
 
 // ---------------------------------------------------------------------------- CONDITIONALLY RENDERED NAVBAR -------------
   const nav =
-    <nav id="navbar">
+    <nav id="">
       <div className="navbar">
-        <li><NavLink className='link' to="/stores" activeClassName="active" >Shops</NavLink></li>
+        <li className="navsign"><NavLink className='link' to="/stores" activeClassName="active" >Shops</NavLink></li>
         {/*  ------------STORE NAV SECTION----------------- */}
         {slog ? (
           <>
-            <li><NavLink className='link' to={`/stores/${loggedInStoreId}`} activeClassName="active" >Profile</NavLink></li>
-            <li><NavLink className='link' to='/store/transactions' activeClassName="active" >Transactions</NavLink></li>
-            <li><NavLink className='link' to='/store/services' activeClassName="active" >Goods and Services</NavLink></li>
-            <li><NavLink className='link' to='/clients' activeClassName="active" >Subscribed Client</NavLink></li>
-            <li><NavLink className='link' to='/store/AccountManager' activeClassName="active" >Edit Account</NavLink></li>
-            <li><button onClick={handleStoreLogout}>Logout</button></li>
+            <li className="navsign"><NavLink className='link' to='/store/transactions' activeClassName="active" >Transactions</NavLink></li>
+            <li className="navsign"><NavLink className='link' to={`/stores/${loggedInStoreId}`} activeClassName="active" >Profile</NavLink></li>
+            <li className="navsign"><NavLink className='link' to='/store/services' activeClassName="active" >Goods and Services</NavLink></li>
+            <li className="navsign"><NavLink className='link' to='/clients' activeClassName="active" >Subscribed Client</NavLink></li>
+            <li className="navsign"><NavLink className='link' to='/store/AccountManager' activeClassName="active" >Edit Account</NavLink></li>
+            <li className="navsign"><button onClick={handleStoreLogout}>Logout</button></li>
           </>
         ) : (
           // ------------CLIENT NAV SECTION-----------------
           <>
-            <li><NavLink className='link' to="/store/StoreSubscriptions" activeClassName="active" >Subscribed Stores</NavLink></li>
-            <li><NavLink className='link' to={`/client/transactions`} activeClassName="active" >Transactions</NavLink></li>
-            <li><NavLink className='link' to="/EditAccount" activeClassName="active" >Edit Account</NavLink></li>
-            <li><button onClick={handleClientLogout}>Logout</button></li>
+            <li className="navsign"><NavLink className='link' to="/store/StoreSubscriptions" activeClassName="active" >Subscribed Stores</NavLink></li>
+            <li className="navsign"><NavLink className='link' to={`/client/transactions`} activeClassName="active" >Transactions</NavLink></li>
+            <li className="navsign"><NavLink className='link' to="/EditAccount" activeClassName="active" >Edit Account</NavLink></li>
+            <li className="navsign"><button onClick={handleClientLogout}>{`Logout${userId}`}</button></li>
           </>
         )}
-        <li><NavLink className='link' to="/About" activeClassName="active" >About</NavLink></li>
+        <li className="navsign"><NavLink className='link' to="/About" activeClassName="active" >About</NavLink></li>
       </div>
     </nav>;
 
   return (
     <div>
       <div id="cartnav">{ clog ? cart : null}</div>
-    <div id="grid">
-      <ul>
+    <div>
+      <ul id="grid">
         {!clog && !slog ? (
           // If neither client nor store is logged in, display login options
-          <nav id="navbar">
+          <nav id="">
             <div className="navbar">
-              <li><NavLink className='link' to="/Login" activeClassName="active">Login</NavLink></li>
-              <li><NavLink className='link' to="/stores" activeClassName="active" >Stores</NavLink></li>
-              <li><NavLink className='link' to="/About" activeClassName="active" >About</NavLink></li>
+              <li className="navsign"><NavLink className='link' to="/Login" activeClassName="active">Login</NavLink></li>
+              <li className="navsign"><NavLink className='link' to="/stores" activeClassName="active" >Stores</NavLink></li>
+              <li className="navsign"><NavLink className='link' to="/About" activeClassName="active" >About</NavLink></li>
             </div>
           </nav>
         ) : (

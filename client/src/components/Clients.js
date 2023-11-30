@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ClientCard from "./ClientCard";
 
-export default function Clients({ clients }) {
+export default function Clients() {
 
     const [shop, setShop] = useState(null)
 
@@ -15,7 +15,7 @@ export default function Clients({ clients }) {
           return <div>Loading...</div>;
         }
         });
-      }, []);
+      }, [shop]);
     const subbedClients = shop?.subscribed_clients || [];
     const mappedSubbedClients = subbedClients?.map((client) => client)
 

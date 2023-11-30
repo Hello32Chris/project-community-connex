@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import StoreCard from "./StoreCard";
 
 export default function Stores({ stores }) {
+
+    useEffect(() => {
+        document.body.className = 'shopback';
+        return () => {
+          document.body.className = '';
+      }}, []);
 
 
 // ----------------------------------------------------------- STORE LOGIN POST ------------

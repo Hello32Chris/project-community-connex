@@ -58,7 +58,7 @@ const ClientLoginForm = ({ setClientLoggedIn, clientLoggedIn }) => {
   console.log(clientLoggedIn)
 
     return (
-      <div>
+      <div className="loginform">
         {message ? (
           <div id="login-message">
             <div>{message}</div>
@@ -73,7 +73,7 @@ const ClientLoginForm = ({ setClientLoggedIn, clientLoggedIn }) => {
           </div>
         ) : (
           <div>
-            <div>Client Login:</div> 
+            <h1 id="LoginTitle">Client Login:</h1> 
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
@@ -82,13 +82,13 @@ const ClientLoginForm = ({ setClientLoggedIn, clientLoggedIn }) => {
               <Form>
                 <br />
                 <div>
-                  <label htmlFor="email">Email:</label>
+                  <label className='label-text' htmlFor="email">Email:</label>
                   <Field type="email" id="email" name="email" />
                   <ErrorMessage name="email" component="div" />
                 </div>
                 <br />
                 <div>
-                  <label htmlFor="password">Password:</label>
+                  <label className='label-text' htmlFor="password">Password:</label>
                   <Field type="password" id="password" name="password" />
                   <ErrorMessage name="password" component="div" />
                 </div>
@@ -106,87 +106,3 @@ const ClientLoginForm = ({ setClientLoggedIn, clientLoggedIn }) => {
         
 
 export default ClientLoginForm;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useEffect, useState } from "react";
-// import { useHistory } from "react-router-dom";
-
-
-// function LoginForm({setLoggedInID, setLoggedIn, loggedIn}) {
-
-//     const [email, setEmail] = useState('')
-//     const [password, setPassword] = useState('')
-//     const [validLogin, setValidLogin] = useState(false)
-//     const history = useHistory()
-
-    
-//     const handleLogin = async () => {
-//         try{
-//             const response = await fetch('/clients') // Fetch customer data
-//             const clientData = await response.json()
-//             const client = clientData.find((client) => client.email === email);
-            
-            
-//             if (client && client.password === password) {
-//                 // Valid login
-//                 console.log('Login successful')
-//                 console.log(client.id)
-//                 setLoggedIn(!loggedIn)
-//                 setLoggedInID(client.id)
-//                 history.push('/Home')
-//             } else {
-//                 // Invalid login
-//                 setValidLogin('Invalid username or password');
-//             }
-            
-//         } catch (error) {
-//             console.error('Error fetching customer data', error);
-//         };
-//     };
-
-
-//     return (
-//         <div className="loginform">
-//             <div className="centered-content">
-//                 <h1 className="login">Login</h1>
-//                 <br />
-//                 <div id="logform">
-//                     Email: <input
-//                         className="loginput"
-//                         type="text"
-//                         placeholder="Email"
-//                         value={email}
-//                         onChange={(e) => setEmail(e.target.value)}
-//                     />
-//                     <br/>
-//                     Password: <input
-//                         className="loginput"
-//                         type="password"
-//                         placeholder="Password"
-//                         value={password}
-//                         onChange={(e) => setPassword(e.target.value)}
-//                     />
-//                     <br />
-//                     <button className="loginbutton" onClick={handleLogin}>Login</button>
-//                     {validLogin && <p>{validLogin}</p>}
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-
-// export default LoginForm

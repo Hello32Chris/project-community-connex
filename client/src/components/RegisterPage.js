@@ -12,15 +12,13 @@ const RegisterPage = () => {
 
   return (
     <div>
-      <button onClick={handleClick}>{clicked ? 'Client Register Form' : 'Store Register Form'}</button>
+      <button className='regswitchformbtn' onClick={handleClick}>{clicked ? 'Switch to Client Register Form' : 'Swtich to Store Register Form'}</button>
       {clicked ? (
           <div>
-            <h2>Store Signup</h2>
             <RegisterNewStore  />
           </div>
           ) : (
         <div>
-          <h2>Client Signup</h2>
           <RegisterNewClient />
         </div>
       )}

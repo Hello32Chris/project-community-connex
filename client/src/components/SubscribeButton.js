@@ -48,10 +48,6 @@ export default function SubscribeButton({ storecode, storeid, storename }) {
                     },
                     body: JSON.stringify({ client_id: clientId, store_code: storecode }),
                 });
-
-                const data = await response.json();
-                console.log(response.status)
-
                 if (response.ok) {
                     setMessage('Unsubscribed!')
                     setSubToggle(false)
@@ -109,11 +105,11 @@ export default function SubscribeButton({ storecode, storeid, storename }) {
 
 
     return (
-        <div align='center'>
+        <div id="subBtn" align='center'>
             {checkSub}
             {message}
             <br />
-            {!subToggle ? <button onClick={(handleSubscribe)} >Subscribe</button> : <button onClick={(handleUnsubscribe)} >Unsubscribe</button>}
+            {!subToggle ? <button className="storeservicebtn" onClick={(handleSubscribe)} >Subscribe</button> : <button className="storeservicebtn" onClick={(handleUnsubscribe)} >Unsubscribe</button>}
         </div>
     )
 }

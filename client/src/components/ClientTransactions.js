@@ -3,6 +3,12 @@ import React, { useState, useEffect } from "react";
 
 export default function ClientTransactions() {
 
+  useEffect(() => {
+    document.body.className = 'clienttransactionback';
+    return () => {
+      document.body.className = '';
+  }}, []);
+
   const [client, setClient] = useState(null)
 
 //-------------------------------------------------------------------- CHECK CLIENT SESSION -----------

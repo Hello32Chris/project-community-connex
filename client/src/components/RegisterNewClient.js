@@ -64,8 +64,8 @@ const [message, setMessage] = useState('');
           <div>{message}</div>
         </div>
       ) : (
-      <div>
-        <div>Register as New User: </div>
+      <div className="loginform">
+        <h1>Register New User: </h1>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}

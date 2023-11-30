@@ -3,7 +3,13 @@ import React, { useState, useEffect } from "react";
 import GoodsCard from './GoodsCard';
 
 
-export default function GoddsServiceForm() {
+export default function GoodsServiceForm() {
+
+  useEffect(() => {
+    document.body.className = 'goodsback';
+    return () => {
+      document.body.className = '';
+  }}, []);
 
     const [shop, setShop] = useState(null)
 
@@ -66,6 +72,7 @@ export default function GoddsServiceForm() {
             <span>
                 {goodsCard}
             </span>
+        <div className='newservform'>
         <h1>Create New Service Form</h1>
         <Formik
           initialValues={{
@@ -81,20 +88,20 @@ export default function GoddsServiceForm() {
         >
           <Form>
             <div>
-              <label htmlFor="name">Name:</label>
-              <Field type="text" id="name" name="name" />
+              <label className='label-text' htmlFor="name"><b>Name:</b></label>
+              <Field className='formik-box' type="text" id="name" name="name" />
               <ErrorMessage name="name" component="div" />
             </div>
             <br/>
             <div>
-              <label id='imagelabel' htmlFor="image">Image:</label>
-              <Field style={{resize:'none'}} as="textarea" id="image" name="image" />
+              <label className='label-text' id='imagelabel' htmlFor="image"><b>Image:</b></label>
+              <Field className='formik-box' style={{resize:'none'}} as="textarea" id="image" name="image" />
               <ErrorMessage name="image" component="div" />
             </div>
             <br/>   
             <div>
-              <label htmlFor="price">Price:</label>
-              <Field type="number" id="price" name="price" />
+              <label className='label-text' htmlFor="price"><b>Price:</b></label>
+              <Field className='formik-box' type="number" id="price" name="price" />
               <ErrorMessage name="price" component="div" />
             </div>
             <br/>    
@@ -104,6 +111,7 @@ export default function GoddsServiceForm() {
           </Form>
         </Formik>
         </div>
+      </div>
       );
     };
 
