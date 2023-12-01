@@ -89,7 +89,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
     });
   }, []);
 
-  console.log(userId ? userId.id : null)
+  // console.log(userId ? userId.id : null)
 
   const user_id = userId?.name
 
@@ -117,7 +117,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
             <li className="navsign"><NavLink className='link' to='/store/services' activeClassName="active" >Goods and Services</NavLink></li>
             <li className="navsign"><NavLink className='link' to='/clients' activeClassName="active" >Subscribed Client</NavLink></li>
             <li className="navsign"><NavLink className='link' to='/store/AccountManager' activeClassName="active" >Edit Account</NavLink></li>
-            <li className="navsign"><button onClick={handleStoreLogout}>Logout</button></li>
+            <li className="navsign"><button onClick={handleStoreLogout}>{`Logout ${userId?.name}`}</button></li>
           </>
         ) : (
           // ------------CLIENT NAV SECTION-----------------

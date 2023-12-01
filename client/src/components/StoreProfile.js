@@ -88,9 +88,9 @@ export default function StoreProfile() {
 
 // ------------------------------------------------------------ MAP THROUGH SHOP PROFILE -------
     const shopProfile = shop?.store_profile.map((prof) => (
-        <div key={prof.id}>
-            <h1>{prof.bio}</h1>
-            <h1>{prof.location}</h1>
+        <div id="biodiv" key={prof.id}>
+            <h1 id="biowords">{prof.bio}</h1>
+            <h1 id="biolocation">{prof.location}</h1>
             <h1>{prof.phone_number}</h1>
         </div>
     ));
@@ -122,18 +122,18 @@ export default function StoreProfile() {
         >
             <Form>
                 <br />
-                <div>
-                    <label htmlFor="bio">Bio:</label>
-                    <Field type="text" id="bio" name="bio" />
+                <div style={{ display: 'flex', flexDirection: 'column'}}>
+                    <label htmlFor="bio"><h1>Profile Bio</h1></label>
+                    <Field style={{resize:'none'}} as="textarea" id="bio" name="bio" />
                 </div>
                 <br />
                 <div>
-                    <label htmlFor="location">Location:</label>
+                    <label htmlFor="location"><h2>Location</h2></label>
                     <Field type="text" id="location" name="location" />
                 </div>
                 <br />
                 <div>
-                    <label htmlFor="phone_number">Phone Number:</label>
+                    <label htmlFor="phone_number"><h2>Phone Number</h2></label>
                     <Field type="text" id="phone_number" name="phone_number" />
                 </div>
                 <br />
@@ -184,7 +184,7 @@ export default function StoreProfile() {
             {goods}
             </div>
             <br />
-            {slog && <button onClick={toggleForm}>{showForm ? 'Hide Edit Profile' : 'Show Edit Profile'}</button>}
+            {slog && <button className="storeservicebtn" onClick={toggleForm}>{showForm ? 'Hide Edit Profile' : 'Show Edit Profile'}</button>}
             {showForm && storeProfileForm}
             {showForm && 
                 <div>

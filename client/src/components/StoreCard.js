@@ -84,22 +84,21 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
       <div id="linkdiv">
         <Link className='storeCard' to={`/stores/${storeid}`} style={{ textDecoration: 'none', color: 'inherit' }} >
           <div align='center' style={{ cursor: 'pointer' }}>
-            <h2>Store:</h2>
-            <p><b>Name:  </b>{storename}</p>
-            <p><b>email:  </b>{storeemail}</p>
-            <p><b>code:  </b>{storecode}</p>
+            <p><b><h1>{storename}</h1></b></p>
+            <div><b>Email:</b></div>{storeemail}
+            <p><b>Code:  </b>{storecode}</p>
           </div>
         </Link >
       </div>
       <div className="storeservices">
         <button className="storeservicebtn" onClick={toggleGoods}>{!goodsToggle ? 'Show Services' : 'Hide Services'}</button>
         {goodsToggle ? storegood : null}
-        <br />
-        <br />
-        <div >
         {clog &&
           <SubscribeButton storename={storename} storecode={storecode} storeid={storeid} />
         }
+        <br />
+        <br />
+        <div >
         </div>
          
         <br />
