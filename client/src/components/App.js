@@ -69,11 +69,6 @@ export default function App() {
       });
     }, []);
 
-    useEffect(() => {
-        fetch('/clients')
-            .then((resp) => resp.json())
-            .then(setUserId);
-    }, []);
 
     const loggedInStoreId = shop && shop.id;
     console.log(loggedInStoreId)

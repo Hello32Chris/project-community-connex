@@ -48,6 +48,7 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
       });
       if (response.ok) {
         const data = await response.json();
+        alert('item added to cart!')
         console.log(data.message); // or handle success in some way
       } else {
         const errorData = await response.json();
@@ -104,9 +105,6 @@ export default function StoreCard({ storeid, storename, storeemail, storecode, s
         <br />
       </div>
     </div>
-
-
-
   )
 }
 

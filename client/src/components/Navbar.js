@@ -14,7 +14,6 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
 
   const history = useHistory()
   
-  
 //----------------------------------------------------------------------------------------- STORE LOGOUT ------------
   const handleStoreLogout = async () => {
     try {
@@ -79,7 +78,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
   const loggedInStoreId = shop && shop.id;
   const slog = shop ? true : false;
 
-  console.log(shop)
+  console.log(userId)
 
 //----------------------------------------------------------------------------------------- CLIENT SESSION CHECK --------
   useEffect(() => {
@@ -91,6 +90,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
   }, []);
 
   console.log(userId ? userId.id : null)
+
   const user_id = userId?.name
 
   const clog = client ? true : false
@@ -125,7 +125,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
             <li className="navsign"><NavLink className='link' to="/store/StoreSubscriptions" activeClassName="active" >Subscribed Stores</NavLink></li>
             <li className="navsign"><NavLink className='link' to={`/client/transactions`} activeClassName="active" >Transactions</NavLink></li>
             <li className="navsign"><NavLink className='link' to="/EditAccount" activeClassName="active" >Edit Account</NavLink></li>
-            <li className="navsign"><button onClick={handleClientLogout}>{`Logout ${user_id}`}</button></li>
+            <li className="navsign"><button onClick={handleClientLogout}>{`Logout ${userId?.name}`}</button></li>
           </>
         )}
         <li className="navsign"><NavLink className='link' to="/About" activeClassName="active" >About</NavLink></li>

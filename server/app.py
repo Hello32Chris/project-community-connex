@@ -162,7 +162,7 @@ def delete_subscriptions():
     
 
 #--------------------------------------------------------------------------------------------------- CLIENTS BY ID [GET, PATCH, DELETE]-------------------
-@app.route('/clients/<int:id>', methods=['GET', 'DELETE'])
+@app.route('/clients/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def client_by_id(id):
     client_by_id = Client.query.filter_by(id = id).first()
     if client_by_id:
@@ -172,7 +172,6 @@ def client_by_id(id):
             db.session.delete(client_by_id)
             db.session.execute(cart_table.delete().where(cart_table.c.client_id == id))
             db.session.commit()
-            
             session.pop('client_id', None)
             resp = make_response({}, 204)
         elif request.method == 'PATCH':
@@ -199,6 +198,7 @@ def store_by_id(id):
         elif request.method == 'DELETE':
             db.session.delete(store_by_id)
             db.session.commit()
+            session.pop('store_id', None)
             resp = make_response({}, 204)
         elif request.method == 'PATCH':
             form_data=request.get_json()
