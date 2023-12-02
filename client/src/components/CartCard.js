@@ -114,10 +114,10 @@ export default function CartCard() {
 
 //---------------------------------------------------------------------- CARTS MAPPED OUT FOR DISPLAY ------
     const cartDisplay = clientGoods.map((good) =>
-        <div key={good.id}>
+        <div className='cartitems' key={good.id}>
             <div>Service -{good.name}</div>
             <div>Price - {good.price}</div>
-            <button onClick={() => handleDeleteCartItems(good?.id, good?.name)} >Remove Cart Item</button>
+            <button className='cartremovebtn' onClick={() => handleDeleteCartItems(good?.id, good?.name)} >Remove Cart Item</button>
             <br />
             <br />
         </div>

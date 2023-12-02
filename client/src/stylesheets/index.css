@@ -51,11 +51,10 @@ body {
   background-size: cover;
   height: 250px;
   width: 100%;
-  border-bottom: double 10px white;
+  border-bottom: double 20px white;
   border-bottom-left-radius: 50% 50px;
   border-bottom-right-radius: 50% 60px;
 }
-
 
 .homeback {
   margin: 0;
@@ -129,7 +128,7 @@ body {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
-  background-image: url('/public/Images/backlot.png');
+  background-image: url('/public/Images/windy.gif');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -161,7 +160,7 @@ body {
   border-radius: 5%;
 }
 
-.storeacctback {
+.clientsubback {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -185,7 +184,7 @@ body {
   border-radius: 5%;
 }
 
-.clientsubback {
+.storeacctback {
   margin: 0;
   font-family: "Open Sans", sans-serif;
   font-size: 14px;
@@ -411,12 +410,47 @@ footer {
   color: #333;
 }
 
+#daddydiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Add any additional styling for the parent div */
+}
+
+
 .label-text {
   display: inline-block;
   background-color: #27864f;
   color: #fff;
   padding: 2px 4px;
   border-radius: 4px;
+  width: 70%;
+  text-align: center; 
+  height: 20px;
+}
+#storecode{
+  width: 300px; 
+  padding: 100px;
+}
+
+.custom-input{
+  margin: 3px;
+  width: 100%;
+  padding: 8px; /* Adjust padding as needed */
+  border: 2px solid #000000; /* Add border styles if desired */
+  border-radius: 5px; /* Add border-radius if desired */
+  box-sizing: border-box;
+}
+
+#sub-btn{
+  background-color: orange;
+  border: solid 2px black;
+  width: 100%;
+  align-items: center;
+}
+#sub-btn:hover{
+  background-color: rgb(216, 186, 124);
+  padding: 4px;
 }
 
 
@@ -511,6 +545,16 @@ footer {
   transition: transform 0.3s ease-in-out;
 }
 
+.link:hover {
+  color: rgb(11, 52, 13);
+  cursor: pointer;
+  font-size: 31px;
+  height: auto;
+  margin-right: 10px;
+  transition: 0.3s;
+  border-radius: 5px;
+  text-shadow: 3px 3px 7px rgba(255, 255, 255, 0.93);
+}
 
 #linkdiv{
   background-color: rgba(164, 83, 54, 0.903);
@@ -527,16 +571,6 @@ footer {
 }
 
 
-.link:hover {
-  color: rgb(11, 52, 13);
-  cursor: pointer;
-  font-size: 31px;
-  height: auto;
-  margin-right: 10px;
-  transition: 0.3s;
-  border-radius: 5px;
-  text-shadow: 3px 3px 7px rgba(255, 255, 255, 0.93);
-}
 
 h1 {
   margin-top: 0;
@@ -550,6 +584,11 @@ h1 {
   background-color: red;
   width: 200px;
   border: dotted 2px black;
+  transition: background-color 0.3s;
+}
+.deletebtn:hover {
+  background-color: white;
+  border: dotted 2px red;
 }
 
 #profilebtn {
@@ -557,6 +596,13 @@ h1 {
   height: 50px;
   border-radius: 8px;
   border: solid 2px black;
+  transition: background-color 0.3s, font-weight 0.3s;
+}
+
+#profilebtn:hover {
+  background-color: #27864f;
+  font-weight: bold;
+  border: double 3px black;
 }
 
 #regform {
@@ -573,7 +619,7 @@ h1 {
   transform: translate(-50%, -40%);
   border: solid 3px black;
   border-radius: 10px;
-  background-color: rgba(0, 128, 0, 0.378);
+  background-color: rgba(184, 220, 184, 0.649);
 }
 
 #helloframe {
@@ -690,11 +736,55 @@ h1 {
   flex-grow: 1; 
 }
 
+.goodsimage {
+  width: 200px;
+  height: 150px;
+  border: solid 3px black;
+  border-radius: 8px;
+  margin: 10px;
+}
+
+#welcomename{
+  border: solid 3px black;
+  border-radius: 20px;
+  padding: 25px;
+  background-color: rgb(218, 206, 114);
+}
+
+.profgoods{
+  border: solid 3px black;
+  border-radius: 10px;
+  margin: 20px;
+  padding: 20px;
+  background-color: #4878c0;
+}
+
+#cartprofbtn{
+  width: 130px;
+  height: 50px;
+  position: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: aquamarine;
+  cursor: pointer;
+  border-radius: 7%;
+  transition: background-color 0.3s ease;
+}
+
 /* .storeservices {
   display: flex;
-  overflow-y: auto;
-  width: 100%;
+  flex-direction: row;
+
 } */
+
+#subcodediv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
 .storess {
   width: 1000px;
   display: flex;
@@ -724,9 +814,11 @@ h1 {
   background-color: rgba(255, 255, 255, 0.641); 
   margin: 20px;
 }
-.storeservices{
+/* .storeservices{
   margin: 100px;
-}
+  display: flex;
+  flex-wrap: wrap;
+} */
 
 #biodiv{
   background-color: rgba(67, 126, 202, 0.721);
@@ -749,13 +841,6 @@ h1 {
   border-top-right-radius: 20px;
 }
 
-.goodsimage {
-  width: 200px;
-  height: 150px;
-  border: double 1px black;
-  border-radius: 8px;
-  margin: 10px;
-}
 
 .storeservicebtn {
   width: 130px;
@@ -876,7 +961,7 @@ h2#cartword {
 }
 
 #cart {
-  background-color: grey;
+  background-image: url('/public/Images/picnic-blanket.jpg');
   padding-bottom: 20%;
   width: 300px;
   right: 10px;
@@ -887,17 +972,52 @@ h2#cartword {
   border-radius: 10px;
 }
 
+.cartitems{
+  margin: 3px;
+  border-radius: 10px;
+  width: 70%;
+  background-color: white;
+  border: solid 2px black;
+  font-weight: bold;
+}
+.cartremovebtn{
+  background-color: rgb(62, 5, 5);
+  color: white;
+}
+#total{
+  margin-top: 30px;
+}
+
 #checkout {
+  display: center;
   background-color: grey;
   height: 0;
   width: 20%;
   padding-bottom: 25%;
   padding-top: 2%;
   margin-left: 40%;
+  min-height: 20vh;
+  height: 100%;
+}
+
+.logoutbtn{
+  font-weight: bold;
+  padding: 10px;
+  border-bottom-right-radius: 30px;
+  border-top-right-radius: 30px;
+
+}
+a.link{
+  color: white;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+}
+.logoutbtn:hover{
+  background-color: red;
+  color: white;
 }
 
 #clienttrans {
-  background-color: grey;
+  background-color: rgb(171, 164, 164);
   height: 0;
   width: 20%;
   padding-bottom: 70%;

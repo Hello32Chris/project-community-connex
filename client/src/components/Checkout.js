@@ -101,11 +101,11 @@ export default function Checkout() {
 
 //-------------------------------------------------------------------------- CART DISPLAY FOR RETURN ----------
     const cartDisplay = clientGoods.map((good) =>
-        <div key={good.id}>
+        <div className="cartitems" key={good.id}>
             <div>Service -{good.name}</div>
             <div>Price - {good.price.toFixed(2)}</div>
             <br />
-            <button onClick={() => handleDeleteCartItems(good.id, good.name)}>Remove from Cart</button>
+            <button className="cartremovebtn" onClick={() => handleDeleteCartItems(good.id, good.name)}>Remove from Cart</button>
             <br />
             <br />
         </div>
@@ -173,7 +173,7 @@ export default function Checkout() {
         return (
             <div align='center' id="checkout">
                 {cartDisplay}
-                <div><b>Total Amount:</b> ${calculateTotalPrice()}</div>
+                <div id="total"><b>Total Amount:</b> ${calculateTotalPrice()}</div>
                 <br />
                 <button className="finalchkout" onClick={checkout}><b>Checkout</b></button>
             </div>

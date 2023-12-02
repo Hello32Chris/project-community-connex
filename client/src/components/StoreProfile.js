@@ -98,12 +98,12 @@ export default function StoreProfile() {
 
 // --------------------------------------------------------------- MAP THROUGHT STORE GOODS ----
     const goods = shop?.goods_services.map((good) => (
-        <div key={good.id}>
+        <div className="profgoods" key={good.id}>
             <br />
             <img className="goodsimage" alt={`An image of ${good.name}`} src={good.image} />
             <h2>{good.name}</h2>
             <h2>${good.price.toFixed(2)}</h2>
-            {client ? <button onClick={() => handleAddToCart(good.id)}>Add To Cart</button> : null}
+            {client ? <button className="cartprofbtn" onClick={() => handleAddToCart(good.id)}>Add To Cart</button> : null}
             <br />
         </div>
     ));
@@ -177,7 +177,7 @@ export default function StoreProfile() {
 
     return (
         <div align='center' id="profilee">
-            <h1>Welcome to {shop?.name}!</h1>
+            <h1 id="welcomename">Welcome to {shop?.name}!</h1>
             {shopProfile}
             <br />
             <div className="storeservices">

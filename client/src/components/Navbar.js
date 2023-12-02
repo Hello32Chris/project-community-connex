@@ -117,7 +117,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
             <li className="navsign"><NavLink className='link' to='/store/services' activeClassName="active" >Goods and Services</NavLink></li>
             <li className="navsign"><NavLink className='link' to='/clients' activeClassName="active" >Subscribed Client</NavLink></li>
             <li className="navsign"><NavLink className='link' to='/store/AccountManager' activeClassName="active" >Edit Account</NavLink></li>
-            <li className="navsign"><button onClick={handleStoreLogout}>{`Logout ${userId?.name}`}</button></li>
+            <li className="navsign"><button className="logoutbtn" onClick={handleStoreLogout}>{`Logout ${userId?.name}`}</button></li>
           </>
         ) : (
           // ------------CLIENT NAV SECTION-----------------
@@ -125,7 +125,7 @@ function Navbar({ setClientLoggedIn, setStoreLoggedIn, storeLoggedIn, stores }) 
             <li className="navsign"><NavLink className='link' to="/store/StoreSubscriptions" activeClassName="active" >Subscribed Stores</NavLink></li>
             <li className="navsign"><NavLink className='link' to={`/client/transactions`} activeClassName="active" >Transactions</NavLink></li>
             <li className="navsign"><NavLink className='link' to="/EditAccount" activeClassName="active" >Edit Account</NavLink></li>
-            <li className="navsign"><button onClick={handleClientLogout}>{`Logout ${userId?.name}`}</button></li>
+            <li className="navsign"><button className="logoutbtn" onClick={handleClientLogout}>{`Logout ${userId?.name}`}</button></li>
           </>
         )}
         <li className="navsign"><NavLink className='link' to="/About" activeClassName="active" >About</NavLink></li>

@@ -3,6 +3,12 @@ import ClientCard from "./ClientCard";
 
 export default function Clients() {
 
+  useEffect(() => {
+    document.body.className = 'clientsubback';
+    return () => {
+      document.body.className = '';
+  }}, []);
+
     const [shop, setShop] = useState(null)
 
 // ----------------------------------------------------- STORE SESSION CHECK -------

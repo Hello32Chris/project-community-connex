@@ -488,7 +488,7 @@ def subscribe_to_store_by_code():
             db.session.commit()
             return make_response({'message': f'Client {client_id} subscribed to store {store_code} successfully'})
         else:
-            return make_response({'message': f'Client {client_id} is already subscribed to store {store_code}'})
+            return make_response({'message': f'Client {client_id} is already subscribed to store {store_code}'}, 400)
     else:
         return make_response({'error': 'Invalid client ID or store code'}), 404
     

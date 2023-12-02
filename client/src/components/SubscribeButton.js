@@ -100,7 +100,7 @@ export default function SubscribeButton({ storecode, storeid, storename }) {
     };
 
     if (!client) {
-        return <p>Loading...</p>; // You might want to display a loading indicator
+        return <p>Loading...</p>; 
     } 
 
 

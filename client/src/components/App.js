@@ -10,7 +10,7 @@ import Stores from './Stores';
 import StoreProfile from './StoreProfile';
 import TransactionsByStore from "./TransactionsByStore";
 import ClientAccountPage from './ClientAcctPage';
-import GoodsServiceForm from './CreateGoodsService';
+import GoodsServiceForm from './GoodsServiceForm';
 import SubscribedStores from './SubscribedStores';
 import Checkout from './Checkout';
 import ClientTransactions from './ClientTransactions';
