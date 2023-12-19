@@ -63,9 +63,8 @@ code . -- this command should open your vs code
 ## To Start the Development Servers open two Terminals below
 # -- Backend --
 ## Within the first Terminal type the following:
-1. cd Server
-2. pipenv install && pipenv shell -- this will install pipfile dependencies and enter a python shell environment
-3. python app.py -- this will start up the backend
+1. pipenv install && pipenv shell -- this will install pipfile dependencies and enter a python shell environment
+2. cd server && python app.py -- this will start up the backend
 
 
 # -- Frontend --
