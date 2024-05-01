@@ -53,19 +53,15 @@ Frontend Technologies:
 
 To Clone the repository:
 
-** From your command terminal (I use ubuntu) select the folder where you want to save the file and enter the following clone URL from below **
-
-git clone https://github.com/Hello32Chris/project-community-connex  
-
-- then type -
-  
-cd project-community-connex  
-
-- followed by typing -
-  
-code . 
-
--- this final command above should open the project in your VScode
+1. Open your terminal (I use Ubuntu).
+2. Choose the folder where you want to save the file.
+3. Enter the following commands one by one:
+   ```
+   git clone https://github.com/Hello32Chris/project-community-connex
+   cd project-community-connex
+   code .
+   ```
+These commands will clone the project, navigate to its directory, and open it in VSCode.
 
 
 ## To Start the Development Servers open two Terminals below
