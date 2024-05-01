@@ -56,8 +56,16 @@ To Clone the repository:
 ** From your command terminal (I use ubuntu) select the folder where you want to save the file and enter the following clone URL from below **
 
 git clone https://github.com/Hello32Chris/project-community-connex  
+
+- then type -
+  
 cd project-community-connex  
-code . -- this command should open your vs code
+
+- followed by typing -
+  
+code . 
+
+-- this final command above should open the project in your VScode
 
 
 ## To Start the Development Servers open two Terminals below
