@@ -53,7 +53,7 @@ Frontend Technologies:
 
 To Clone the repository:
 
-** From your command terminal (I use ubuntu) select the folder where you want to save the file and enter the following from below **
+** From your command terminal (I use ubuntu) select the folder where you want to save the file and enter the following clone URL from below **
 
 git clone https://github.com/Hello32Chris/project-community-connex  
 cd project-community-connex  
