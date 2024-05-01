@@ -92,4 +92,4 @@ Visit http://localhost:3000 in your web browser to interact with the application
 😁 Thank you and please feel free to e-mail me with any questions or check out my LinkedIn!!
 
 E-mail: Christopherorth430@yahoo.com
-Linkedin: https://www.linkedin.com/in/codingwithchris?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app
+Linkedin: https://www.linkedin.com/in/codingwithchris
