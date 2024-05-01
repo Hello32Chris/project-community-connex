@@ -64,18 +64,26 @@ To Clone the repository:
 These commands will clone the project, navigate to its directory, and open it in VSCode.
 
 
-## To Start the Development Servers open two Terminals below
-# -- Backend --
-## Within the first Terminal type the following:
-1. pipenv install && pipenv shell -- this will install pipfile dependencies and enter a python shell environment
-2. cd server && python app.py -- this will start up the backend
+## To Start the Development Servers open two Terminals and do the following:
 
+**Backend:**
+1. Open Terminal 1.
+2. Type:
+   ```
+   pipenv install && pipenv shell
+   cd server && python app.py
+   ```
 
-# -- Frontend --
-## Open the Second Terminal and type the following:
-1. cd client
-2. npm install -- this will install package.json dependencies
-3. npm start -- this will start up the frontend
+**Frontend:**
+1. Open Terminal 2.
+2. Type:
+   ```
+   cd client
+   npm install
+   npm start
+   ```
+This will start the development servers for both the backend and frontend in separate terminals.
+
 
 # Website Address
 
